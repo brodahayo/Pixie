@@ -14,19 +14,27 @@
 		8E836F4759EB025995F80846 /* SessionPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702D4DCEF194BC154123AC9A /* SessionPhase.swift */; };
 		9C9A2EA0A1D0D275542D8343 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E04F3FEC9135DA46CF1D5 /* ChatMessage.swift */; };
 		A3B01F78ADE7FB58335DDFA8 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = B6BB3971E77757E9236B846B /* Markdown */; };
+		B256674DE1AF2B59D1868C16 /* Ext+NSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0BD55B8B310B306FA0806F /* Ext+NSScreen.swift */; };
 		BFDF4B5AB21385D063BE1B54 /* SessionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D1014ABDFB935420C56BB5 /* SessionEvent.swift */; };
 		D1368DCFFCD8B554C1698910 /* TmuxTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5F5DB59A2A805CCEC0E045 /* TmuxTarget.swift */; };
+		D1BEE456B3BF7EB0CE5492A6 /* ScreenSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963FD79859393ACD1333B55C /* ScreenSelector.swift */; };
 		D1D785839614A3993EF1499E /* ToolResultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5813F31D26E7B5BEB5907A /* ToolResultData.swift */; };
+		E78CE6AC586B98FE8801FE6D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F21B3AA27E2CE3D7869674 /* Settings.swift */; };
+		FF23E60DAF2729416DB03C32 /* SoundSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDEB4F5CBDA4692928CE109 /* SoundSelector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0A5813F31D26E7B5BEB5907A /* ToolResultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolResultData.swift; sourceTree = "<group>"; };
 		0A5F5DB59A2A805CCEC0E045 /* TmuxTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmuxTarget.swift; sourceTree = "<group>"; };
+		0B0BD55B8B310B306FA0806F /* Ext+NSScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+NSScreen.swift"; sourceTree = "<group>"; };
 		0B5E04F3FEC9135DA46CF1D5 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		1424B4BFA6AAD1F0BFE42AFF /* SessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionState.swift; sourceTree = "<group>"; };
 		2A27399F0C16B05551598DF9 /* Notchy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notchy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CDEB4F5CBDA4692928CE109 /* SoundSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelector.swift; sourceTree = "<group>"; };
 		47D1014ABDFB935420C56BB5 /* SessionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEvent.swift; sourceTree = "<group>"; };
 		702D4DCEF194BC154123AC9A /* SessionPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPhase.swift; sourceTree = "<group>"; };
+		963FD79859393ACD1333B55C /* ScreenSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSelector.swift; sourceTree = "<group>"; };
+		A0F21B3AA27E2CE3D7869674 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		DEA109DCBD303D912C0C256D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E6F13CDC195ACE550AB8EF02 /* NotchyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchyApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +121,10 @@
 		58AB005080DD0C3527514D67 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				0B0BD55B8B310B306FA0806F /* Ext+NSScreen.swift */,
+				963FD79859393ACD1333B55C /* ScreenSelector.swift */,
+				A0F21B3AA27E2CE3D7869674 /* Settings.swift */,
+				3CDEB4F5CBDA4692928CE109 /* SoundSelector.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -283,10 +295,14 @@
 			files = (
 				286F215E8831A0344D62077D /* AppDelegate.swift in Sources */,
 				9C9A2EA0A1D0D275542D8343 /* ChatMessage.swift in Sources */,
+				B256674DE1AF2B59D1868C16 /* Ext+NSScreen.swift in Sources */,
 				50AA6EA67F605F090F4A80FA /* NotchyApp.swift in Sources */,
+				D1BEE456B3BF7EB0CE5492A6 /* ScreenSelector.swift in Sources */,
 				BFDF4B5AB21385D063BE1B54 /* SessionEvent.swift in Sources */,
 				8E836F4759EB025995F80846 /* SessionPhase.swift in Sources */,
 				1231F28FAA0DE3E29556D660 /* SessionState.swift in Sources */,
+				E78CE6AC586B98FE8801FE6D /* Settings.swift in Sources */,
+				FF23E60DAF2729416DB03C32 /* SoundSelector.swift in Sources */,
 				D1368DCFFCD8B554C1698910 /* TmuxTarget.swift in Sources */,
 				D1D785839614A3993EF1499E /* ToolResultData.swift in Sources */,
 			);
