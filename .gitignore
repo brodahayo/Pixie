@@ -1,1 +1,17 @@
 .superpowers/
+
+# macOS
+.DS_Store
+*.swp
+*~
+
+# Xcode
+xcuserdata/
+*.xcscmblueprint
+DerivedData/
+build/
+
+# SPM
+.build/
+.swiftpm/
+Packages/

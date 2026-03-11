@@ -1,0 +1,42 @@
+name: Notchy
+options:
+  bundleIdPrefix: com.notchy
+  deploymentTarget:
+    macOS: "15.6"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+
+packages:
+  swift-markdown:
+    url: https://github.com/swiftlang/swift-markdown.git
+    from: "0.4.0"
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle.git
+    from: "2.6.0"
+
+targets:
+  Notchy:
+    type: application
+    platform: macOS
+    sources:
+      - path: Notchy
+        excludes:
+          - Resources
+          - Info.plist
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.notchy.app
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+        INFOPLIST_FILE: Notchy/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Notchy/Resources/Notchy.entitlements
+        SWIFT_VERSION: "6.0"
+        MACOSX_DEPLOYMENT_TARGET: "15.6"
+        CODE_SIGNING_ALLOWED: "NO"
+        GENERATE_INFOPLIST_FILE: "NO"
+    dependencies:
+      - package: swift-markdown
+        product: Markdown
+      - package: Sparkle
+        product: Sparkle

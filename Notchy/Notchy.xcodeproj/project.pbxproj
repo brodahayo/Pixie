@@ -1,0 +1,493 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		286F215E8831A0344D62077D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA109DCBD303D912C0C256D /* AppDelegate.swift */; };
+		50AA6EA67F605F090F4A80FA /* NotchyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F13CDC195ACE550AB8EF02 /* NotchyApp.swift */; };
+		651DC908592C14AA94A28F5B /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 119AC7F66A0AEE48A32CF11A /* Sparkle */; };
+		A3B01F78ADE7FB58335DDFA8 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = B6BB3971E77757E9236B846B /* Markdown */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2A27399F0C16B05551598DF9 /* Notchy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notchy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEA109DCBD303D912C0C256D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E6F13CDC195ACE550AB8EF02 /* NotchyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchyApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DCA641A6B5B966FD0C67FAF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3B01F78ADE7FB58335DDFA8 /* Markdown in Frameworks */,
+				651DC908592C14AA94A28F5B /* Sparkle in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		03D3B0ED2B2449A0FF803D24 /* Window */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Window;
+			sourceTree = "<group>";
+		};
+		052C2DD7E247B2709505C9D9 /* Update */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Update;
+			sourceTree = "<group>";
+		};
+		1912D5B2684B4B68E2691747 /* Window */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Window;
+			sourceTree = "<group>";
+		};
+		1E602BF86FB6C687744FA081 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				DEA109DCBD303D912C0C256D /* AppDelegate.swift */,
+				E6F13CDC195ACE550AB8EF02 /* NotchyApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		26B68461CC22B635C8EB8994 /* State */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
+		2C11DC841A1B7D3C0EBB6CF3 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		335227FC9A12394369B806E1 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		3416008C81F990E9DBD1E49D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2C11DC841A1B7D3C0EBB6CF3 /* Chat */,
+				8967340A1826304E5FEA2476 /* Hooks */,
+				60405671A27878B152481882 /* Session */,
+				7908F60A5F1B818BA01EB888 /* Shared */,
+				26B68461CC22B635C8EB8994 /* State */,
+				B0E10FF4DE117CA4D3D6F245 /* Tmux */,
+				052C2DD7E247B2709505C9D9 /* Update */,
+				1912D5B2684B4B68E2691747 /* Window */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		58AB005080DD0C3527514D67 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		60405671A27878B152481882 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		61B726BEA341501815727D19 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		7908F60A5F1B818BA01EB888 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		8967340A1826304E5FEA2476 /* Hooks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Hooks;
+			sourceTree = "<group>";
+		};
+		8AAE08FDE81CB4DE4BDB30D6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A074B4C984203298BC1D8CFF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A13FABD741219299261761DC /* Notchy */ = {
+			isa = PBXGroup;
+			children = (
+				1E602BF86FB6C687744FA081 /* App */,
+				58AB005080DD0C3527514D67 /* Core */,
+				B2571740DEA0051172CF5FF9 /* Events */,
+				A074B4C984203298BC1D8CFF /* Models */,
+				3416008C81F990E9DBD1E49D /* Services */,
+				A58AD8C727CA45E9FA6BD3E2 /* UI */,
+				61B726BEA341501815727D19 /* Utilities */,
+			);
+			path = Notchy;
+			sourceTree = "<group>";
+		};
+		A58AD8C727CA45E9FA6BD3E2 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				335227FC9A12394369B806E1 /* Components */,
+				8AAE08FDE81CB4DE4BDB30D6 /* Views */,
+				03D3B0ED2B2449A0FF803D24 /* Window */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		B0E10FF4DE117CA4D3D6F245 /* Tmux */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tmux;
+			sourceTree = "<group>";
+		};
+		B2571740DEA0051172CF5FF9 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		B3AC2667286CC3E381EC4520 = {
+			isa = PBXGroup;
+			children = (
+				A13FABD741219299261761DC /* Notchy */,
+				DC9A645B529A200D5DD6C9D7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DC9A645B529A200D5DD6C9D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2A27399F0C16B05551598DF9 /* Notchy.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5A8251456383764DDDD7693B /* Notchy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5AB07D6BCD80C799B426D1D /* Build configuration list for PBXNativeTarget "Notchy" */;
+			buildPhases = (
+				CB698B097666DA24EA8DD260 /* Sources */,
+				DCA641A6B5B966FD0C67FAF2 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Notchy;
+			packageProductDependencies = (
+				B6BB3971E77757E9236B846B /* Markdown */,
+				119AC7F66A0AEE48A32CF11A /* Sparkle */,
+			);
+			productName = Notchy;
+			productReference = 2A27399F0C16B05551598DF9 /* Notchy.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3BF116DDD3CDA0BF72E9B072 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = F244AE196A3E745C40F902F1 /* Build configuration list for PBXProject "Notchy" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = B3AC2667286CC3E381EC4520;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4EE85D4CE7B3301A9D3929DA /* XCRemoteSwiftPackageReference "Sparkle" */,
+				6723CF3F7364A12D7BA649F4 /* XCRemoteSwiftPackageReference "swift-markdown" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = DC9A645B529A200D5DD6C9D7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5A8251456383764DDDD7693B /* Notchy */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CB698B097666DA24EA8DD260 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286F215E8831A0344D62077D /* AppDelegate.swift in Sources */,
+				50AA6EA67F605F090F4A80FA /* NotchyApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3EA1FE33C94E9824DF88EBA1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8DADAB3BDE7C3BB79D9E2EA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_ENTITLEMENTS = Notchy/Resources/Notchy.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Notchy/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.notchy.app;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		D304DE2549AA1B818A48A5C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		E4C1AB87203FA909E24B65DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_ENTITLEMENTS = Notchy/Resources/Notchy.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Notchy/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.notchy.app;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C5AB07D6BCD80C799B426D1D /* Build configuration list for PBXNativeTarget "Notchy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4C1AB87203FA909E24B65DC /* Debug */,
+				8DADAB3BDE7C3BB79D9E2EA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F244AE196A3E745C40F902F1 /* Build configuration list for PBXProject "Notchy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3EA1FE33C94E9824DF88EBA1 /* Debug */,
+				D304DE2549AA1B818A48A5C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4EE85D4CE7B3301A9D3929DA /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.0;
+			};
+		};
+		6723CF3F7364A12D7BA649F4 /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swiftlang/swift-markdown.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		119AC7F66A0AEE48A32CF11A /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4EE85D4CE7B3301A9D3929DA /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+		B6BB3971E77757E9236B846B /* Markdown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6723CF3F7364A12D7BA649F4 /* XCRemoteSwiftPackageReference "swift-markdown" */;
+			productName = Markdown;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 3BF116DDD3CDA0BF72E9B072 /* Project object */;
+}
