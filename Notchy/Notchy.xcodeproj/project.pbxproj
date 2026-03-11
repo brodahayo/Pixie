@@ -7,14 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1231F28FAA0DE3E29556D660 /* SessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1424B4BFA6AAD1F0BFE42AFF /* SessionState.swift */; };
 		286F215E8831A0344D62077D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA109DCBD303D912C0C256D /* AppDelegate.swift */; };
 		50AA6EA67F605F090F4A80FA /* NotchyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F13CDC195ACE550AB8EF02 /* NotchyApp.swift */; };
 		651DC908592C14AA94A28F5B /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 119AC7F66A0AEE48A32CF11A /* Sparkle */; };
+		8E836F4759EB025995F80846 /* SessionPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702D4DCEF194BC154123AC9A /* SessionPhase.swift */; };
+		9C9A2EA0A1D0D275542D8343 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E04F3FEC9135DA46CF1D5 /* ChatMessage.swift */; };
 		A3B01F78ADE7FB58335DDFA8 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = B6BB3971E77757E9236B846B /* Markdown */; };
+		BFDF4B5AB21385D063BE1B54 /* SessionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D1014ABDFB935420C56BB5 /* SessionEvent.swift */; };
+		D1368DCFFCD8B554C1698910 /* TmuxTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5F5DB59A2A805CCEC0E045 /* TmuxTarget.swift */; };
+		D1D785839614A3993EF1499E /* ToolResultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5813F31D26E7B5BEB5907A /* ToolResultData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A5813F31D26E7B5BEB5907A /* ToolResultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolResultData.swift; sourceTree = "<group>"; };
+		0A5F5DB59A2A805CCEC0E045 /* TmuxTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmuxTarget.swift; sourceTree = "<group>"; };
+		0B5E04F3FEC9135DA46CF1D5 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		1424B4BFA6AAD1F0BFE42AFF /* SessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionState.swift; sourceTree = "<group>"; };
 		2A27399F0C16B05551598DF9 /* Notchy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notchy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		47D1014ABDFB935420C56BB5 /* SessionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEvent.swift; sourceTree = "<group>"; };
+		702D4DCEF194BC154123AC9A /* SessionPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPhase.swift; sourceTree = "<group>"; };
 		DEA109DCBD303D912C0C256D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E6F13CDC195ACE550AB8EF02 /* NotchyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchyApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -143,6 +155,12 @@
 		A074B4C984203298BC1D8CFF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0B5E04F3FEC9135DA46CF1D5 /* ChatMessage.swift */,
+				47D1014ABDFB935420C56BB5 /* SessionEvent.swift */,
+				702D4DCEF194BC154123AC9A /* SessionPhase.swift */,
+				1424B4BFA6AAD1F0BFE42AFF /* SessionState.swift */,
+				0A5F5DB59A2A805CCEC0E045 /* TmuxTarget.swift */,
+				0A5813F31D26E7B5BEB5907A /* ToolResultData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -264,7 +282,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				286F215E8831A0344D62077D /* AppDelegate.swift in Sources */,
+				9C9A2EA0A1D0D275542D8343 /* ChatMessage.swift in Sources */,
 				50AA6EA67F605F090F4A80FA /* NotchyApp.swift in Sources */,
+				BFDF4B5AB21385D063BE1B54 /* SessionEvent.swift in Sources */,
+				8E836F4759EB025995F80846 /* SessionPhase.swift in Sources */,
+				1231F28FAA0DE3E29556D660 /* SessionState.swift in Sources */,
+				D1368DCFFCD8B554C1698910 /* TmuxTarget.swift in Sources */,
+				D1D785839614A3993EF1499E /* ToolResultData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
