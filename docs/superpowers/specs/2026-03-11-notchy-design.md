@@ -11,7 +11,7 @@ A native macOS menu bar app that lives in the MacBook's physical notch area. It 
 | Language | Swift 6+ |
 | UI | SwiftUI + AppKit hybrid |
 | Concurrency | Swift actors, async/await, Combine |
-| IPC | Unix domain socket (`/tmp/notchy.sock`) |
+| IPC | Unix domain socket (`$TMPDIR/notchy.sock`) |
 | Hook Script | Python 3 (`notchy-state.py`) |
 | Session Parsing | JSONL from `~/.claude/projects/` |
 | Window | Custom NSPanel (borderless, non-activating, click-through) |
@@ -48,7 +48,7 @@ Notchy App (SwiftUI + AppKit)
 
 1. **SessionStore (Actor)** — Single source of truth for all session state. All mutations go through `process(event:)`. Publishes via Combine for the UI layer.
 
-2. **HookSocketServer** — Unix socket server at `/tmp/notchy.sock`. Receives JSON from the Python hook. For permission requests, blocks waiting for a response (allow/deny) from the app.
+2. **HookSocketServer** — Unix socket server at `$TMPDIR/notchy.sock`. Receives JSON from the Python hook. For permission requests, blocks waiting for a response (allow/deny) from the app.
 
 3. **NotchViewModel** — Main SwiftUI state: open/close/pop, hover detection, sizing, chat persistence. Drives the UI state machine.
 
@@ -63,7 +63,7 @@ Notchy App (SwiftUI + AppKit)
 On launch, the app:
 1. Copies `notchy-state.py` to `~/.claude/hooks/`
 2. Registers hook events in Claude Code's `settings.json`
-3. Starts the Unix socket server at `/tmp/notchy.sock`
+3. Starts the Unix socket server at `$TMPDIR/notchy.sock`
 
 ## Project Structure
 
@@ -258,7 +258,7 @@ Specialized renderers for: Read, Edit, Write, Bash, Grep, Glob, WebFetch, WebSea
 - Installs Python hook script to `~/.claude/hooks/notchy-state.py`
 - Registers for events: UserPromptSubmit, PreToolUse, PostToolUse, PermissionRequest, Notification, Stop, PreCompact, SubagentStop
 - Updates Claude Code's `settings.json` with hook configuration
-- Unix socket communication at `/tmp/notchy.sock`
+- Unix socket communication at `$TMPDIR/notchy.sock`
 
 ### Tool Approval
 - Permission requests shown in notch UI with Allow/Deny buttons
@@ -298,6 +298,104 @@ Specialized renderers for: Read, Edit, Write, Bash, Grep, Glob, WebFetch, WebSea
 
 1. **swift-markdown** — Markdown parsing and rendering
 2. **Sparkle** — Auto-update framework
+
+## Requirements & Limitations
+
+- **tmux is required** for tool approval and message sending. Without tmux, the app is read-only (monitoring and chat history only). Non-tmux sessions show status but hide the "Send" and "Focus" buttons.
+- **Not sandboxed.** The app reads `~/.claude/projects/`, writes to `~/.claude/hooks/`, creates a socket in `/tmp/`, and executes shell commands. Standard App Sandbox is incompatible. The entitlements file disables sandboxing.
+- **Accessibility permission** is required for global NSEvent monitoring (detecting clicks outside the notch panel to dismiss it) and for window discovery/focus operations. Without it, hover-to-open and click-outside-to-close degrade gracefully — the user can still click the notch to toggle.
+- **yabai is optional.** When present, the Focus button uses yabai to raise the terminal window. When absent, Focus falls back to `NSRunningApplication.activate()`.
+
+## Hook Protocol
+
+### Socket Lifecycle
+- Socket path: `$TMPDIR/notchy.sock` (per-user on macOS, avoids collisions with fast user switching)
+- On start: unlink socket path if it exists (stale from crash), then bind
+- On quit: unlink socket path
+- Connection timeout: 30 seconds for permission requests; if the Python hook is killed mid-wait, the socket detects EOF and cleans up
+
+### Hook Script Behavior (`notchy-state.py`)
+- Connects to `$TMPDIR/notchy.sock` on each hook invocation
+- If socket not found or connection refused (app not running): exits silently with code 0 (does not block Claude Code)
+- On unexpected errors (JSON serialization failure, permission denied): exits with code 1 and logs to stderr
+- No retry logic — each hook event is a fresh connection attempt
+
+### JSON Message Schema (hook → app)
+```json
+{
+  "protocol_version": 1,
+  "type": "event_type",
+  "session_id": "uuid",
+  "cwd": "/path/to/project",
+  "data": { ... }
+}
+```
+
+Event types and data:
+- `UserPromptSubmit`: `{ "prompt": "user text" }`
+- `PreToolUse`: `{ "tool": "tool_name", "input": { ... } }`
+- `PostToolUse`: `{ "tool": "tool_name", "output": "result text" }`
+- `PermissionRequest`: `{ "tool": "tool_name", "input": { ... }, "request_id": "uuid" }`
+- `Notification`: `{ "title": "text", "body": "text" }`
+- `Stop`: `{ "reason": "end|interrupt" }`
+- `PreCompact`: `{}`
+- `SubagentStop`: `{ "subagent_id": "uuid" }`
+
+### Permission Response Schema (app → hook)
+```json
+{
+  "request_id": "uuid",
+  "decision": "allow" | "deny"
+}
+```
+
+### settings.json Modification
+- Path: `~/.claude/settings.json`
+- The installer reads existing JSON, merges hook entries into the `hooks` object for each event type, and writes back. Existing user hooks are preserved. Each Notchy hook entry includes `"source": "notchy"` as a string field to identify it. On reinstall, entries with `"source": "notchy"` are replaced; all other entries are left untouched.
+
+## Session Discovery
+
+- Scans process tree for processes named `claude` using `ProcessTreeBuilder` (calls `ps aux`)
+- Polling interval: 5 seconds
+- Extracts PID, CWD, and TTY from process info
+- Maps PID → JSONL conversation file via `~/.claude/projects/<project-hash>/` directory structure
+- Claude Code stores conversations as `.jsonl` files named by session UUID under the project directory
+- No special entitlements needed — `ps` is available without elevated permissions
+
+## SessionPhase State Transitions
+
+```
+idle ──[UserPromptSubmit]──→ processing
+processing ──[waitForInput]──→ waitingForInput
+processing ──[PermissionRequest]──→ waitingForApproval
+waitingForInput ──[UserPromptSubmit]──→ processing
+waitingForApproval ──[approval/deny]──→ processing
+waitingForApproval ──[timeout/connectionDrop]──→ processing (approval expired)
+processing ──[PreCompact]──→ compacting
+compacting ──[compactDone]──→ processing
+processing ──[Stop reason:"interrupt"]──→ idle
+processing ──[Stop reason:"end"]──→ ended
+idle ──[timeout/archive]──→ ended
+Any ──[sessionGone]──→ ended (process no longer found in tree)
+Any ──[error]──→ idle (with error logged)
+```
+
+Stop reason mapping: `"interrupt"` means the user interrupted the session (Ctrl+C) — returns to idle, ready for new input. `"end"` means the session completed normally or was terminated — moves to ended.
+
+## Error Handling
+
+- **Corrupted JSONL**: Skip malformed lines, log warning, continue parsing from next line
+- **tmux not installed**: Hide approval/send buttons, show "tmux required" hint in settings
+- **Socket bind failure**: Retry once after 1s delay; if still fails, show error in settings and run in monitor-only mode
+- **Hook version mismatch**: The bundled hook script includes a `NOTCHY_VERSION` constant. On launch, compare with installed version; if outdated, auto-replace and notify user
+- **Claude Code format changes**: Parser is defensive — unknown JSONL fields are ignored, unknown tool types fall back to a generic text renderer
+
+## Performance Expectations
+
+- Support 10+ concurrent sessions without UI lag
+- JSONL files up to 100MB via incremental parsing (only parse new lines since last read)
+- Hook event processing latency: < 100ms from socket receive to UI update
+- Memory: < 100MB baseline, proportional to number of active sessions
 
 ## Excluded from Original
 
