@@ -7,25 +7,19 @@
 
 import Foundation
 
-@propertyWrapper
-struct UserDefaultsBacked<T: Sendable>: Sendable {
-    let key: String
-    let defaultValue: T
-
-    var wrappedValue: T {
-        get { UserDefaults.standard.object(forKey: key) as? T ?? defaultValue }
-        nonmutating set { UserDefaults.standard.set(newValue, forKey: key) }
-    }
-}
-
-@MainActor
 enum Settings {
-    @UserDefaultsBacked(key: "selectedScreenId", defaultValue: nil)
-    static var selectedScreenId: String?
+    static var selectedScreenId: String? {
+        get { UserDefaults.standard.string(forKey: "selectedScreenId") }
+        set { UserDefaults.standard.set(newValue, forKey: "selectedScreenId") }
+    }
 
-    @UserDefaultsBacked(key: "notificationSound", defaultValue: "Pop")
-    static var notificationSound: String
+    static var notificationSound: String {
+        get { UserDefaults.standard.string(forKey: "notificationSound") ?? "Pop" }
+        set { UserDefaults.standard.set(newValue, forKey: "notificationSound") }
+    }
 
-    @UserDefaultsBacked(key: "launchAtLogin", defaultValue: false)
-    static var launchAtLogin: Bool
+    static var launchAtLogin: Bool {
+        get { UserDefaults.standard.bool(forKey: "launchAtLogin") }
+        set { UserDefaults.standard.set(newValue, forKey: "launchAtLogin") }
+    }
 }
