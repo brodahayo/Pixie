@@ -37,6 +37,7 @@
 		B599241604879F95767E3028 /* MCPToolFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EA933DDA835F2F722E265A /* MCPToolFormatter.swift */; };
 		BFDF4B5AB21385D063BE1B54 /* SessionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D1014ABDFB935420C56BB5 /* SessionEvent.swift */; };
 		D1368DCFFCD8B554C1698910 /* TmuxTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5F5DB59A2A805CCEC0E045 /* TmuxTarget.swift */; };
+		D17D1E17B7296268F0EAC65F /* HookInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB7B83134F23F061664267D /* HookInstaller.swift */; };
 		D1BEE456B3BF7EB0CE5492A6 /* ScreenSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963FD79859393ACD1333B55C /* ScreenSelector.swift */; };
 		D1D785839614A3993EF1499E /* ToolResultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5813F31D26E7B5BEB5907A /* ToolResultData.swift */; };
 		E2FCCCC06E560938CF231939 /* NotchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D536EFB5C19A941479909B /* NotchHeaderView.swift */; };
@@ -45,6 +46,7 @@
 		ECA1E0D03BF79727A1196BC5 /* NotchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D361023F9095B7886ACB173 /* NotchViewModel.swift */; };
 		F37B140E9A00E7E56ADC41B2 /* NotchGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B50EDEA77D83EC17BF217DB /* NotchGeometry.swift */; };
 		FA267D41F9B4D72056F359EB /* TerminalAppRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7050143612CD61CAE3D6265A /* TerminalAppRegistry.swift */; };
+		FC4262AA57FE2CE686C2E4A5 /* HookSocketServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5E052548E74384C6B8B6CE /* HookSocketServer.swift */; };
 		FF23E60DAF2729416DB03C32 /* SoundSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDEB4F5CBDA4692928CE109 /* SoundSelector.swift */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +80,7 @@
 		963FD79859393ACD1333B55C /* ScreenSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSelector.swift; sourceTree = "<group>"; };
 		96CDF7B853B0720B513CE86E /* NotchActivityCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchActivityCoordinator.swift; sourceTree = "<group>"; };
 		99AC45D7FADEDA26DDECEC05 /* ProcessExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessExecutor.swift; sourceTree = "<group>"; };
+		9B5E052548E74384C6B8B6CE /* HookSocketServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookSocketServer.swift; sourceTree = "<group>"; };
 		A0F21B3AA27E2CE3D7869674 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		AB8C01096B5B15A4CC485834 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		C0EA933DDA835F2F722E265A /* MCPToolFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPToolFormatter.swift; sourceTree = "<group>"; };
@@ -87,6 +90,7 @@
 		DEA109DCBD303D912C0C256D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DEE2B6FD11C041C563BB06CD /* ProcessTreeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessTreeBuilder.swift; sourceTree = "<group>"; };
 		E6F13CDC195ACE550AB8EF02 /* NotchyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchyApp.swift; sourceTree = "<group>"; };
+		FAB7B83134F23F061664267D /* HookInstaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookInstaller.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +227,8 @@
 		8967340A1826304E5FEA2476 /* Hooks */ = {
 			isa = PBXGroup;
 			children = (
+				FAB7B83134F23F061664267D /* HookInstaller.swift */,
+				9B5E052548E74384C6B8B6CE /* HookSocketServer.swift */,
 			);
 			path = Hooks;
 			sourceTree = "<group>";
@@ -375,6 +381,8 @@
 				5F5D6804EFADF546E571C00B /* EventMonitor.swift in Sources */,
 				63B63D45CC6369FB63402D93 /* EventMonitors.swift in Sources */,
 				B256674DE1AF2B59D1868C16 /* Ext+NSScreen.swift in Sources */,
+				D17D1E17B7296268F0EAC65F /* HookInstaller.swift in Sources */,
+				FC4262AA57FE2CE686C2E4A5 /* HookSocketServer.swift in Sources */,
 				B599241604879F95767E3028 /* MCPToolFormatter.swift in Sources */,
 				9185EFC78EFA185EDD168D1C /* NotchActivityCoordinator.swift in Sources */,
 				F37B140E9A00E7E56ADC41B2 /* NotchGeometry.swift in Sources */,

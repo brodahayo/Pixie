@@ -24,6 +24,9 @@ targets:
         excludes:
           - Resources
           - Info.plist
+    resources:
+      - path: Notchy/Resources/notchy-state.py
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.notchy.app
