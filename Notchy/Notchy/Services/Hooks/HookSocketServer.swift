@@ -41,53 +41,6 @@ struct HookEvent: Codable, Sendable {
     var expectsResponse: Bool {
         event == "PermissionRequest" && status == "waiting_for_approval"
     }
-
-    /// Convert to a SessionEvent for the rest of the app
-    func toSessionEvent(resolvedToolUseId: String? = nil) -> SessionEvent? {
-        let effectiveToolUseId = resolvedToolUseId ?? toolUseId
-
-        switch event {
-        case "UserPromptSubmit":
-            return .userPromptSubmit(sessionId: sessionId, prompt: "")
-        case "PreToolUse":
-            return .preToolUse(
-                sessionId: sessionId,
-                tool: tool ?? "unknown",
-                input: toolInput ?? [:]
-            )
-        case "PostToolUse":
-            return .postToolUse(
-                sessionId: sessionId,
-                tool: tool ?? "unknown",
-                output: ""
-            )
-        case "PermissionRequest":
-            return .permissionRequest(
-                sessionId: sessionId,
-                tool: tool ?? "unknown",
-                input: toolInput ?? [:],
-                requestId: effectiveToolUseId ?? UUID().uuidString
-            )
-        case "Notification":
-            return .notification(
-                sessionId: sessionId,
-                title: notificationType ?? "",
-                body: message ?? ""
-            )
-        case "Stop":
-            return .stop(sessionId: sessionId, reason: .end)
-        case "SubagentStop":
-            return .subagentStop(sessionId: sessionId, subagentId: "")
-        case "SessionStart":
-            return .userPromptSubmit(sessionId: sessionId, prompt: "")
-        case "SessionEnd":
-            return .sessionGone(sessionId: sessionId)
-        case "PreCompact":
-            return .preCompact(sessionId: sessionId)
-        default:
-            return nil
-        }
-    }
 }
 
 /// Response to send back to the hook
@@ -115,8 +68,8 @@ final class HookSocketServer: Sendable {
 
     nonisolated(unsafe) private var serverSocket: Int32 = -1
     nonisolated(unsafe) private var acceptSource: DispatchSourceRead?
-    nonisolated(unsafe) private var onEvent: (@Sendable (SessionEvent) async -> Void)?
-    nonisolated(unsafe) private var onPermissionRequest: (@Sendable (String, String, [String: JSONValue], String) async -> PermissionDecision)?
+    nonisolated(unsafe) private var onHookEvent: (@Sendable (HookEvent) -> Void)?
+    nonisolated(unsafe) private var onPermissionFailure: (@Sendable (String, String) -> Void)?
     private let queue = DispatchQueue(label: "com.notchy.socket", qos: .userInitiated)
 
     /// Pending permission requests indexed by toolUseId
@@ -124,7 +77,6 @@ final class HookSocketServer: Sendable {
     private let permissionsLock = NSLock()
 
     /// Cache tool_use_id from PreToolUse to correlate with PermissionRequest
-    /// Key: "sessionId:toolName:serializedInput" -> Queue of tool_use_ids (FIFO)
     nonisolated(unsafe) private var toolUseIdCache: [String: [String]] = [:]
     private let cacheLock = NSLock()
 
@@ -135,26 +87,28 @@ final class HookSocketServer: Sendable {
         return encoder
     }()
 
+    nonisolated(unsafe) static let shared = HookSocketServer()
+
     init() {}
 
     /// Start the socket server
     func start(
-        onEvent: @escaping @Sendable (SessionEvent) async -> Void,
-        onPermissionRequest: @escaping @Sendable (String, String, [String: JSONValue], String) async -> PermissionDecision
+        onEvent: @escaping @Sendable (HookEvent) -> Void,
+        onPermissionFailure: @escaping @Sendable (String, String) -> Void
     ) {
         queue.async { [weak self] in
-            self?.startServer(onEvent: onEvent, onPermissionRequest: onPermissionRequest)
+            self?.startServer(onEvent: onEvent, onPermissionFailure: onPermissionFailure)
         }
     }
 
     private func startServer(
-        onEvent: @escaping @Sendable (SessionEvent) async -> Void,
-        onPermissionRequest: @escaping @Sendable (String, String, [String: JSONValue], String) async -> PermissionDecision
+        onEvent: @escaping @Sendable (HookEvent) -> Void,
+        onPermissionFailure: @escaping @Sendable (String, String) -> Void
     ) {
         guard serverSocket < 0 else { return }
 
-        self.onEvent = onEvent
-        self.onPermissionRequest = onPermissionRequest
+        self.onHookEvent = onEvent
+        self.onPermissionFailure = onPermissionFailure
 
         unlink(Self.socketPath)
 
@@ -229,16 +183,9 @@ final class HookSocketServer: Sendable {
     }
 
     /// Respond to a pending permission request by toolUseId
-    func respondToPermission(toolUseId: String, decision: PermissionDecision, reason: String? = nil) {
+    func respondToPermission(toolUseId: String, decision: String, reason: String? = nil) {
         queue.async { [weak self] in
             self?.sendPermissionResponse(toolUseId: toolUseId, decision: decision, reason: reason)
-        }
-    }
-
-    /// Respond to permission by sessionId (finds the most recent pending for that session)
-    func respondToPermissionBySession(sessionId: String, decision: PermissionDecision, reason: String? = nil) {
-        queue.async { [weak self] in
-            self?.sendPermissionResponseBySession(sessionId: sessionId, decision: decision, reason: reason)
         }
     }
 
@@ -249,23 +196,6 @@ final class HookSocketServer: Sendable {
         }
     }
 
-    /// Check if there's a pending permission request for a session
-    func hasPendingPermission(sessionId: String) -> Bool {
-        permissionsLock.lock()
-        defer { permissionsLock.unlock() }
-        return pendingPermissions.values.contains { $0.sessionId == sessionId }
-    }
-
-    /// Get the pending permission details for a session (if any)
-    func getPendingPermission(sessionId: String) -> (toolName: String?, toolId: String?, toolInput: [String: JSONValue]?)? {
-        permissionsLock.lock()
-        defer { permissionsLock.unlock() }
-        guard let pending = pendingPermissions.values.first(where: { $0.sessionId == sessionId }) else {
-            return nil
-        }
-        return (pending.event.tool, pending.toolUseId, pending.event.toolInput)
-    }
-
     /// Cancel a specific pending permission by toolUseId
     func cancelPendingPermission(toolUseId: String) {
         queue.async { [weak self] in
@@ -273,9 +203,15 @@ final class HookSocketServer: Sendable {
         }
     }
 
+    /// Check if there's a pending permission request for a session
+    func hasPendingPermission(sessionId: String) -> Bool {
+        permissionsLock.lock()
+        defer { permissionsLock.unlock() }
+        return pendingPermissions.values.contains { $0.sessionId == sessionId }
+    }
+
     // MARK: - Tool Use ID Cache
 
-    /// Generate cache key from event properties
     private func cacheKey(sessionId: String, toolName: String?, toolInput: [String: JSONValue]?) -> String {
         let inputStr: String
         if let input = toolInput,
@@ -288,7 +224,6 @@ final class HookSocketServer: Sendable {
         return "\(sessionId):\(toolName ?? "unknown"):\(inputStr)"
     }
 
-    /// Cache tool_use_id from PreToolUse event (FIFO queue per key)
     private func cacheToolUseId(event: HookEvent) {
         guard let toolUseId = event.toolUseId else { return }
 
@@ -304,7 +239,6 @@ final class HookSocketServer: Sendable {
         logger.debug("Cached tool_use_id for \(event.sessionId.prefix(8), privacy: .public) tool:\(event.tool ?? "?", privacy: .public)")
     }
 
-    /// Pop and return cached tool_use_id for PermissionRequest (FIFO)
     private func popCachedToolUseId(event: HookEvent) -> String? {
         let key = cacheKey(sessionId: event.sessionId, toolName: event.tool, toolInput: event.toolInput)
 
@@ -325,7 +259,6 @@ final class HookSocketServer: Sendable {
         return toolUseId
     }
 
-    /// Clean up cache entries for a session (on session end)
     private func cleanupCache(sessionId: String) {
         cacheLock.lock()
         let keysToRemove = toolUseIdCache.keys.filter { $0.hasPrefix("\(sessionId):") }
@@ -457,7 +390,7 @@ final class HookSocketServer: Sendable {
         pendingPermissions[toolUseId] = pending
         permissionsLock.unlock()
 
-        // Forward as session event
+        // Forward as hook event
         forwardEvent(updatedEvent)
 
         // Set up 30-second timeout
@@ -476,13 +409,12 @@ final class HookSocketServer: Sendable {
 
         logger.info("Permission request timed out for \(pending.sessionId.prefix(8), privacy: .public) tool:\(toolUseId.prefix(12), privacy: .public)")
         close(pending.clientSocket)
+
+        onPermissionFailure?(pending.sessionId, toolUseId)
     }
 
     private func forwardEvent(_ event: HookEvent) {
-        guard let sessionEvent = event.toSessionEvent(), let handler = onEvent else { return }
-        Task {
-            await handler(sessionEvent)
-        }
+        onHookEvent?(event)
     }
 
     private func cleanupSpecificPermission(toolUseId: String) {
@@ -509,7 +441,7 @@ final class HookSocketServer: Sendable {
 
     // MARK: - Permission Response Sending
 
-    private func sendPermissionResponse(toolUseId: String, decision: PermissionDecision, reason: String?) {
+    private func sendPermissionResponse(toolUseId: String, decision: String, reason: String?) {
         permissionsLock.lock()
         guard let pending = pendingPermissions.removeValue(forKey: toolUseId) else {
             permissionsLock.unlock()
@@ -518,53 +450,14 @@ final class HookSocketServer: Sendable {
         }
         permissionsLock.unlock()
 
-        let response = HookResponse(decision: decision.rawValue, reason: reason)
+        let response = HookResponse(decision: decision, reason: reason)
         guard let data = try? JSONEncoder().encode(response) else {
             close(pending.clientSocket)
             return
         }
 
         let age = Date().timeIntervalSince(pending.receivedAt)
-        logger.info("Sending response: \(decision.rawValue, privacy: .public) for \(pending.sessionId.prefix(8), privacy: .public) tool:\(toolUseId.prefix(12), privacy: .public) (age: \(String(format: "%.1f", age), privacy: .public)s)")
-
-        data.withUnsafeBytes { bytes in
-            guard let baseAddress = bytes.baseAddress else {
-                logger.error("Failed to get data buffer address")
-                return
-            }
-            let result = write(pending.clientSocket, baseAddress, data.count)
-            if result < 0 {
-                logger.error("Write failed with errno: \(errno)")
-            }
-        }
-
-        close(pending.clientSocket)
-    }
-
-    private func sendPermissionResponseBySession(sessionId: String, decision: PermissionDecision, reason: String?) {
-        permissionsLock.lock()
-        let matchingPending = pendingPermissions.values
-            .filter { $0.sessionId == sessionId }
-            .sorted { $0.receivedAt > $1.receivedAt }
-            .first
-
-        guard let pending = matchingPending else {
-            permissionsLock.unlock()
-            logger.debug("No pending permission for session: \(sessionId.prefix(8), privacy: .public)")
-            return
-        }
-
-        pendingPermissions.removeValue(forKey: pending.toolUseId)
-        permissionsLock.unlock()
-
-        let response = HookResponse(decision: decision.rawValue, reason: reason)
-        guard let data = try? JSONEncoder().encode(response) else {
-            close(pending.clientSocket)
-            return
-        }
-
-        let age = Date().timeIntervalSince(pending.receivedAt)
-        logger.info("Sending response: \(decision.rawValue, privacy: .public) for \(sessionId.prefix(8), privacy: .public) tool:\(pending.toolUseId.prefix(12), privacy: .public) (age: \(String(format: "%.1f", age), privacy: .public)s)")
+        logger.info("Sending response: \(decision, privacy: .public) for \(pending.sessionId.prefix(8), privacy: .public) tool:\(toolUseId.prefix(12), privacy: .public) (age: \(String(format: "%.1f", age), privacy: .public)s)")
 
         data.withUnsafeBytes { bytes in
             guard let baseAddress = bytes.baseAddress else {
@@ -580,4 +473,3 @@ final class HookSocketServer: Sendable {
         close(pending.clientSocket)
     }
 }
-
