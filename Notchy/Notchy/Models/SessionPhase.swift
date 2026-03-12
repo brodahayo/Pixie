@@ -27,4 +27,9 @@ enum SessionPhase: String, Codable, Sendable {
             return false
         }
     }
+
+    /// Whether this phase represents waiting for user approval
+    var isWaitingForApproval: Bool {
+        self == .waitingForApproval
+    }
 }

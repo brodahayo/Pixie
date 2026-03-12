@@ -1,6 +1,6 @@
 import Foundation
 
-struct SessionState: Sendable, Identifiable {
+struct SessionState: Sendable, Identifiable, Equatable {
     let id: String
     var phase: SessionPhase = .idle
     var projectName: String = ""
@@ -9,6 +9,17 @@ struct SessionState: Sendable, Identifiable {
     var activeTools: [ToolTracker] = []
     var pendingPermission: PendingPermission?
     var lastActivity: Date = Date()
+    var pid: Int?
+
+    /// Stable identifier (alias for id) used for tracking across state changes
+    var stableId: String { id }
+
+    /// Alias for id, used by views expecting sessionId
+    var sessionId: String { id }
+
+    static func == (lhs: SessionState, rhs: SessionState) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 struct ToolTracker: Sendable, Identifiable {
