@@ -8,18 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		1231F28FAA0DE3E29556D660 /* SessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1424B4BFA6AAD1F0BFE42AFF /* SessionState.swift */; };
+		141AC652FC0B6E682914CFBC /* ProcessTreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE2B6FD11C041C563BB06CD /* ProcessTreeBuilder.swift */; };
 		286F215E8831A0344D62077D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA109DCBD303D912C0C256D /* AppDelegate.swift */; };
+		4A186428DAAC057A1072B612 /* SessionPhaseHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC2F64075FFFC8F3EF026D5 /* SessionPhaseHelpers.swift */; };
+		4D6B6776A90B9DD0D5F698CF /* ProcessExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AC45D7FADEDA26DDECEC05 /* ProcessExecutor.swift */; };
 		50AA6EA67F605F090F4A80FA /* NotchyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F13CDC195ACE550AB8EF02 /* NotchyApp.swift */; };
+		5F5D6804EFADF546E571C00B /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ED0889ABE905490F6E1070 /* EventMonitor.swift */; };
+		63B63D45CC6369FB63402D93 /* EventMonitors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83508A2D1B606062755721D7 /* EventMonitors.swift */; };
 		651DC908592C14AA94A28F5B /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 119AC7F66A0AEE48A32CF11A /* Sparkle */; };
+		6FD5D9E1002B364ED2999DDD /* TmuxTargetFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7101B9540657247D000E27DD /* TmuxTargetFinder.swift */; };
+		87EC16167869872425D8D96D /* TerminalVisibilityDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBFE8A7284668D1A7A45662 /* TerminalVisibilityDetector.swift */; };
 		8E836F4759EB025995F80846 /* SessionPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702D4DCEF194BC154123AC9A /* SessionPhase.swift */; };
 		9C9A2EA0A1D0D275542D8343 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5E04F3FEC9135DA46CF1D5 /* ChatMessage.swift */; };
 		A3B01F78ADE7FB58335DDFA8 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = B6BB3971E77757E9236B846B /* Markdown */; };
 		B256674DE1AF2B59D1868C16 /* Ext+NSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0BD55B8B310B306FA0806F /* Ext+NSScreen.swift */; };
+		B599241604879F95767E3028 /* MCPToolFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EA933DDA835F2F722E265A /* MCPToolFormatter.swift */; };
 		BFDF4B5AB21385D063BE1B54 /* SessionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D1014ABDFB935420C56BB5 /* SessionEvent.swift */; };
 		D1368DCFFCD8B554C1698910 /* TmuxTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5F5DB59A2A805CCEC0E045 /* TmuxTarget.swift */; };
 		D1BEE456B3BF7EB0CE5492A6 /* ScreenSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963FD79859393ACD1333B55C /* ScreenSelector.swift */; };
 		D1D785839614A3993EF1499E /* ToolResultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5813F31D26E7B5BEB5907A /* ToolResultData.swift */; };
 		E78CE6AC586B98FE8801FE6D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F21B3AA27E2CE3D7869674 /* Settings.swift */; };
+		FA267D41F9B4D72056F359EB /* TerminalAppRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7050143612CD61CAE3D6265A /* TerminalAppRegistry.swift */; };
 		FF23E60DAF2729416DB03C32 /* SoundSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDEB4F5CBDA4692928CE109 /* SoundSelector.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,14 +37,23 @@
 		0A5F5DB59A2A805CCEC0E045 /* TmuxTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmuxTarget.swift; sourceTree = "<group>"; };
 		0B0BD55B8B310B306FA0806F /* Ext+NSScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+NSScreen.swift"; sourceTree = "<group>"; };
 		0B5E04F3FEC9135DA46CF1D5 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		0EBFE8A7284668D1A7A45662 /* TerminalVisibilityDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalVisibilityDetector.swift; sourceTree = "<group>"; };
 		1424B4BFA6AAD1F0BFE42AFF /* SessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionState.swift; sourceTree = "<group>"; };
+		16ED0889ABE905490F6E1070 /* EventMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
+		1CC2F64075FFFC8F3EF026D5 /* SessionPhaseHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPhaseHelpers.swift; sourceTree = "<group>"; };
 		2A27399F0C16B05551598DF9 /* Notchy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notchy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CDEB4F5CBDA4692928CE109 /* SoundSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelector.swift; sourceTree = "<group>"; };
 		47D1014ABDFB935420C56BB5 /* SessionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEvent.swift; sourceTree = "<group>"; };
 		702D4DCEF194BC154123AC9A /* SessionPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPhase.swift; sourceTree = "<group>"; };
+		7050143612CD61CAE3D6265A /* TerminalAppRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalAppRegistry.swift; sourceTree = "<group>"; };
+		7101B9540657247D000E27DD /* TmuxTargetFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmuxTargetFinder.swift; sourceTree = "<group>"; };
+		83508A2D1B606062755721D7 /* EventMonitors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMonitors.swift; sourceTree = "<group>"; };
 		963FD79859393ACD1333B55C /* ScreenSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSelector.swift; sourceTree = "<group>"; };
+		99AC45D7FADEDA26DDECEC05 /* ProcessExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessExecutor.swift; sourceTree = "<group>"; };
 		A0F21B3AA27E2CE3D7869674 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		C0EA933DDA835F2F722E265A /* MCPToolFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPToolFormatter.swift; sourceTree = "<group>"; };
 		DEA109DCBD303D912C0C256D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DEE2B6FD11C041C563BB06CD /* ProcessTreeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessTreeBuilder.swift; sourceTree = "<group>"; };
 		E6F13CDC195ACE550AB8EF02 /* NotchyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchyApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -139,6 +157,9 @@
 		61B726BEA341501815727D19 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C0EA933DDA835F2F722E265A /* MCPToolFormatter.swift */,
+				1CC2F64075FFFC8F3EF026D5 /* SessionPhaseHelpers.swift */,
+				0EBFE8A7284668D1A7A45662 /* TerminalVisibilityDetector.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -146,6 +167,9 @@
 		7908F60A5F1B818BA01EB888 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				99AC45D7FADEDA26DDECEC05 /* ProcessExecutor.swift */,
+				DEE2B6FD11C041C563BB06CD /* ProcessTreeBuilder.swift */,
+				7050143612CD61CAE3D6265A /* TerminalAppRegistry.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -204,6 +228,7 @@
 		B0E10FF4DE117CA4D3D6F245 /* Tmux */ = {
 			isa = PBXGroup;
 			children = (
+				7101B9540657247D000E27DD /* TmuxTargetFinder.swift */,
 			);
 			path = Tmux;
 			sourceTree = "<group>";
@@ -211,6 +236,8 @@
 		B2571740DEA0051172CF5FF9 /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				16ED0889ABE905490F6E1070 /* EventMonitor.swift */,
+				83508A2D1B606062755721D7 /* EventMonitors.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -295,15 +322,24 @@
 			files = (
 				286F215E8831A0344D62077D /* AppDelegate.swift in Sources */,
 				9C9A2EA0A1D0D275542D8343 /* ChatMessage.swift in Sources */,
+				5F5D6804EFADF546E571C00B /* EventMonitor.swift in Sources */,
+				63B63D45CC6369FB63402D93 /* EventMonitors.swift in Sources */,
 				B256674DE1AF2B59D1868C16 /* Ext+NSScreen.swift in Sources */,
+				B599241604879F95767E3028 /* MCPToolFormatter.swift in Sources */,
 				50AA6EA67F605F090F4A80FA /* NotchyApp.swift in Sources */,
+				4D6B6776A90B9DD0D5F698CF /* ProcessExecutor.swift in Sources */,
+				141AC652FC0B6E682914CFBC /* ProcessTreeBuilder.swift in Sources */,
 				D1BEE456B3BF7EB0CE5492A6 /* ScreenSelector.swift in Sources */,
 				BFDF4B5AB21385D063BE1B54 /* SessionEvent.swift in Sources */,
 				8E836F4759EB025995F80846 /* SessionPhase.swift in Sources */,
+				4A186428DAAC057A1072B612 /* SessionPhaseHelpers.swift in Sources */,
 				1231F28FAA0DE3E29556D660 /* SessionState.swift in Sources */,
 				E78CE6AC586B98FE8801FE6D /* Settings.swift in Sources */,
 				FF23E60DAF2729416DB03C32 /* SoundSelector.swift in Sources */,
+				FA267D41F9B4D72056F359EB /* TerminalAppRegistry.swift in Sources */,
+				87EC16167869872425D8D96D /* TerminalVisibilityDetector.swift in Sources */,
 				D1368DCFFCD8B554C1698910 /* TmuxTarget.swift in Sources */,
+				6FD5D9E1002B364ED2999DDD /* TmuxTargetFinder.swift in Sources */,
 				D1D785839614A3993EF1499E /* ToolResultData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
