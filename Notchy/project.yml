@@ -24,7 +24,6 @@ targets:
         excludes:
           - Resources
           - Info.plist
-    resources:
       - path: Notchy/Resources/notchy-state.py
         buildPhase: resources
     settings:
