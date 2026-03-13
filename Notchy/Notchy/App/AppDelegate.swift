@@ -16,7 +16,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @MainActor static var shared: AppDelegate?
     private var windowManager: WindowManager?
     private var screenObserver: ScreenObserver?
-    private(set) var updaterController: SPUStandardUpdaterController?
+    private(set) var updater: SPUUpdater?
+    private var notchUserDriver: NotchUserDriver?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         AppDelegate.shared = self
@@ -64,16 +65,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self?.windowManager?.setupNotchWindow()
         }
 
-        // 6. Initialize Sparkle updater (startingUpdater: false to avoid
-        //    a modal NSAlert that blocks the main thread in LSUIElement apps)
-        updaterController = SPUStandardUpdaterController(
-            startingUpdater: false,
-            updaterDelegate: nil,
-            userDriverDelegate: nil
-        )
-        // Start checking for updates silently after a delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
-            try? self?.updaterController?.updater.start()
+        // 6. Initialize Sparkle with custom user driver to avoid
+        //    modal NSAlerts that freeze LSUIElement apps
+        let driver = NotchUserDriver()
+        notchUserDriver = driver
+        do {
+            updater = try SPUUpdater(
+                hostBundle: Bundle.main,
+                applicationBundle: Bundle.main,
+                userDriver: driver,
+                delegate: nil
+            )
+            // Start checking for updates silently after a delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+                try? self?.updater?.start()
+            }
+        } catch {
+            logger.error("Failed to initialize Sparkle: \(error.localizedDescription, privacy: .public)")
         }
         logger.info("Sparkle updater initialized")
 

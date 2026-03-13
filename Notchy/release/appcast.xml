@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Pixie</title>
+        <item>
+            <title>1.0.0</title>
+            <pubDate>Fri, 13 Mar 2026 05:32:06 +0100</pubDate>
+            <sparkle:version>1</sparkle:version>
+            <sparkle:shortVersionString>1.0.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
+            <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
+            <enclosure url="https://github.com/brodahayo/Pixie/releases/latest/download/Pixie-1.0.0.zip" length="3789475" type="application/octet-stream" sparkle:edSignature="iGZq3xd4Ps5FxUaan8py5CEH8zauM815IjF0RT5ZvVHJB99fXY++egBps3rAWh7fnpUIEYa3IhKteeL+Z0WOAQ=="/>
+        </item>
+    </channel>
+</rss>

@@ -21,6 +21,8 @@
 		3DFB642382DAF2898C01BEE7 /* NotchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F054022D89306C0BE563E /* NotchView.swift */; };
 		41C50A8D1234C31F264786B8 /* ConversationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005470B7A0A91DCA4C5CDEE3 /* ConversationParser.swift */; };
 		41EFC664A438C91713134C21 /* AlienMascot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B66121BA7A8EA00A289763 /* AlienMascot.swift */; };
+		2A0C1E4305B9FD02E4046DA3 /* SproutMascot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05599B8706670D1A25679B33 /* SproutMascot.swift */; };
+		2A0F5013E104F9430D229B06 /* MuddyMascot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7A024BF7E8B098090AA189 /* MuddyMascot.swift */; };
 		490CE2790E4C0375C1C8DABB /* RobotMascot.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95D0A33F6AD1EC625D31931 /* RobotMascot.swift */; };
 		4BEBA444E4C99E30405550D9 /* NotchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8F94DF1B17C340C9549C6B /* NotchViewController.swift */; };
 		4D1B45384D6E506617889C04 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C9CB2F4E0C8D3062212CD6 /* WindowManager.swift */; };
@@ -115,6 +117,8 @@
 		4D85D691BB1A3A9EF5E673CA /* ProcessingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingSpinner.swift; sourceTree = "<group>"; };
 		4FBF9D9479DB1201F9EB50B0 /* CrabMascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrabMascot.swift; sourceTree = "<group>"; };
 		50B66121BA7A8EA00A289763 /* AlienMascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlienMascot.swift; sourceTree = "<group>"; };
+		05599B8706670D1A25679B33 /* SproutMascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SproutMascot.swift; sourceTree = "<group>"; };
+		6D7A024BF7E8B098090AA189 /* MuddyMascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuddyMascot.swift; sourceTree = "<group>"; };
 		52CCD70A2B14939069A66383 /* YabaiController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YabaiController.swift; sourceTree = "<group>"; };
 		5CED90AE9B1F4743C6934DEE /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		5D695E76EF868C9436390398 /* TmuxTargetFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmuxTargetFinder.swift; sourceTree = "<group>"; };
@@ -382,6 +386,8 @@
 			isa = PBXGroup;
 			children = (
 				50B66121BA7A8EA00A289763 /* AlienMascot.swift */,
+				05599B8706670D1A25679B33 /* SproutMascot.swift */,
+				6D7A024BF7E8B098090AA189 /* MuddyMascot.swift */,
 				A70FE9207D68B7BB8B9159FF /* CatMascot.swift */,
 				4FBF9D9479DB1201F9EB50B0 /* CrabMascot.swift */,
 				E3B5572BA6C1A1AEB0946EDB /* GhostMascot.swift */,
@@ -511,6 +517,8 @@
 				6535642D3E123EBE5A9DEC10 /* ActionButton.swift in Sources */,
 				7EA04F8903FFE0C83E73AE9D /* AgentFileWatcher.swift in Sources */,
 				41EFC664A438C91713134C21 /* AlienMascot.swift in Sources */,
+				2A0C1E4305B9FD02E4046DA3 /* SproutMascot.swift in Sources */,
+				2A0F5013E104F9430D229B06 /* MuddyMascot.swift in Sources */,
 				914DD422DACAB79C225B0540 /* AppDelegate.swift in Sources */,
 				2FC225BF50E382B5C6DD098B /* CatMascot.swift in Sources */,
 				60E1A2A7EF0078F83029B666 /* ChatHistoryManager.swift in Sources */,

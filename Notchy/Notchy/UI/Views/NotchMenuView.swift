@@ -84,7 +84,7 @@ struct NotchMenuView: View {
             Section("About") {
                 Button {
                     isCheckingForUpdates = true
-                    AppDelegate.shared?.updaterController?.updater.checkForUpdates()
+                    AppDelegate.shared?.updater?.checkForUpdates()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                         isCheckingForUpdates = false
                     }
