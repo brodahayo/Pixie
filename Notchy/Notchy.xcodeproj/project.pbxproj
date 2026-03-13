@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C6175E7D4401E660D1F31DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B16A58646BB87EB90D038977 /* Assets.xcassets */; };
 		1CB4DD54886E16915AA81027 /* Chime.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F6B78C5F3665858119723A12 /* Chime.aiff */; };
 		71C2FDF88FE25F858607F2A2 /* Droplet.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CE29F43C75A668A8C1CF14FF /* Droplet.aiff */; };
 		7A4ED43D4F4D6AC0F7468F2C /* Sparkle.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D95A9D41840FB4D293AB623D /* Sparkle.aiff */; };
@@ -98,6 +99,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B16A58646BB87EB90D038977 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6B78C5F3665858119723A12 /* Chime.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Chime.aiff; sourceTree = "<group>"; };
 		CE29F43C75A668A8C1CF14FF /* Droplet.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Droplet.aiff; sourceTree = "<group>"; };
 		D95A9D41840FB4D293AB623D /* Sparkle.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Sparkle.aiff; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				C22DFF7DB853061AC499125B /* notchy-state.py */,
+				B16A58646BB87EB90D038977 /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -541,6 +544,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FB8F6861B46E863289246A0 /* notchy-state.py in Resources */,
+				8C6175E7D4401E660D1F31DF /* Assets.xcassets in Resources */,
 				1CB4DD54886E16915AA81027 /* Chime.aiff in Resources */,
 				71C2FDF88FE25F858607F2A2 /* Droplet.aiff in Resources */,
 				7A4ED43D4F4D6AC0F7468F2C /* Sparkle.aiff in Resources */,
