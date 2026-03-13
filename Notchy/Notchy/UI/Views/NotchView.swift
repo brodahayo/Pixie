@@ -201,6 +201,33 @@ struct NotchView: View {
                 .frame(height: max(24, closedNotchSize.height))
 
             if viewModel.status == .opened {
+                // Tab picker sits below the camera notch area
+                if case .chat = viewModel.contentType {
+                    // No picker in chat — back button is in the header
+                } else {
+                    HStack {
+                        Spacer()
+                        Picker("", selection: $selectedTab) {
+                            Text("Sessions").tag(0)
+                            Text("Config").tag(1)
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(width: 160)
+                        .onChange(of: selectedTab) { _, newValue in
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                                if newValue == 0 {
+                                    viewModel.showInstances()
+                                } else {
+                                    viewModel.showMenu()
+                                }
+                            }
+                        }
+                        Spacer()
+                    }
+                    .padding(.top, 8)
+                    .padding(.bottom, 4)
+                }
+
                 contentView
                     .frame(width: notchSize.width - 24)
                     .transition(
@@ -211,6 +238,13 @@ struct NotchView: View {
                             removal: .opacity.animation(.easeOut(duration: 0.15))
                         )
                     )
+            }
+        }
+        .onChange(of: viewModel.contentType) { _, newType in
+            switch newType {
+            case .instances: selectedTab = 0
+            case .menu: selectedTab = 1
+            case .chat: break
             }
         }
     }
@@ -386,30 +420,6 @@ struct NotchView: View {
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-            } else {
-                // Segmented control: Sessions | Config
-                Picker("", selection: $selectedTab) {
-                    Text("Sessions").tag(0)
-                    Text("Config").tag(1)
-                }
-                .pickerStyle(.segmented)
-                .frame(width: 160)
-                .onChange(of: selectedTab) { _, newValue in
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                        if newValue == 0 {
-                            viewModel.showInstances()
-                        } else {
-                            viewModel.showMenu()
-                        }
-                    }
-                }
-                .onChange(of: viewModel.contentType) { _, newType in
-                    switch newType {
-                    case .instances: selectedTab = 0
-                    case .menu: selectedTab = 1
-                    case .chat: break
-                    }
-                }
             }
         }
     }

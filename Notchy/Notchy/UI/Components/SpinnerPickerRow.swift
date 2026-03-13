@@ -36,10 +36,6 @@ struct SpinnerPickerRow: View {
                         .font(.system(size: 9))
                         .foregroundColor(Color(white: 0.4))
                 }
-                .padding(.horizontal, 8)
-                .padding(.vertical, 6)
-                .background(Color.white.opacity(0.05))
-                .cornerRadius(6)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
