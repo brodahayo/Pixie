@@ -9,7 +9,7 @@ import Foundation
 import Markdown
 import SwiftUI
 
-/// Renders markdown to AttributedString with terminal-style theming
+/// Renders markdown to AttributedString with native system theming
 @MainActor
 struct MarkdownRenderer {
     /// Cache parsed documents to avoid re-parsing
@@ -76,7 +76,7 @@ fileprivate struct MarkdownWalker: MarkupWalker {
             text.append(inlineContent(child))
         }
         text.font = .system(size: fontSize * scaleFactor, weight: .bold)
-        text.foregroundColor = .white
+        text.foregroundColor = Color.primary
         result.append(text)
         result.append(AttributedString("\n"))
     }
@@ -94,8 +94,8 @@ fileprivate struct MarkdownWalker: MarkupWalker {
         let code = codeBlock.code.trimmingCharacters(in: .newlines)
         var text = AttributedString(code)
         text.font = .system(size: fontSize, design: .monospaced)
-        text.foregroundColor = TerminalColors.prompt
-        text.backgroundColor = Color(red: 0.0, green: 1.0, blue: 0.53).opacity(0.03)
+        text.foregroundColor = Color.primary
+        text.backgroundColor = Color.white.opacity(0.05)
         result.append(AttributedString("\n"))
         result.append(text)
         result.append(AttributedString("\n\n"))
@@ -112,10 +112,10 @@ fileprivate struct MarkdownWalker: MarkupWalker {
         }
 
         var prefix = AttributedString("  | ")
-        prefix.foregroundColor = TerminalColors.dim
-        prefix.font = .system(size: fontSize, design: .monospaced)
+        prefix.foregroundColor = Color.secondary
+        prefix.font = .system(size: fontSize)
 
-        quoteContent.foregroundColor = TerminalColors.dim
+        quoteContent.foregroundColor = Color.secondary
 
         result.append(prefix)
         result.append(quoteContent)
@@ -149,7 +149,7 @@ fileprivate struct MarkdownWalker: MarkupWalker {
         let bullet = ordered ? "\(index)." : "-"
 
         var prefix = AttributedString("\(indent)\(bullet) ")
-        prefix.foregroundColor = TerminalColors.dim
+        prefix.foregroundColor = Color.secondary
         prefix.font = .system(size: fontSize)
         result.append(prefix)
 
@@ -165,7 +165,7 @@ fileprivate struct MarkdownWalker: MarkupWalker {
 
     mutating func visitThematicBreak(_ thematicBreak: ThematicBreak) {
         var separator = AttributedString("---\n")
-        separator.foregroundColor = TerminalColors.dimmer
+        separator.foregroundColor = Color(white: 0.4)
         result.append(separator)
     }
 
@@ -176,14 +176,14 @@ fileprivate struct MarkdownWalker: MarkupWalker {
         case let text as Markdown.Text:
             var attr = AttributedString(text.string)
             attr.font = .system(size: fontSize)
-            attr.foregroundColor = Color.white.opacity(0.9)
+            attr.foregroundColor = Color.primary
             return attr
 
         case let code as InlineCode:
             var attr = AttributedString(code.code)
             attr.font = .system(size: fontSize, design: .monospaced)
-            attr.foregroundColor = TerminalColors.prompt
-            attr.backgroundColor = Color(red: 0.0, green: 1.0, blue: 0.53).opacity(0.03)
+            attr.foregroundColor = Color.primary
+            attr.backgroundColor = Color.white.opacity(0.05)
             return attr
 
         case let strong as Strong:
@@ -207,7 +207,7 @@ fileprivate struct MarkdownWalker: MarkupWalker {
             for child in link.children {
                 combined.append(inlineContent(child))
             }
-            combined.foregroundColor = TerminalColors.blue
+            combined.foregroundColor = Color.accentColor
             combined.underlineStyle = .single
             if let dest = link.destination {
                 combined.link = URL(string: dest)
@@ -223,7 +223,7 @@ fileprivate struct MarkdownWalker: MarkupWalker {
         default:
             var attr = AttributedString(markup.format())
             attr.font = .system(size: fontSize)
-            attr.foregroundColor = Color.white.opacity(0.9)
+            attr.foregroundColor = Color.primary
             return attr
         }
     }
