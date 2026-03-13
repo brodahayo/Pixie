@@ -29,6 +29,7 @@ struct NotchView: View {
     @State private var idleStartTime: Date? = nil
     @State private var showSleepZzz: Bool = false
     @State private var zzzPhase: Int = 0
+    @State private var selectedTab: Int = 0
 
     @Namespace private var activityNamespace
 
@@ -222,7 +223,7 @@ struct NotchView: View {
             if showClosedActivity {
                 // Left side: crab only
                 MascotIcon(size: 18, animate: isProcessing)
-                    .shadow(color: TerminalColors.glow, radius: 6)
+                    .shadow(color: Color.white.opacity(0.15), radius: 6)
                     .matchedGeometryEffect(id: "crab", in: activityNamespace, isSource: showClosedActivity)
                     .frame(
                         width: viewModel.status == .opened ? nil : sideWidth
@@ -236,7 +237,7 @@ struct NotchView: View {
                 // Idle state: same width as active — mascot left, black fill center, zzZ right
                 MascotIcon(size: 18)
                     .opacity(breatheOpacity)
-                    .shadow(color: TerminalColors.glow.opacity(breatheOpacity * 0.6), radius: 6)
+                    .shadow(color: Color.white.opacity(breatheOpacity * 0.09), radius: 6)
                     .matchedGeometryEffect(id: "crab", in: activityNamespace, isSource: !showClosedActivity)
                     .frame(width: sideWidth)
                     .onAppear {
@@ -288,9 +289,9 @@ struct NotchView: View {
                     // Permission needed: question mark on the right
                     PermissionIndicatorIcon(
                         size: 14,
-                        color: TerminalColors.amber
+                        color: .orange
                     )
-                    .shadow(color: TerminalColors.amber.opacity(0.4), radius: 6)
+                    .shadow(color: Color.orange.opacity(0.3), radius: 6)
                     .matchedGeometryEffect(
                         id: "spinner",
                         in: activityNamespace,
@@ -300,7 +301,7 @@ struct NotchView: View {
                 } else if isProcessing {
                     // Processing: spinner on the right
                     ProcessingSpinner()
-                        .shadow(color: TerminalColors.glow, radius: 4)
+                        .shadow(color: Color.white.opacity(0.15), radius: 4)
                         .matchedGeometryEffect(
                             id: "spinner",
                             in: activityNamespace,
@@ -309,8 +310,8 @@ struct NotchView: View {
                         .frame(width: viewModel.status == .opened ? 20 : sideWidth)
                 } else if hasWaitingForInput {
                     // Done: checkmark on the right
-                    ReadyForInputIndicatorIcon(size: 14, color: TerminalColors.green)
-                        .shadow(color: TerminalColors.glow, radius: 4)
+                    ReadyForInputIndicatorIcon(size: 14, color: .green)
+                        .shadow(color: Color.white.opacity(0.15), radius: 4)
                         .matchedGeometryEffect(
                             id: "spinner",
                             in: activityNamespace,
@@ -379,47 +380,38 @@ struct NotchView: View {
                     }
                 } label: {
                     Text("←")
-                        .font(.system(size: 12, weight: .bold, design: .monospaced))
-                        .foregroundColor(TerminalColors.prompt)
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.accentColor)
                         .frame(width: 22, height: 22)
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             } else {
                 // Segmented control: Sessions | Config
-                HStack(spacing: 0) {
-                    segmentButton("Sessions", isActive: viewModel.contentType == .instances) {
-                        viewModel.showInstances()
-                    }
-                    segmentButton("Config", isActive: viewModel.contentType == .menu) {
-                        viewModel.showMenu()
+                Picker("", selection: $selectedTab) {
+                    Text("Sessions").tag(0)
+                    Text("Config").tag(1)
+                }
+                .pickerStyle(.segmented)
+                .frame(width: 160)
+                .onChange(of: selectedTab) { _, newValue in
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                        if newValue == 0 {
+                            viewModel.showInstances()
+                        } else {
+                            viewModel.showMenu()
+                        }
                     }
                 }
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .strokeBorder(TerminalColors.border, lineWidth: 1)
-                )
+                .onChange(of: viewModel.contentType) { _, newType in
+                    switch newType {
+                    case .instances: selectedTab = 0
+                    case .menu: selectedTab = 1
+                    case .chat: break
+                    }
+                }
             }
         }
-    }
-
-    private func segmentButton(_ title: String, isActive: Bool, action: @escaping () -> Void) -> some View {
-        Button {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                action()
-            }
-        } label: {
-            Text(title)
-                .font(.system(size: 8, weight: .medium, design: .monospaced))
-                .foregroundColor(isActive ? TerminalColors.prompt : TerminalColors.dimmer)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 3)
-                .background(
-                    RoundedRectangle(cornerRadius: 7)
-                        .fill(isActive ? TerminalColors.backgroundHover : Color.clear)
-                )
-        }
-        .buttonStyle(.plain)
     }
 
     // MARK: - Content View (Opened State)
@@ -444,6 +436,7 @@ struct NotchView: View {
             }
         }
         .frame(width: notchSize.width - 24)
+        .background(.ultraThinMaterial)
     }
 
     // MARK: - Event Handlers
