@@ -51,7 +51,7 @@ struct ReadyForInputIndicatorIcon: View {
     let size: CGFloat
     let color: Color
 
-    init(size: CGFloat = 14, color: Color = .green) {
+    init(size: CGFloat = 14, color: Color = MascotColorPreset.current) {
         self.size = size
         self.color = color
     }

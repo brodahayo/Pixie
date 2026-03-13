@@ -64,7 +64,7 @@ struct SoundPickerRow: View {
             HStack {
                 Image(systemName: selector.selectedSound == sound ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 10))
-                    .foregroundColor(selector.selectedSound == sound ? Color.green : Color(white: 0.4))
+                    .foregroundColor(selector.selectedSound == sound ? MascotColorPreset.current : Color(white: 0.4))
 
                 Text(sound)
                     .font(.system(size: 10))

@@ -10,6 +10,7 @@ import SwiftUI
 /// Available mascot characters
 enum MascotType: String, CaseIterable, Sendable {
     case crab, robot, ghost, cat, skull, alien
+    case muddy, sprout
 
     var displayName: String {
         switch self {
@@ -19,6 +20,8 @@ enum MascotType: String, CaseIterable, Sendable {
         case .cat: return "Cat"
         case .skull: return "Skull"
         case .alien: return "Alien"
+        case .muddy: return "Muddy"
+        case .sprout: return "Sprout"
         }
     }
 
@@ -32,6 +35,8 @@ enum MascotType: String, CaseIterable, Sendable {
         case .cat: CatMascot.draw(in: context, scale: scale, color: color, phase: animationPhase)
         case .skull: SkullMascot.draw(in: context, scale: scale, color: color, phase: animationPhase)
         case .alien: AlienMascot.draw(in: context, scale: scale, color: color, phase: animationPhase)
+        case .muddy: MuddyMascot.draw(in: context, scale: scale, color: color, phase: animationPhase)
+        case .sprout: SproutMascot.draw(in: context, scale: scale, color: color, phase: animationPhase)
         }
     }
 }
@@ -66,5 +71,10 @@ enum MascotColorPreset: String, CaseIterable, Sendable {
     static func resolve(_ key: String) -> Color {
         MascotColorPreset(rawValue: key)?.color
             ?? MascotColorPreset.claude.color
+    }
+
+    /// The user's current theme color
+    static var current: Color {
+        resolve(Settings.mascotColor)
     }
 }

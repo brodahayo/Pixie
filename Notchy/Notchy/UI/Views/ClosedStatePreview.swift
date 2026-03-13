@@ -108,7 +108,7 @@ struct ClosedStatePreview: View {
                             rightContent: {
                                 PermissionIndicatorIcon(
                                     size: 14,
-                                    color: .green
+                                    color: MascotColorPreset.current
                                 )
                             }
                         )
@@ -116,7 +116,7 @@ struct ClosedStatePreview: View {
                         closedNotchSimulation(
                             label: "Ready for Input",
                             leftContent: { MascotIcon(size: 14) },
-                            rightContent: { ReadyForInputIndicatorIcon(size: 14, color: .green) }
+                            rightContent: { ReadyForInputIndicatorIcon(size: 14, color: MascotColorPreset.current) }
                         )
 
                         // Idle state with centered breathing mascot
@@ -150,7 +150,7 @@ struct ClosedStatePreview: View {
                             VStack(spacing: 4) {
                                 PermissionIndicatorIcon(
                                     size: 14,
-                                    color: .green
+                                    color: MascotColorPreset.current
                                 )
                                 Text("Permission")
                                     .font(.caption2)
@@ -163,7 +163,7 @@ struct ClosedStatePreview: View {
                                     .foregroundColor(.white.opacity(0.5))
                             }
                             VStack(spacing: 4) {
-                                ReadyForInputIndicatorIcon(size: 14, color: .green)
+                                ReadyForInputIndicatorIcon(size: 14, color: MascotColorPreset.current)
                                 Text("Checkmark")
                                     .font(.caption2)
                                     .foregroundColor(.white.opacity(0.5))

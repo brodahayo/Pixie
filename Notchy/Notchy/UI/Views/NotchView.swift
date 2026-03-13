@@ -224,8 +224,8 @@ struct NotchView: View {
                         }
                         Spacer()
                     }
-                    .padding(.top, 8)
-                    .padding(.bottom, 4)
+                    .padding(.top, 10)
+                    .padding(.bottom, 10)
                 }
 
                 contentView
@@ -256,7 +256,7 @@ struct NotchView: View {
         HStack(spacing: 0) {
             if showClosedActivity {
                 // Left side: crab only
-                MascotIcon(size: 18, animate: isProcessing)
+                MascotIcon(size: 18, animate: isProcessing, jumping: hasWaitingForInput)
                     .shadow(color: Color.white.opacity(0.15), radius: 6)
                     .matchedGeometryEffect(id: "crab", in: activityNamespace, isSource: showClosedActivity)
                     .frame(
@@ -270,8 +270,7 @@ struct NotchView: View {
             } else if !showClosedActivity {
                 // Idle state: same width as active — mascot left, black fill center, zzZ right
                 MascotIcon(size: 18)
-                    .opacity(breatheOpacity)
-                    .shadow(color: Color.white.opacity(breatheOpacity * 0.09), radius: 6)
+                    .shadow(color: Color.white.opacity(0.15), radius: 6)
                     .matchedGeometryEffect(id: "crab", in: activityNamespace, isSource: !showClosedActivity)
                     .frame(width: sideWidth)
                     .onAppear {
@@ -344,7 +343,7 @@ struct NotchView: View {
                         .frame(width: viewModel.status == .opened ? 20 : sideWidth)
                 } else if hasWaitingForInput {
                     // Done: checkmark on the right
-                    ReadyForInputIndicatorIcon(size: 14, color: .green)
+                    ReadyForInputIndicatorIcon(size: 14, color: mascotColor)
                         .shadow(color: Color.white.opacity(0.15), radius: 4)
                         .matchedGeometryEffect(
                             id: "spinner",
@@ -439,14 +438,18 @@ struct NotchView: View {
                         }
                     }
                 )
+                .transition(.opacity)
             case .menu:
                 NotchMenuView()
+                    .transition(.opacity)
             case .chat(let session):
                 ChatView(session: session)
+                    .transition(.opacity)
             }
         }
         .frame(width: notchSize.width - 24)
         .background(.ultraThinMaterial)
+        .animation(.easeInOut(duration: 0.2), value: viewModel.contentType.id)
     }
 
     // MARK: - Event Handlers
@@ -480,7 +483,7 @@ struct NotchView: View {
         let newPendingIds = currentIds.subtracting(previousPendingIds)
 
         if !newPendingIds.isEmpty {
-            NSSound(named: Settings.notificationSound)?.play()
+            SoundSelector.play(Settings.notificationSound)
             if viewModel.status == .closed {
                 viewModel.notchOpen(reason: .notification)
             }
@@ -510,13 +513,11 @@ struct NotchView: View {
             }
 
             // Play notification sound if the session is not actively focused
-            if let soundName = NSSound.Name(Settings.notificationSound) as NSSound.Name? {
-                Task {
-                    let shouldPlay = await shouldPlayNotificationSound(for: newlyWaitingSessions)
-                    if shouldPlay {
-                        await MainActor.run {
-                            NSSound(named: soundName)?.play()
-                        }
+            Task {
+                let shouldPlay = await shouldPlayNotificationSound(for: newlyWaitingSessions)
+                if shouldPlay {
+                    await MainActor.run {
+                        SoundSelector.play(Settings.notificationSound)
                     }
                 }
             }

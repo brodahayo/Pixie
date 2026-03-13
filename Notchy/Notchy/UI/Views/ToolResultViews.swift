@@ -166,9 +166,9 @@ struct EditResultView: View {
                     ) { _, line in
                         HStack(spacing: 0) {
                             Text("+ ")
-                                .foregroundColor(Color.green)
+                                .foregroundColor(MascotColorPreset.current)
                             Text(line)
-                                .foregroundColor(Color.green.opacity(0.8))
+                                .foregroundColor(MascotColorPreset.current.opacity(0.8))
                         }
                         .font(.system(size: 10, design: .monospaced))
                     }
@@ -323,7 +323,7 @@ struct WebFetchResultView: View {
                 Spacer()
                 Text("\(result.code)")
                     .font(.system(size: 10, weight: .medium, design: .monospaced))
-                    .foregroundColor(result.code == 200 ? Color.green : Color.red)
+                    .foregroundColor(result.code == 200 ? MascotColorPreset.current : Color.red)
             }
 
             if !result.result.isEmpty {
@@ -412,7 +412,7 @@ struct TaskResultView: View {
 
     private var statusColor: Color {
         switch result.status.lowercased() {
-        case "completed", "done": return Color.green
+        case "completed", "done": return MascotColorPreset.current
         case "error", "failed": return Color.red
         case "running": return Color.orange
         default: return Color.secondary
@@ -451,7 +451,7 @@ struct TodoWriteResultView: View {
 
     private func todoColor(_ status: String) -> Color {
         switch status {
-        case "completed": return Color.green
+        case "completed": return MascotColorPreset.current
         case "in_progress": return Color.orange
         default: return Color.secondary
         }
@@ -499,7 +499,7 @@ struct BashOutputResultView: View {
                 if let exitCode = result.exitCode {
                     Text("(\(exitCode))")
                         .font(.system(size: 10, design: .monospaced))
-                        .foregroundColor(exitCode == 0 ? Color.green : Color.red)
+                        .foregroundColor(exitCode == 0 ? MascotColorPreset.current : Color.red)
                 }
                 Spacer()
             }
@@ -543,11 +543,11 @@ struct ExitPlanModeResultView: View {
     var body: some View {
         HStack(spacing: 4) {
             Image(systemName: "list.bullet.clipboard")
-                .foregroundColor(Color.green)
+                .foregroundColor(MascotColorPreset.current)
                 .font(.system(size: 10))
             Text("Plan ready")
                 .font(.system(size: 10, weight: .medium))
-                .foregroundColor(Color.green)
+                .foregroundColor(MascotColorPreset.current)
             if result.isAgent {
                 Text("(agent)")
                     .font(.system(size: 9))

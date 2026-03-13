@@ -15,11 +15,20 @@ class SoundSelector: ObservableObject {
 
     // MARK: - Available Sounds
 
-    static let availableSounds: [String] = [
+    /// System sounds (built into macOS)
+    static let systemSounds: [String] = [
         "Pop", "Ping", "Glass", "Basso", "Blow", "Bottle",
         "Frog", "Funk", "Hero", "Morse", "Purr", "Sosumi",
         "Submarine", "Tink"
     ]
+
+    /// Custom sounds bundled with the app
+    static let customSounds: [String] = [
+        "Chime", "Droplet", "Sparkle", "Chirp", "Ding",
+        "Bubble", "Tap", "Harp", "Twinkle", "Ripple", "Comet"
+    ]
+
+    static let availableSounds: [String] = customSounds + systemSounds
 
     // MARK: - Published State
 
@@ -47,7 +56,18 @@ class SoundSelector: ObservableObject {
 
     /// Play a preview of the given sound
     func playPreview(_ sound: String) {
-        NSSound(named: sound)?.play()
+        SoundSelector.play(sound)
+    }
+
+    /// Play a sound by name — checks bundle first, then system sounds
+    static func play(_ name: String) {
+        if customSounds.contains(name),
+           let url = Bundle.main.url(forResource: name, withExtension: "aiff") {
+            let sound = NSSound(contentsOf: url, byReference: true)
+            sound?.play()
+        } else {
+            NSSound(named: name)?.play()
+        }
     }
 
     /// Extra height needed when picker is expanded (capped for scrolling)

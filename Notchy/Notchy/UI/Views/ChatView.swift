@@ -11,6 +11,10 @@ struct ChatView: View {
     let session: SessionState
     @StateObject private var chatHistory = ChatHistoryManager.shared
     @State private var messageText: String = ""
+
+    private var themeColor: Color {
+        MascotColorPreset.resolve(Settings.mascotColor)
+    }
     @State private var expandedTools: Set<String> = []
     @State private var showThinking: Set<String> = []
 
@@ -215,7 +219,7 @@ struct ChatView: View {
         switch status {
         case .running: return Color.blue
         case .waitingForApproval: return Color.orange
-        case .success: return Color.green
+        case .success: return themeColor
         case .error: return Color.red
         case .interrupted: return Color.orange
         }

@@ -7,7 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B4D409FCBEAAC4D417C9337 /* TerminalColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B5AD24B7FB78776950849F /* TerminalColors.swift */; };
+		1CB4DD54886E16915AA81027 /* Chime.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F6B78C5F3665858119723A12 /* Chime.aiff */; };
+		71C2FDF88FE25F858607F2A2 /* Droplet.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CE29F43C75A668A8C1CF14FF /* Droplet.aiff */; };
+		7A4ED43D4F4D6AC0F7468F2C /* Sparkle.aiff in Resources */ = {isa = PBXBuildFile; fileRef = D95A9D41840FB4D293AB623D /* Sparkle.aiff */; };
+		F97E2C56A9BE86A0A8F5AF11 /* Chirp.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 2D2F8092F6799543D86B69C9 /* Chirp.aiff */; };
+		AB0CF59DA9B60F198C41F7B3 /* Ding.aiff in Resources */ = {isa = PBXBuildFile; fileRef = BE317D94C4A6AB9675285B23 /* Ding.aiff */; };
+		B669E67102D4F351AF2431D5 /* Bubble.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 1A8D07819059C5DBD2CB48CD /* Bubble.aiff */; };
+		0061FA0719FBD08899EA238F /* Tap.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 88050340057B28F55AEA85E9 /* Tap.aiff */; };
+		3E75E0983E39F26A55B72F34 /* Harp.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 27B00E3F5222C6504AF9A2C0 /* Harp.aiff */; };
+		C123F95397C342BCF7A33082 /* Twinkle.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 9D02597075EF9729B21C4BAC /* Twinkle.aiff */; };
+		1BF7BCABCAC665B04164B49B /* Ripple.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 53E7583CD189252897C277EC /* Ripple.aiff */; };
+		44181B0E7296FDA0D973A6A8 /* Comet.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 1F5ECA083A2582FE4B6C3D7F /* Comet.aiff */; };
+		0A1B2C3D4E5F6A7B8C9D0E1F /* PillButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7A8B9C0D1E2F /* PillButtonStyle.swift */; };
 		0F3440B318C799605CF74543 /* TmuxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03128097459FA68AB16B45AE /* TmuxController.swift */; };
 		1231F28FAA0DE3E29556D660 /* SessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1424B4BFA6AAD1F0BFE42AFF /* SessionState.swift */; };
 		141AC652FC0B6E682914CFBC /* ProcessTreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE2B6FD11C041C563BB06CD /* ProcessTreeBuilder.swift */; };
@@ -20,6 +31,8 @@
 		3A6720022658BACCED7C136A /* MascotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C5AC5EEE4DE404A41FF829 /* MascotType.swift */; };
 		3FB8F6861B46E863289246A0 /* notchy-state.py in Resources */ = {isa = PBXBuildFile; fileRef = C22DFF7DB853061AC499125B /* notchy-state.py */; };
 		40D8AE096919D893F8F91B2C /* CrabMascot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB8B7922C61C252DD5822D0 /* CrabMascot.swift */; };
+		3E5A993262B8F2FCE9A973EB /* MuddyMascot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F90D52C6CEA17CD72D240B /* MuddyMascot.swift */; };
+		D9F197B9A03A1E6952C5FE9C /* SproutMascot.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAED1FBD367BCFA302502FA1 /* SproutMascot.swift */; };
 		473AF264E13451D71472D210 /* NotchMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E45566D298CAC2FE219FAAE /* NotchMenuView.swift */; };
 		4A186428DAAC057A1072B612 /* SessionPhaseHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC2F64075FFFC8F3EF026D5 /* SessionPhaseHelpers.swift */; };
 		4D6B6776A90B9DD0D5F698CF /* ProcessExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AC45D7FADEDA26DDECEC05 /* ProcessExecutor.swift */; };
@@ -85,10 +98,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F6B78C5F3665858119723A12 /* Chime.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Chime.aiff; sourceTree = "<group>"; };
+		CE29F43C75A668A8C1CF14FF /* Droplet.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Droplet.aiff; sourceTree = "<group>"; };
+		D95A9D41840FB4D293AB623D /* Sparkle.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Sparkle.aiff; sourceTree = "<group>"; };
+		2D2F8092F6799543D86B69C9 /* Chirp.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Chirp.aiff; sourceTree = "<group>"; };
+		BE317D94C4A6AB9675285B23 /* Ding.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Ding.aiff; sourceTree = "<group>"; };
+		1A8D07819059C5DBD2CB48CD /* Bubble.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Bubble.aiff; sourceTree = "<group>"; };
+		88050340057B28F55AEA85E9 /* Tap.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Tap.aiff; sourceTree = "<group>"; };
+		27B00E3F5222C6504AF9A2C0 /* Harp.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Harp.aiff; sourceTree = "<group>"; };
+		9D02597075EF9729B21C4BAC /* Twinkle.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Twinkle.aiff; sourceTree = "<group>"; };
+		53E7583CD189252897C277EC /* Ripple.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Ripple.aiff; sourceTree = "<group>"; };
+		1F5ECA083A2582FE4B6C3D7F /* Comet.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Comet.aiff; sourceTree = "<group>"; };
 		03128097459FA68AB16B45AE /* TmuxController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmuxController.swift; sourceTree = "<group>"; };
 		05959F6D3DCC38EAE7E7AC9A /* MarkdownRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRenderer.swift; sourceTree = "<group>"; };
 		061B9884FC72A87372977662 /* RobotMascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotMascot.swift; sourceTree = "<group>"; };
-		08B5AD24B7FB78776950849F /* TerminalColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalColors.swift; sourceTree = "<group>"; };
 		0A5813F31D26E7B5BEB5907A /* ToolResultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolResultData.swift; sourceTree = "<group>"; };
 		0A5F5DB59A2A805CCEC0E045 /* TmuxTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmuxTarget.swift; sourceTree = "<group>"; };
 		0B0BD55B8B310B306FA0806F /* Ext+NSScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+NSScreen.swift"; sourceTree = "<group>"; };
@@ -112,6 +135,8 @@
 		2D03DE4989264992D7B864E8 /* MascotIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotIcon.swift; sourceTree = "<group>"; };
 		2D979512C6CC40ABDD1B0242 /* ToolResultViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolResultViews.swift; sourceTree = "<group>"; };
 		3AB8B7922C61C252DD5822D0 /* CrabMascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrabMascot.swift; sourceTree = "<group>"; };
+		D2F90D52C6CEA17CD72D240B /* MuddyMascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuddyMascot.swift; sourceTree = "<group>"; };
+		EAED1FBD367BCFA302502FA1 /* SproutMascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SproutMascot.swift; sourceTree = "<group>"; };
 		3CDEB4F5CBDA4692928CE109 /* SoundSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelector.swift; sourceTree = "<group>"; };
 		3ED3595F23512B2E9D17C8BF /* StatusIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusIcons.swift; sourceTree = "<group>"; };
 		41D19F89A2C7E253BEEFCA20 /* TmuxPathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmuxPathFinder.swift; sourceTree = "<group>"; };
@@ -151,6 +176,7 @@
 		C5E1C5CDADBE75D939CEFAE8 /* NotchWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchWindowController.swift; sourceTree = "<group>"; };
 		C79E3C65F889727CA08F6BA4 /* ClaudeInstancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeInstancesView.swift; sourceTree = "<group>"; };
 		CBE8BD6973BFCC53A50651CB /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F7A8B9C0D1E2F /* PillButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonStyle.swift; sourceTree = "<group>"; };
 		CE4D9700E4C952ECA8D32588 /* SkullMascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkullMascot.swift; sourceTree = "<group>"; };
 		D0C5AC5EEE4DE404A41FF829 /* MascotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotType.swift; sourceTree = "<group>"; };
 		DEA109DCBD303D912C0C256D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -174,6 +200,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D6B4C030DA501F636C917C03 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				F6B78C5F3665858119723A12 /* Chime.aiff */,
+				CE29F43C75A668A8C1CF14FF /* Droplet.aiff */,
+				D95A9D41840FB4D293AB623D /* Sparkle.aiff */,
+				2D2F8092F6799543D86B69C9 /* Chirp.aiff */,
+				BE317D94C4A6AB9675285B23 /* Ding.aiff */,
+				1A8D07819059C5DBD2CB48CD /* Bubble.aiff */,
+				88050340057B28F55AEA85E9 /* Tap.aiff */,
+				27B00E3F5222C6504AF9A2C0 /* Harp.aiff */,
+				9D02597075EF9729B21C4BAC /* Twinkle.aiff */,
+				53E7583CD189252897C277EC /* Ripple.aiff */,
+				1F5ECA083A2582FE4B6C3D7F /* Comet.aiff */,
+			);
+			path = Resources/Sounds;
+			sourceTree = "<group>";
+		};
 		03D3B0ED2B2449A0FF803D24 /* Window */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,6 +273,8 @@
 				6605585CE724AADA20B68461 /* AlienMascot.swift */,
 				78DF3A72E18D0A996D09266F /* CatMascot.swift */,
 				3AB8B7922C61C252DD5822D0 /* CrabMascot.swift */,
+				D2F90D52C6CEA17CD72D240B /* MuddyMascot.swift */,
+				EAED1FBD367BCFA302502FA1 /* SproutMascot.swift */,
 				26FA0E18A09203D884D1A1F0 /* GhostMascot.swift */,
 				2D03DE4989264992D7B864E8 /* MascotIcon.swift */,
 				D0C5AC5EEE4DE404A41FF829 /* MascotType.swift */,
@@ -258,6 +304,7 @@
 			isa = PBXGroup;
 			children = (
 				CBE8BD6973BFCC53A50651CB /* ActionButton.swift */,
+				1A2B3C4D5E6F7A8B9C0D1E2F /* PillButtonStyle.swift */,
 				05959F6D3DCC38EAE7E7AC9A /* MarkdownRenderer.swift */,
 				8279DB875E828C3C63CF7EAF /* MascotPickerRow.swift */,
 				26065D3114C159E8D3264C8D /* NotchShape.swift */,
@@ -266,7 +313,6 @@
 				6890B31D9FF2FEF76279067B /* SoundPickerRow.swift */,
 				B6736BBF6438DD6DDAD7C7D9 /* SpinnerPickerRow.swift */,
 				3ED3595F23512B2E9D17C8BF /* StatusIcons.swift */,
-				08B5AD24B7FB78776950849F /* TerminalColors.swift */,
 				29B5AD09E4DA3B08D4F006A0 /* Mascots */,
 			);
 			path = Components;
@@ -379,7 +425,8 @@
 				3416008C81F990E9DBD1E49D /* Services */,
 				A58AD8C727CA45E9FA6BD3E2 /* UI */,
 				61B726BEA341501815727D19 /* Utilities */,
-			);
+			
+				D6B4C030DA501F636C917C03 /* Sounds */,);
 			path = Notchy;
 			sourceTree = "<group>";
 		};
@@ -494,6 +541,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FB8F6861B46E863289246A0 /* notchy-state.py in Resources */,
+				1CB4DD54886E16915AA81027 /* Chime.aiff in Resources */,
+				71C2FDF88FE25F858607F2A2 /* Droplet.aiff in Resources */,
+				7A4ED43D4F4D6AC0F7468F2C /* Sparkle.aiff in Resources */,
+				F97E2C56A9BE86A0A8F5AF11 /* Chirp.aiff in Resources */,
+				AB0CF59DA9B60F198C41F7B3 /* Ding.aiff in Resources */,
+				B669E67102D4F351AF2431D5 /* Bubble.aiff in Resources */,
+				0061FA0719FBD08899EA238F /* Tap.aiff in Resources */,
+				3E75E0983E39F26A55B72F34 /* Harp.aiff in Resources */,
+				C123F95397C342BCF7A33082 /* Twinkle.aiff in Resources */,
+				1BF7BCABCAC665B04164B49B /* Ripple.aiff in Resources */,
+				44181B0E7296FDA0D973A6A8 /* Comet.aiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,6 +563,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A56EBB357C936B3611B0ED3 /* ActionButton.swift in Sources */,
+				0A1B2C3D4E5F6A7B8C9D0E1F /* PillButtonStyle.swift in Sources */,
 				B617CFC96A0B3D16B7C4076C /* AgentFileWatcher.swift in Sources */,
 				3082C77FD38A239D58BBE161 /* AlienMascot.swift in Sources */,
 				286F215E8831A0344D62077D /* AppDelegate.swift in Sources */,
@@ -517,6 +576,8 @@
 				18353AA41AEF3AC3A1B38205 /* ClosedStatePreview.swift in Sources */,
 				18B5F00C0FD359AB1C00D943 /* ConversationParser.swift in Sources */,
 				40D8AE096919D893F8F91B2C /* CrabMascot.swift in Sources */,
+				3E5A993262B8F2FCE9A973EB /* MuddyMascot.swift in Sources */,
+				D9F197B9A03A1E6952C5FE9C /* SproutMascot.swift in Sources */,
 				5F5D6804EFADF546E571C00B /* EventMonitor.swift in Sources */,
 				63B63D45CC6369FB63402D93 /* EventMonitors.swift in Sources */,
 				B256674DE1AF2B59D1868C16 /* Ext+NSScreen.swift in Sources */,
@@ -561,7 +622,6 @@
 				CA5A67DE51A0AC22DB315962 /* SpinnerPickerRow.swift in Sources */,
 				66AB6D33D08C467928B32172 /* StatusIcons.swift in Sources */,
 				FA267D41F9B4D72056F359EB /* TerminalAppRegistry.swift in Sources */,
-				0B4D409FCBEAAC4D417C9337 /* TerminalColors.swift in Sources */,
 				87EC16167869872425D8D96D /* TerminalVisibilityDetector.swift in Sources */,
 				0F3440B318C799605CF74543 /* TmuxController.swift in Sources */,
 				9BB3519A1FF23135709B3A76 /* TmuxPathFinder.swift in Sources */,

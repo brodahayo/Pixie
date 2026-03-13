@@ -11,11 +11,14 @@ struct ClaudeInstancesView: View {
     @ObservedObject var sessionMonitor: ClaudeSessionMonitor
     let onOpenChat: (String) -> Void
 
-    @State private var progressPhase: Int = 0
+    @State private var shimmerOffset: CGFloat = -1.0
     @State private var pulseOpacity: Double = 0.8
     @State private var timeRefresh: Date = Date()
 
-    private let progressTimer = Timer.publish(every: 0.4, on: .main, in: .common).autoconnect()
+    private var themeColor: Color {
+        MascotColorPreset.resolve(Settings.mascotColor)
+    }
+
     private let elapsedTimer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
 
     private var sortedInstances: [SessionState] {
@@ -41,15 +44,15 @@ struct ClaudeInstancesView: View {
                 .padding(.horizontal, 6)
                 .padding(.vertical, 4)
             }
-            .onReceive(progressTimer) { _ in
-                progressPhase += 1
-            }
             .onReceive(elapsedTimer) { date in
                 timeRefresh = date
             }
             .onAppear {
                 withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
                     pulseOpacity = 0.4
+                }
+                withAnimation(.linear(duration: 2.8).repeatForever(autoreverses: false)) {
+                    shimmerOffset = 1.0
                 }
             }
         }
@@ -106,14 +109,8 @@ struct ClaudeInstancesView: View {
                     .lineLimit(1)
             }
 
-            // Progress segments
-            HStack(spacing: 3) {
-                ForEach(0..<8, id: \.self) { segment in
-                    RoundedRectangle(cornerRadius: 1)
-                        .fill(phaseColor(session.phase).opacity(progressOpacity(segment: segment)))
-                        .frame(height: 3)
-                }
-            }
+            // Liquid shimmer progress
+            liquidShimmer(phase: session.phase)
 
             // Approval buttons (when waiting for approval)
             if case .waitingForApproval = session.phase,
@@ -206,16 +203,16 @@ struct ClaudeInstancesView: View {
 
     private func phaseColor(_ phase: SessionPhase) -> Color {
         switch phase {
-        case .processing, .compacting: return Color.green
+        case .processing, .compacting: return themeColor
         case .waitingForApproval: return Color.orange
-        case .waitingForInput: return Color.green
+        case .waitingForInput: return themeColor
         default: return Color(white: 0.4)
         }
     }
 
     private func statusBadgeInfo(_ phase: SessionPhase) -> (String, Color) {
         switch phase {
-        case .processing, .compacting: return ("LIVE", Color.green)
+        case .processing, .compacting: return ("LIVE", themeColor)
         case .waitingForApproval: return ("WAIT", Color.orange)
         case .waitingForInput: return ("DONE", Color.secondary)
         default: return ("IDLE", Color(white: 0.4))
@@ -229,9 +226,52 @@ struct ClaudeInstancesView: View {
         return minutes > 0 ? "\(minutes)m \(secs)s" : "\(secs)s"
     }
 
-    private func progressOpacity(segment: Int) -> Double {
-        let active = progressPhase % 3
-        return segment == active ? 1.0 : 0.15
+    @ViewBuilder
+    private func liquidShimmer(phase: SessionPhase) -> some View {
+        let isActive: Bool = {
+            switch phase {
+            case .processing, .compacting, .waitingForApproval: return true
+            default: return false
+            }
+        }()
+
+        GeometryReader { geo in
+            ZStack {
+                // Background tint
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(shimmerBaseColor(phase).opacity(isActive ? 0.18 : 0.08))
+
+                // Traveling glow (only for active states)
+                if isActive {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(
+                            LinearGradient(
+                                stops: [
+                                    .init(color: shimmerBaseColor(phase).opacity(0), location: 0),
+                                    .init(color: shimmerBaseColor(phase).opacity(0.5), location: 0.3),
+                                    .init(color: shimmerBaseColor(phase).opacity(0.9), location: 0.5),
+                                    .init(color: shimmerBaseColor(phase).opacity(0.5), location: 0.7),
+                                    .init(color: shimmerBaseColor(phase).opacity(0), location: 1.0),
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(width: geo.size.width * 0.35)
+                        .offset(x: shimmerOffset * geo.size.width * 0.7)
+                }
+            }
+        }
+        .frame(height: 4)
+        .clipShape(RoundedRectangle(cornerRadius: 2))
+    }
+
+    private func shimmerBaseColor(_ phase: SessionPhase) -> Color {
+        switch phase {
+        case .processing, .compacting, .waitingForInput: return themeColor
+        case .waitingForApproval: return Color.orange
+        default: return Color(white: 0.4)
+        }
     }
 
     private func panelGradientTop(_ phase: SessionPhase) -> Color {

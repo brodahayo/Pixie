@@ -92,7 +92,7 @@ struct ScreenPickerRow: View {
             HStack {
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 10))
-                    .foregroundColor(isSelected ? Color.green : Color(white: 0.4))
+                    .foregroundColor(isSelected ? MascotColorPreset.current : Color(white: 0.4))
 
                 Text(label)
                     .font(.system(size: 10))

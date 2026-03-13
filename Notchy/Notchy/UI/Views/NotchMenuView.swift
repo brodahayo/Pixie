@@ -41,7 +41,7 @@ struct NotchMenuView: View {
                     Spacer()
                     if isAccessibilityGranted {
                         Text("Granted")
-                            .foregroundColor(.green)
+                            .foregroundColor(MascotColorPreset.current)
                             .font(.system(size: 12))
                     } else {
                         Button("Grant") { openAccessibilitySettings() }
@@ -58,7 +58,7 @@ struct NotchMenuView: View {
                     Label("tmux", systemImage: "terminal")
                     Spacer()
                     Text(tmuxInstalled ? "Installed" : "Not Found")
-                        .foregroundColor(tmuxInstalled ? .green : .secondary)
+                        .foregroundColor(tmuxInstalled ? MascotColorPreset.current : .secondary)
                         .font(.system(size: 12))
                 }
 
@@ -76,7 +76,7 @@ struct NotchMenuView: View {
                     .foregroundColor(.accentColor)
                     .buttonStyle(.plain)
                     Text(hookStatus)
-                        .foregroundColor(.green)
+                        .foregroundColor(MascotColorPreset.current)
                         .font(.system(size: 12))
                 }
             }
