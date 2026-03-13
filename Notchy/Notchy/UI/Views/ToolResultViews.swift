@@ -51,21 +51,21 @@ private struct FilePathHeader: View {
     var body: some View {
         HStack(spacing: 4) {
             Image(systemName: icon)
-                .foregroundColor(TerminalColors.cyan)
-                .font(.system(size: 10, design: .monospaced))
+                .foregroundColor(Color.blue)
+                .font(.system(size: 10))
             Text(URL(fileURLWithPath: path).lastPathComponent)
-                .font(.system(size: 11, weight: .medium, design: .monospaced))
-                .foregroundColor(.white)
+                .font(.system(size: 11, weight: .medium))
+                .foregroundColor(.primary)
             if let detail {
                 Text(detail)
-                    .font(.system(size: 10, design: .monospaced))
-                    .foregroundColor(TerminalColors.dim)
+                    .font(.system(size: 10))
+                    .foregroundColor(Color.secondary)
             }
             Spacer()
         }
         .padding(.horizontal, 6)
         .padding(.vertical, 3)
-        .background(TerminalColors.background)
+        .background(Color.white.opacity(0.05))
         .cornerRadius(4)
     }
 }
@@ -87,7 +87,7 @@ private struct FileListView: View {
                 if files.count > maxVisible {
                     Text("... and \(files.count - maxVisible) more")
                         .font(.system(size: 10, design: .monospaced))
-                        .foregroundColor(TerminalColors.dim)
+                        .foregroundColor(Color.secondary)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -154,9 +154,9 @@ struct EditResultView: View {
                     ) { _, line in
                         HStack(spacing: 0) {
                             Text("- ")
-                                .foregroundColor(TerminalColors.red)
+                                .foregroundColor(Color.red)
                             Text(line)
-                                .foregroundColor(TerminalColors.red.opacity(0.8))
+                                .foregroundColor(Color.red.opacity(0.8))
                         }
                         .font(.system(size: 10, design: .monospaced))
                     }
@@ -166,9 +166,9 @@ struct EditResultView: View {
                     ) { _, line in
                         HStack(spacing: 0) {
                             Text("+ ")
-                                .foregroundColor(TerminalColors.green)
+                                .foregroundColor(Color.green)
                             Text(line)
-                                .foregroundColor(TerminalColors.green.opacity(0.8))
+                                .foregroundColor(Color.green.opacity(0.8))
                         }
                         .font(.system(size: 10, design: .monospaced))
                     }
@@ -217,11 +217,11 @@ struct BashResultView: View {
             if result.interrupted {
                 HStack(spacing: 4) {
                     Image(systemName: "exclamationmark.triangle")
-                        .foregroundColor(TerminalColors.amber)
-                        .font(.system(size: 10, design: .monospaced))
+                        .foregroundColor(Color.orange)
+                        .font(.system(size: 10))
                     Text("Interrupted")
-                        .font(.system(size: 11, weight: .medium, design: .monospaced))
-                        .foregroundColor(TerminalColors.amber)
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundColor(Color.orange)
                 }
             }
 
@@ -250,11 +250,11 @@ struct GrepResultView: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 4) {
                 Image(systemName: "magnifyingglass")
-                    .foregroundColor(TerminalColors.cyan)
-                    .font(.system(size: 10, design: .monospaced))
+                    .foregroundColor(Color.blue)
+                    .font(.system(size: 10))
                 Text("\(result.numFiles) file\(result.numFiles == 1 ? "" : "s")")
-                    .font(.system(size: 11, weight: .medium, design: .monospaced))
-                    .foregroundColor(.white)
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.primary)
                 Spacer()
             }
 
@@ -285,15 +285,15 @@ struct GlobResultView: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 4) {
                 Image(systemName: "folder")
-                    .foregroundColor(TerminalColors.cyan)
-                    .font(.system(size: 10, design: .monospaced))
+                    .foregroundColor(Color.blue)
+                    .font(.system(size: 10))
                 Text("\(result.numFiles) file\(result.numFiles == 1 ? "" : "s")")
-                    .font(.system(size: 11, weight: .medium, design: .monospaced))
-                    .foregroundColor(.white)
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.primary)
                 if result.truncated {
                     Text("(truncated)")
-                        .font(.system(size: 10, design: .monospaced))
-                        .foregroundColor(TerminalColors.amber)
+                        .font(.system(size: 10))
+                        .foregroundColor(Color.orange)
                 }
                 Spacer()
             }
@@ -314,16 +314,16 @@ struct WebFetchResultView: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 4) {
                 Image(systemName: "globe")
-                    .foregroundColor(TerminalColors.blue)
-                    .font(.system(size: 10, design: .monospaced))
+                    .foregroundColor(Color.blue)
+                    .font(.system(size: 10))
                 Text(result.url)
                     .font(.system(size: 10, design: .monospaced))
-                    .foregroundColor(TerminalColors.blue)
+                    .foregroundColor(Color.blue)
                     .lineLimit(1)
                 Spacer()
                 Text("\(result.code)")
                     .font(.system(size: 10, weight: .medium, design: .monospaced))
-                    .foregroundColor(result.code == 200 ? TerminalColors.green : TerminalColors.red)
+                    .foregroundColor(result.code == 200 ? Color.green : Color.red)
             }
 
             if !result.result.isEmpty {
@@ -349,23 +349,23 @@ struct WebSearchResultView: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 4) {
                 Image(systemName: "magnifyingglass")
-                    .foregroundColor(TerminalColors.blue)
-                    .font(.system(size: 10, design: .monospaced))
+                    .foregroundColor(Color.blue)
+                    .font(.system(size: 10))
                 Text(result.query)
-                    .font(.system(size: 11, weight: .medium, design: .monospaced))
-                    .foregroundColor(.white)
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.primary)
                     .lineLimit(1)
                 Spacer()
                 Text("\(result.results.count) results")
-                    .font(.system(size: 10, design: .monospaced))
-                    .foregroundColor(TerminalColors.dim)
+                    .font(.system(size: 10))
+                    .foregroundColor(Color.secondary)
             }
 
             ForEach(Array(result.results.prefix(5).enumerated()), id: \.offset) { _, item in
                 VStack(alignment: .leading, spacing: 1) {
                     Text(item.title)
-                        .font(.system(size: 10, weight: .medium, design: .monospaced))
-                        .foregroundColor(TerminalColors.blue)
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundColor(Color.blue)
                         .lineLimit(1)
                     Text(item.snippet)
                         .font(.system(size: 10, design: .monospaced))
@@ -386,7 +386,7 @@ struct TaskResultView: View {
     var body: some View {
         HStack(spacing: 6) {
             Text(result.status.capitalized)
-                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                .font(.system(size: 10, weight: .medium))
                 .foregroundColor(statusColor)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 2)
@@ -395,8 +395,8 @@ struct TaskResultView: View {
 
             if let prompt = result.prompt {
                 Text(prompt)
-                    .font(.system(size: 10, design: .monospaced))
-                    .foregroundColor(Color(white: 0.53))
+                    .font(.system(size: 10))
+                    .foregroundColor(Color.secondary)
                     .lineLimit(2)
             }
 
@@ -404,18 +404,18 @@ struct TaskResultView: View {
 
             if let tokens = result.totalTokens {
                 Text("\(tokens) tokens")
-                    .font(.system(size: 9, design: .monospaced))
-                    .foregroundColor(TerminalColors.dim)
+                    .font(.system(size: 9))
+                    .foregroundColor(Color.secondary)
             }
         }
     }
 
     private var statusColor: Color {
         switch result.status.lowercased() {
-        case "completed", "done": return TerminalColors.green
-        case "error", "failed": return TerminalColors.red
-        case "running": return TerminalColors.amber
-        default: return TerminalColors.dim
+        case "completed", "done": return Color.green
+        case "error", "failed": return Color.red
+        case "running": return Color.orange
+        default: return Color.secondary
         }
     }
 }
@@ -431,7 +431,7 @@ struct TodoWriteResultView: View {
                 HStack(spacing: 4) {
                     Image(systemName: todoIcon(item.status))
                         .foregroundColor(todoColor(item.status))
-                        .font(.system(size: 10, design: .monospaced))
+                        .font(.system(size: 10))
                     Text(item.content)
                         .font(.system(size: 10, design: .monospaced))
                         .foregroundColor(Color.white.opacity(0.85))
@@ -451,9 +451,9 @@ struct TodoWriteResultView: View {
 
     private func todoColor(_ status: String) -> Color {
         switch status {
-        case "completed": return TerminalColors.green
-        case "in_progress": return TerminalColors.amber
-        default: return TerminalColors.dim
+        case "completed": return Color.green
+        case "in_progress": return Color.orange
+        default: return Color.secondary
         }
     }
 }
@@ -467,16 +467,16 @@ struct AskUserQuestionResultView: View {
         VStack(alignment: .leading, spacing: 4) {
             ForEach(Array(result.questions.enumerated()), id: \.offset) { _, q in
                 Text(q.question)
-                    .font(.system(size: 11, design: .monospaced))
-                    .foregroundColor(.white)
+                    .font(.system(size: 11))
+                    .foregroundColor(.primary)
             }
 
             Text("Answer in terminal")
-                .font(.system(size: 10, weight: .medium, design: .monospaced))
-                .foregroundColor(TerminalColors.amber)
+                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(Color.orange)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 2)
-                .background(TerminalColors.amber.opacity(0.1))
+                .background(Color.orange.opacity(0.1))
                 .cornerRadius(3)
         }
     }
@@ -491,15 +491,15 @@ struct BashOutputResultView: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 4) {
                 Text("Shell \(result.shellId)")
-                    .font(.system(size: 10, weight: .medium, design: .monospaced))
-                    .foregroundColor(TerminalColors.cyan)
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(Color.blue)
                 Text(result.status)
-                    .font(.system(size: 10, design: .monospaced))
-                    .foregroundColor(TerminalColors.dim)
+                    .font(.system(size: 10))
+                    .foregroundColor(Color.secondary)
                 if let exitCode = result.exitCode {
                     Text("(\(exitCode))")
                         .font(.system(size: 10, design: .monospaced))
-                        .foregroundColor(exitCode == 0 ? TerminalColors.green : TerminalColors.red)
+                        .foregroundColor(exitCode == 0 ? Color.green : Color.red)
                 }
                 Spacer()
             }
@@ -526,8 +526,8 @@ struct KillShellResultView: View {
     var body: some View {
         HStack(spacing: 4) {
             Image(systemName: "xmark.circle")
-                .foregroundColor(TerminalColors.red)
-                .font(.system(size: 10, design: .monospaced))
+                .foregroundColor(Color.red)
+                .font(.system(size: 10))
             Text(result.message)
                 .font(.system(size: 10, design: .monospaced))
                 .foregroundColor(Color(white: 0.53))
@@ -543,15 +543,15 @@ struct ExitPlanModeResultView: View {
     var body: some View {
         HStack(spacing: 4) {
             Image(systemName: "list.bullet.clipboard")
-                .foregroundColor(TerminalColors.green)
-                .font(.system(size: 10, design: .monospaced))
+                .foregroundColor(Color.green)
+                .font(.system(size: 10))
             Text("Plan ready")
-                .font(.system(size: 10, weight: .medium, design: .monospaced))
-                .foregroundColor(TerminalColors.green)
+                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(Color.green)
             if result.isAgent {
                 Text("(agent)")
-                    .font(.system(size: 9, design: .monospaced))
-                    .foregroundColor(TerminalColors.dim)
+                    .font(.system(size: 9))
+                    .foregroundColor(Color.secondary)
             }
         }
     }
@@ -566,11 +566,11 @@ struct MCPToolResultView: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 4) {
                 Image(systemName: "server.rack")
-                    .foregroundColor(TerminalColors.magenta)
-                    .font(.system(size: 10, design: .monospaced))
+                    .foregroundColor(Color.purple)
+                    .font(.system(size: 10))
                 Text("\(result.serverName):\(result.toolName)")
-                    .font(.system(size: 10, weight: .medium, design: .monospaced))
-                    .foregroundColor(TerminalColors.magenta)
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(Color.purple)
                 Spacer()
             }
 
