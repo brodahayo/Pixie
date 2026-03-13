@@ -12,7 +12,7 @@ struct WaitingForInputIcon: View {
     let size: CGFloat
     let color: Color
 
-    init(size: CGFloat = 12, color: Color = TerminalColors.green) {
+    init(size: CGFloat = 12, color: Color = .green) {
         self.size = size
         self.color = color
     }
@@ -75,7 +75,7 @@ struct WaitingForApprovalIcon: View {
     let size: CGFloat
     let color: Color
 
-    init(size: CGFloat = 12, color: Color = TerminalColors.amber) {
+    init(size: CGFloat = 12, color: Color = .orange) {
         self.size = size
         self.color = color
     }
@@ -117,7 +117,7 @@ struct RunningIcon: View {
     let color: Color
     @State private var rotation: Double = 0
 
-    init(size: CGFloat = 12, color: Color = TerminalColors.cyan) {
+    init(size: CGFloat = 12, color: Color = .blue) {
         self.size = size
         self.color = color
     }
@@ -169,7 +169,7 @@ struct RunningIcon: View {
             }
         }
         .frame(width: size, height: size)
-        .shadow(color: TerminalColors.glow, radius: 4)
+        .shadow(color: Color.white.opacity(0.15), radius: 4)
         .rotationEffect(.degrees(rotation))
         .onAppear {
             withAnimation(
@@ -187,7 +187,7 @@ struct IdleIcon: View {
     let size: CGFloat
     let color: Color
 
-    init(size: CGFloat = 12, color: Color = TerminalColors.dim) {
+    init(size: CGFloat = 12, color: Color = .secondary) {
         self.size = size
         self.color = color
     }
