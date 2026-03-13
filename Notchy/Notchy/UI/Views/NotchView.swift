@@ -62,24 +62,10 @@ struct NotchView: View {
         )
     }
 
-    /// Extra width for expanding activities (like Dynamic Island)
+    /// Extra width — always expanded well beyond the physical camera notch
     private var expansionWidth: CGFloat {
-        let baseWidth = 2 * max(0, closedNotchSize.height - 12) + 20
-
-        if activityCoordinator.expandingActivity.show {
-            switch activityCoordinator.expandingActivity.type {
-            case .claude:
-                return baseWidth
-            case .none:
-                break
-            }
-        }
-
-        if hasPendingPermission || hasWaitingForInput {
-            return baseWidth
-        }
-
-        return 0
+        // Expand significantly on each side so mascot + indicators are clearly visible
+        return closedNotchSize.width * 0.8
     }
 
     private var notchSize: CGSize {
@@ -244,7 +230,7 @@ struct NotchView: View {
             if viewModel.status == .opened {
                 openedHeaderContent
             } else if !showClosedActivity {
-                // Idle state: mascot on left side (camera in center of notch)
+                // Idle state: same width as active — mascot left, black fill center, empty right
                 MascotIcon(size: 14)
                     .opacity(breatheOpacity)
                     .shadow(color: TerminalColors.glow.opacity(breatheOpacity * 0.6), radius: 6)
@@ -259,9 +245,14 @@ struct NotchView: View {
                         breatheOpacity = 0.35
                     }
 
-                // Fill remaining notch width (no expansion)
-                Spacer()
-                    .frame(width: closedNotchSize.width - sideWidth - cornerRadiusInsets.closed.top)
+                // Black fill over the physical camera area
+                Rectangle()
+                    .fill(.black)
+                    .frame(width: closedNotchSize.width - cornerRadiusInsets.closed.top)
+
+                // Empty right side to match active state width
+                Color.clear
+                    .frame(width: sideWidth)
             } else {
                 Rectangle()
                     .fill(.black)
