@@ -65,23 +65,19 @@ struct ClaudeInstancesView: View {
             // Top row: project name + badge
             HStack(alignment: .center, spacing: 0) {
                 Text(session.projectName)
-                    .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .font(.system(size: 12, weight: .semibold))
                     .foregroundColor(.white)
                     .lineLimit(1)
 
                 Spacer()
 
                 Text(badgeLabel)
-                    .font(.system(size: 8, weight: .bold, design: .monospaced))
+                    .font(.system(size: 10, weight: .semibold))
                     .foregroundColor(badgeColor)
-                    .padding(.horizontal, 5)
+                    .padding(.horizontal, 8)
                     .padding(.vertical, 2)
                     .background(badgeColor.opacity(0.15))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 3)
-                            .strokeBorder(badgeColor.opacity(0.4), lineWidth: 1)
-                    )
-                    .cornerRadius(3)
+                    .clipShape(Capsule())
             }
 
             // Status row: dot + phase label + elapsed time
@@ -92,12 +88,12 @@ struct ClaudeInstancesView: View {
                     .opacity(pulseOpacity)
 
                 Text(phaseLabel(session.phase))
-                    .font(.system(size: 10, design: .monospaced))
+                    .font(.system(size: 10))
                     .foregroundColor(phaseColor(session.phase))
 
                 Text("· \(elapsedString(since: session.createdAt))")
-                    .font(.system(size: 10, design: .monospaced))
-                    .foregroundColor(TerminalColors.dim)
+                    .font(.system(size: 10))
+                    .foregroundColor(Color.secondary)
 
                 Spacer()
             }
@@ -106,7 +102,7 @@ struct ClaudeInstancesView: View {
             if let lastTool = session.lastToolName {
                 Text("last: \(lastTool)")
                     .font(.system(size: 9, design: .monospaced))
-                    .foregroundColor(TerminalColors.dimmer)
+                    .foregroundColor(Color(white: 0.4))
                     .lineLimit(1)
             }
 
@@ -156,13 +152,13 @@ struct ClaudeInstancesView: View {
             if let toolName = session.pendingToolName {
                 Text(toolName)
                     .font(.system(size: 9, weight: .medium, design: .monospaced))
-                    .foregroundColor(TerminalColors.amber)
+                    .foregroundColor(Color.orange)
                     .lineLimit(1)
             }
 
             Spacer()
 
-            Button {
+            Button("Allow") {
                 Task {
                     await ToolApprovalHandler.shared.approve(
                         sessionId: session.sessionId,
@@ -170,22 +166,10 @@ struct ClaudeInstancesView: View {
                         pid: session.pid
                     )
                 }
-            } label: {
-                Text("ALLOW")
-                    .font(.system(size: 8, weight: .bold, design: .monospaced))
-                    .foregroundColor(TerminalColors.prompt)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 4)
-                    .background(TerminalColors.prompt.opacity(0.12))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 4)
-                            .strokeBorder(TerminalColors.prompt, lineWidth: 1)
-                    )
-                    .cornerRadius(4)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(PillButtonStyle(isPrimary: true, isSmall: true))
 
-            Button {
+            Button("Deny") {
                 Task {
                     await ToolApprovalHandler.shared.deny(
                         sessionId: session.sessionId,
@@ -194,20 +178,8 @@ struct ClaudeInstancesView: View {
                         pid: session.pid
                     )
                 }
-            } label: {
-                Text("DENY")
-                    .font(.system(size: 8, weight: .bold, design: .monospaced))
-                    .foregroundColor(TerminalColors.red)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 4)
-                    .background(TerminalColors.red.opacity(0.12))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 4)
-                            .strokeBorder(TerminalColors.red, lineWidth: 1)
-                    )
-                    .cornerRadius(4)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(PillButtonStyle(isPrimary: false, isSmall: true))
         }
     }
 
@@ -215,8 +187,8 @@ struct ClaudeInstancesView: View {
 
     private var emptyState: some View {
         Text("No active sessions")
-            .font(.system(size: 12, design: .monospaced))
-            .foregroundColor(TerminalColors.dimmer)
+            .font(.system(size: 12))
+            .foregroundColor(Color(white: 0.4))
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
@@ -234,19 +206,19 @@ struct ClaudeInstancesView: View {
 
     private func phaseColor(_ phase: SessionPhase) -> Color {
         switch phase {
-        case .processing, .compacting: return TerminalColors.prompt
-        case .waitingForApproval: return TerminalColors.amber
-        case .waitingForInput: return TerminalColors.prompt
-        default: return TerminalColors.dimmer
+        case .processing, .compacting: return Color.green
+        case .waitingForApproval: return Color.orange
+        case .waitingForInput: return Color.green
+        default: return Color(white: 0.4)
         }
     }
 
     private func statusBadgeInfo(_ phase: SessionPhase) -> (String, Color) {
         switch phase {
-        case .processing, .compacting: return ("LIVE", TerminalColors.prompt)
-        case .waitingForApproval: return ("WAIT", TerminalColors.amber)
-        case .waitingForInput: return ("DONE", TerminalColors.prompt)
-        default: return ("IDLE", TerminalColors.dimmer)
+        case .processing, .compacting: return ("LIVE", Color.green)
+        case .waitingForApproval: return ("WAIT", Color.orange)
+        case .waitingForInput: return ("DONE", Color.secondary)
+        default: return ("IDLE", Color(white: 0.4))
         }
     }
 
@@ -264,15 +236,15 @@ struct ClaudeInstancesView: View {
 
     private func panelGradientTop(_ phase: SessionPhase) -> Color {
         switch phase {
-        case .waitingForApproval: return Color(red: 1.0, green: 0.67, blue: 0.0).opacity(0.03)
-        default: return TerminalColors.surface
+        case .waitingForApproval: return Color.orange.opacity(0.05)
+        default: return Color.white.opacity(0.03)
         }
     }
 
     private func panelBorderColor(_ phase: SessionPhase) -> Color {
         switch phase {
-        case .waitingForApproval: return TerminalColors.amber.opacity(0.13)
-        default: return TerminalColors.border
+        case .waitingForApproval: return Color.orange.opacity(0.13)
+        default: return Color(NSColor.separatorColor)
         }
     }
 
