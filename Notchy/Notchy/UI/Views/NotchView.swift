@@ -221,7 +221,7 @@ struct NotchView: View {
         HStack(spacing: 0) {
             if showClosedActivity {
                 // Left side: crab only
-                MascotIcon(size: 14, animate: isProcessing)
+                MascotIcon(size: 18, animate: isProcessing)
                     .shadow(color: TerminalColors.glow, radius: 6)
                     .matchedGeometryEffect(id: "crab", in: activityNamespace, isSource: showClosedActivity)
                     .frame(
@@ -234,7 +234,7 @@ struct NotchView: View {
                 openedHeaderContent
             } else if !showClosedActivity {
                 // Idle state: same width as active — mascot left, black fill center, zzZ right
-                MascotIcon(size: 14)
+                MascotIcon(size: 18)
                     .opacity(breatheOpacity)
                     .shadow(color: TerminalColors.glow.opacity(breatheOpacity * 0.6), radius: 6)
                     .matchedGeometryEffect(id: "crab", in: activityNamespace, isSource: !showClosedActivity)
@@ -329,23 +329,27 @@ struct NotchView: View {
 
     // MARK: - Sleep zzZ Indicator
 
+    private var mascotColor: Color {
+        MascotColorPreset.resolve(Settings.mascotColor)
+    }
+
     private var sleepZzzView: some View {
         TimelineView(.periodic(from: .now, by: 0.6)) { timeline in
             let phase = Int(timeline.date.timeIntervalSince1970 / 0.6) % 4
             HStack(spacing: 1) {
                 Text("z")
                     .font(.system(size: 7, weight: .bold, design: .monospaced))
-                    .foregroundColor(TerminalColors.prompt)
+                    .foregroundColor(mascotColor)
                     .opacity(phase >= 1 ? 0.4 : 0.15)
                 Text("z")
                     .font(.system(size: 9, weight: .bold, design: .monospaced))
-                    .foregroundColor(TerminalColors.prompt)
+                    .foregroundColor(mascotColor)
                     .opacity(phase >= 2 ? 0.6 : 0.15)
                 Text("Z")
                     .font(.system(size: 11, weight: .bold, design: .monospaced))
-                    .foregroundColor(TerminalColors.prompt)
+                    .foregroundColor(mascotColor)
                     .opacity(phase >= 3 ? 0.9 : 0.15)
-                    .shadow(color: phase >= 3 ? TerminalColors.glow : .clear, radius: 4)
+                    .shadow(color: phase >= 3 ? mascotColor.opacity(0.4) : .clear, radius: 4)
             }
         }
     }
@@ -356,7 +360,7 @@ struct NotchView: View {
     private var openedHeaderContent: some View {
         HStack(spacing: 12) {
             if !showClosedActivity {
-                MascotIcon(size: 14)
+                MascotIcon(size: 18)
                     .matchedGeometryEffect(
                         id: "crab",
                         in: activityNamespace,
@@ -472,12 +476,11 @@ struct NotchView: View {
         let currentIds = Set(sessions.map { $0.stableId })
         let newPendingIds = currentIds.subtracting(previousPendingIds)
 
-        if !newPendingIds.isEmpty
-            && viewModel.status == .closed
-            && !TerminalVisibilityDetector.isTerminalVisibleOnCurrentSpace()
-        {
+        if !newPendingIds.isEmpty {
             NSSound(named: Settings.notificationSound)?.play()
-            viewModel.notchOpen(reason: .notification)
+            if viewModel.status == .closed {
+                viewModel.notchOpen(reason: .notification)
+            }
         }
 
         previousPendingIds = currentIds

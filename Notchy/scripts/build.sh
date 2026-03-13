@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
-echo "Building Notchy..."
+echo "Building Pixie..."
 
 cd "$PROJECT_DIR"
 
@@ -15,10 +15,10 @@ fi
 
 # Build
 xcodebuild \
-    -project Notchy.xcodeproj \
-    -scheme Notchy \
+    -project Pixie.xcodeproj \
+    -scheme Pixie \
     -configuration Release \
     -derivedDataPath build \
     build
 
-echo "Build complete: build/Build/Products/Release/Notchy.app"
+echo "Build complete: build/Build/Products/Release/Pixie.app"

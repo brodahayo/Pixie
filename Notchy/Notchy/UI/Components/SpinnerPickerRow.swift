@@ -107,7 +107,7 @@ private struct SpinnerPreview: View {
     let style: SpinnerStyle
     @State private var phase: Int = 0
 
-    private let color = TerminalColors.prompt
+    private var color: Color { MascotColorPreset.resolve(Settings.mascotColor) }
     private let timer = Timer.publish(every: 0.15, on: .main, in: .common).autoconnect()
 
     var body: some View {

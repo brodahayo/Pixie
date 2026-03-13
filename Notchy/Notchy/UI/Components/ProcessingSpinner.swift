@@ -64,7 +64,7 @@ enum SpinnerStyle: String, CaseIterable, Sendable {
 struct ProcessingSpinner: View {
     @State private var phase: Int = 0
 
-    private let color = TerminalColors.prompt
+    private var color: Color { MascotColorPreset.resolve(Settings.mascotColor) }
     private let timer = Timer.publish(every: 0.15, on: .main, in: .common).autoconnect()
 
     private var style: SpinnerStyle {

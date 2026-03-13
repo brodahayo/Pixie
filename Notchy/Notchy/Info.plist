@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key>
-    <string>Notchy</string>
+    <string>Pixie</string>
     <key>CFBundleIdentifier</key>
-    <string>com.notchy.app</string>
+    <string>com.pixie.app</string>
     <key>CFBundleVersion</key>
     <string>1</string>
     <key>CFBundleShortVersionString</key>
@@ -13,13 +13,13 @@
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleExecutable</key>
-    <string>Notchy</string>
+    <string>Pixie</string>
     <key>LSUIElement</key>
     <true/>
     <key>LSMinimumSystemVersion</key>
     <string>15.6</string>
     <key>SUFeedURL</key>
-    <string>https://github.com/brodahayo/Notchy/releases/latest/download/appcast.xml</string>
+    <string>https://github.com/brodahayo/Pixie/releases/latest/download/appcast.xml</string>
     <key>SUPublicEDKey</key>
     <string>PLACEHOLDER</string>
 </dict>

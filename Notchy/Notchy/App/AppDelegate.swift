@@ -10,7 +10,7 @@ import AppKit
 import os.log
 import Sparkle
 
-private let logger = Logger(subsystem: "com.notchy.app", category: "AppDelegate")
+private let logger = Logger(subsystem: "com.pixie.app", category: "AppDelegate")
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     @MainActor static var shared: AppDelegate?
@@ -29,7 +29,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        logger.info("Notchy starting up")
+        logger.info("Pixie starting up")
 
         // 1. Check accessibility
         checkAccessibility()
@@ -77,12 +77,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         logger.info("Sparkle updater initialized")
 
-        logger.info("Notchy startup complete")
+        logger.info("Pixie startup complete")
     }
 
     func applicationWillTerminate(_ notification: Notification) {
         HookSocketServer.shared.stop()
-        logger.info("Notchy shutting down")
+        logger.info("Pixie shutting down")
     }
 
     // MARK: - Private

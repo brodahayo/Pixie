@@ -255,7 +255,7 @@ struct NotchMenuView: View {
 
     private var githubRow: some View {
         Button {
-            if let url = URL(string: "https://github.com/brodahayo/Notchy") {
+            if let url = URL(string: "https://github.com/brodahayo/Pixie") {
                 NSWorkspace.shared.open(url)
             }
         } label: {
@@ -290,7 +290,7 @@ struct NotchMenuView: View {
                 Image(systemName: "xmark.circle")
                     .font(.system(size: 11, design: .monospaced))
                     .foregroundColor(TerminalColors.red)
-                Text("Quit Notchy")
+                Text("Quit Pixie")
                     .font(.system(size: 11, design: .monospaced))
                     .foregroundColor(.white)
                 Spacer()
