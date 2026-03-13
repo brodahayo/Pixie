@@ -83,15 +83,15 @@ struct ChatView: View {
         HStack {
             Spacer(minLength: 40)
             Text(text)
-                .font(.system(size: 11, design: .monospaced))
+                .font(.system(size: 12))
                 .foregroundColor(.white)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 6)
-                .background(TerminalColors.prompt.opacity(0.06))
+                .background(Color.accentColor.opacity(0.06))
                 .cornerRadius(12)
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(TerminalColors.border, lineWidth: 1)
+                        .strokeBorder(Color(nsColor: .separatorColor), lineWidth: 1)
                 )
         }
     }
@@ -128,31 +128,31 @@ struct ChatView: View {
                     // Tool name
                     Text(tool.name)
                         .font(.system(size: 10, weight: .medium, design: .monospaced))
-                        .foregroundColor(TerminalColors.cyan)
+                        .foregroundColor(Color.blue)
 
                     // Input preview
                     Text(tool.inputPreview)
                         .font(.system(size: 10, design: .monospaced))
-                        .foregroundColor(TerminalColors.dim)
+                        .foregroundColor(Color.secondary)
                         .lineLimit(1)
 
                     Spacer()
 
                     // Status text
                     Text(tool.statusDisplay.text)
-                        .font(.system(size: 9, design: .monospaced))
-                        .foregroundColor(TerminalColors.dim)
+                        .font(.system(size: 9))
+                        .foregroundColor(Color.secondary)
 
                     // Expand indicator
                     if tool.structuredResult != nil || tool.result != nil {
                         Image(systemName: expandedTools.contains(itemId) ? "chevron.down" : "chevron.right")
-                            .font(.system(size: 8, design: .monospaced))
-                            .foregroundColor(TerminalColors.dimmer)
+                            .font(.system(size: 8))
+                            .foregroundColor(Color(white: 0.4))
                     }
                 }
                 .padding(.vertical, 3)
                 .padding(.horizontal, 6)
-                .background(TerminalColors.background)
+                .background(Color.white.opacity(0.05))
                 .cornerRadius(4)
             }
             .buttonStyle(.plain)
@@ -185,7 +185,7 @@ struct ChatView: View {
                                 .scaleEffect(0.7)
                             Text(subTool.displayText)
                                 .font(.system(size: 9, design: .monospaced))
-                                .foregroundColor(TerminalColors.dim)
+                                .foregroundColor(Color.secondary)
                                 .lineLimit(1)
                         }
                     }
@@ -213,11 +213,11 @@ struct ChatView: View {
 
     private func statusColor(_ status: ToolStatus) -> Color {
         switch status {
-        case .running: return TerminalColors.cyan
-        case .waitingForApproval: return TerminalColors.amber
-        case .success: return TerminalColors.green
-        case .error: return TerminalColors.red
-        case .interrupted: return TerminalColors.amber
+        case .running: return Color.blue
+        case .waitingForApproval: return Color.orange
+        case .success: return Color.green
+        case .error: return Color.red
+        case .interrupted: return Color.orange
         }
     }
 
@@ -236,19 +236,19 @@ struct ChatView: View {
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: showThinking.contains(itemId) ? "chevron.down" : "chevron.right")
-                        .font(.system(size: 8, design: .monospaced))
-                        .foregroundColor(TerminalColors.dimmer)
+                        .font(.system(size: 8))
+                        .foregroundColor(Color(white: 0.4))
                     Text("Thinking...")
-                        .font(.system(size: 10, design: .monospaced).italic())
-                        .foregroundColor(TerminalColors.dim)
+                        .font(.system(size: 11).italic())
+                        .foregroundColor(Color.secondary)
                 }
             }
             .buttonStyle(.plain)
 
             if showThinking.contains(itemId) {
                 Text(text)
-                    .font(.system(size: 10, design: .monospaced).italic())
-                    .foregroundColor(TerminalColors.dim.opacity(0.7))
+                    .font(.system(size: 11).italic())
+                    .foregroundColor(Color.secondary.opacity(0.7))
                     .padding(.leading, 12)
                     .transition(.opacity)
             }
@@ -261,10 +261,10 @@ struct ChatView: View {
         HStack(spacing: 4) {
             Image(systemName: "hand.raised.fill")
                 .font(.system(size: 9))
-                .foregroundColor(TerminalColors.amber)
+                .foregroundColor(Color.orange)
             Text("Interrupted")
-                .font(.system(size: 10, weight: .medium, design: .monospaced))
-                .foregroundColor(TerminalColors.amber)
+                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(Color.orange)
         }
         .padding(.vertical, 2)
     }
@@ -279,19 +279,19 @@ struct ChatView: View {
                 // Tool info
                 HStack(spacing: 4) {
                     Text(permission.toolName)
-                        .font(.system(size: 10, weight: .medium, design: .monospaced))
-                        .foregroundColor(TerminalColors.amber)
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(Color.orange)
                     if let input = permission.formattedInput {
                         Text(String(input.prefix(80)))
                             .font(.system(size: 9, design: .monospaced))
-                            .foregroundColor(TerminalColors.dim)
+                            .foregroundColor(Color.secondary)
                             .lineLimit(1)
                     }
                 }
 
                 // Buttons
                 HStack(spacing: 8) {
-                    Button {
+                    Button("Allow") {
                         Task {
                             await ToolApprovalHandler.shared.approve(
                                 sessionId: session.sessionId,
@@ -299,22 +299,10 @@ struct ChatView: View {
                                 pid: session.pid
                             )
                         }
-                    } label: {
-                        Text("Allow")
-                            .font(.system(size: 11, weight: .medium, design: .monospaced))
-                            .foregroundColor(TerminalColors.prompt)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 4)
-                            .background(TerminalColors.prompt.opacity(0.12))
-                            .cornerRadius(8)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .strokeBorder(TerminalColors.prompt, lineWidth: 1)
-                            )
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(PillButtonStyle(isPrimary: true, isSmall: true))
 
-                    Button {
+                    Button("Deny") {
                         Task {
                             await ToolApprovalHandler.shared.deny(
                                 sessionId: session.sessionId,
@@ -323,20 +311,8 @@ struct ChatView: View {
                                 pid: session.pid
                             )
                         }
-                    } label: {
-                        Text("Deny")
-                            .font(.system(size: 11, weight: .medium, design: .monospaced))
-                            .foregroundColor(TerminalColors.red)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 4)
-                            .background(TerminalColors.red.opacity(0.12))
-                            .cornerRadius(8)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .strokeBorder(TerminalColors.red, lineWidth: 1)
-                            )
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(PillButtonStyle(isPrimary: false, isSmall: true))
 
                     Spacer()
                 }
@@ -356,7 +332,7 @@ struct ChatView: View {
             HStack(spacing: 6) {
                 TextField("Send message...", text: $messageText)
                     .textFieldStyle(.plain)
-                    .font(.system(size: 11, design: .monospaced))
+                    .font(.system(size: 12))
                     .foregroundColor(.white)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 5)
@@ -371,7 +347,7 @@ struct ChatView: View {
                 } label: {
                     Image(systemName: "arrow.up.circle.fill")
                         .font(.system(size: 16))
-                        .foregroundColor(messageText.isEmpty ? TerminalColors.dimmer : TerminalColors.prompt)
+                        .foregroundColor(messageText.isEmpty ? Color(white: 0.4) : Color.accentColor)
                 }
                 .buttonStyle(.plain)
                 .disabled(messageText.isEmpty)
