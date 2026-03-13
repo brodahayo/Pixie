@@ -33,3 +33,7 @@ Pixie lives in your MacBook's notch and keeps you updated on what Claude Code is
 - SwiftUI + AppKit
 - Canvas API for pixel art rendering
 - Sparkle for auto-updates
+
+---
+
+*Inspired by [Claude Island](https://claude.ai/island)*
