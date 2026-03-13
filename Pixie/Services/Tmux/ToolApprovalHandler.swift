@@ -37,23 +37,25 @@ actor ToolApprovalHandler {
         await respond(sessionId: sessionId, toolUseId: toolUseId, decision: "deny", reason: reason, pid: pid)
     }
 
-    /// Send a message to a Claude session via tmux
+    /// Send a message to a Claude session via tmux or terminal fallback
     /// - Parameters:
     ///   - message: The message to send
     ///   - pid: The Claude process PID
     func sendMessage(_ message: String, toPid pid: Int) async -> Bool {
-        guard let target = await TmuxTargetFinder.shared.findTarget(forClaudePid: pid) else {
-            Self.logger.warning("Cannot send message: no tmux target for PID \(pid)")
-            return false
+        // Path 1: Try tmux send-keys (for tmux sessions)
+        if let target = await TmuxTargetFinder.shared.findTarget(forClaudePid: pid) {
+            let escapedMessage = message
+                .replacingOccurrences(of: "\\", with: "\\\\")
+                .replacingOccurrences(of: "\"", with: "\\\"")
+                .replacingOccurrences(of: "'", with: "\\'")
+
+            let success = await TmuxController.shared.sendKeys(escapedMessage, to: target)
+            if success { return true }
         }
 
-        // Escape the message for tmux send-keys
-        let escapedMessage = message
-            .replacingOccurrences(of: "\\", with: "\\\\")
-            .replacingOccurrences(of: "\"", with: "\\\"")
-            .replacingOccurrences(of: "'", with: "\\'")
-
-        return await TmuxController.shared.sendKeys(escapedMessage, to: target)
+        // Path 2: Fall back to AppleScript terminal input (for non-tmux sessions)
+        Self.logger.info("Falling back to AppleScript input for PID \(pid)")
+        return await TerminalInputSender.shared.sendMessage(message, toTerminalForPid: pid)
     }
 
     // MARK: - Private

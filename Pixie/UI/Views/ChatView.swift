@@ -333,15 +333,15 @@ struct ChatView: View {
         VStack(spacing: 0) {
             Divider().background(Color.white.opacity(0.1))
 
-            HStack(spacing: 6) {
+            HStack(spacing: 8) {
                 TextField("Send message...", text: $messageText)
                     .textFieldStyle(.plain)
-                    .font(.system(size: 12))
+                    .font(.system(size: 13))
                     .foregroundColor(.white)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 5)
+                    .padding(.horizontal, 10)
+                    .frame(height: 38)
                     .background(Color.white.opacity(0.08))
-                    .cornerRadius(6)
+                    .cornerRadius(8)
                     .onSubmit {
                         sendMessage()
                     }
@@ -350,11 +350,12 @@ struct ChatView: View {
                     sendMessage()
                 } label: {
                     Image(systemName: "arrow.up.circle.fill")
-                        .font(.system(size: 16))
+                        .font(.system(size: 28))
                         .foregroundColor(messageText.isEmpty ? Color(white: 0.4) : Color.accentColor)
                 }
                 .buttonStyle(.plain)
                 .disabled(messageText.isEmpty)
+                .frame(height: 38)
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 6)

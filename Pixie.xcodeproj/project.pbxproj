@@ -90,6 +90,7 @@
 		E9798AF5FF4C42D52EE90894 /* NotchGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B2C04089A80B709558CA5B /* NotchGeometry.swift */; };
 		E9AE5F10F09886484BDA6301 /* NotchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1283F27ED3D46EDA9471112B /* NotchHeaderView.swift */; };
 		E9F71723EFA91B34912BFEF8 /* ToolApprovalHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425963272F541033E9DA4660 /* ToolApprovalHandler.swift */; };
+		AA1234560000000000000001 /* TerminalInputSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1234560000000000000001 /* TerminalInputSender.swift */; };
 		EBDC92BE79C674C71D27E827 /* MascotIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E9E954A7790FECA3EF1E5B /* MascotIcon.swift */; };
 		EDA64B0EC045F221F0A3E9C0 /* YabaiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CCD70A2B14939069A66383 /* YabaiController.swift */; };
 		F0906245715B9A79DF470760 /* SessionPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5CFB0A4D09CDB738958311 /* SessionPhase.swift */; };
@@ -125,6 +126,7 @@
 		39249B5AA2E74B84F1E68FAF /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		3A3C4DD64E5D496F3F78C5F2 /* ToolResultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolResultData.swift; sourceTree = "<group>"; };
 		425963272F541033E9DA4660 /* ToolApprovalHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolApprovalHandler.swift; sourceTree = "<group>"; };
+		BB1234560000000000000001 /* TerminalInputSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalInputSender.swift; sourceTree = "<group>"; };
 		4D85D691BB1A3A9EF5E673CA /* ProcessingSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingSpinner.swift; sourceTree = "<group>"; };
 		4FBF9D9479DB1201F9EB50B0 /* CrabMascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrabMascot.swift; sourceTree = "<group>"; };
 		50B66121BA7A8EA00A289763 /* AlienMascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlienMascot.swift; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 		E117D4DF437BAF05BB12E5F5 /* Tmux */ = {
 			isa = PBXGroup;
 			children = (
+				BB1234560000000000000001 /* TerminalInputSender.swift */,
 				DDAB3010EFF77F411E591886 /* TmuxController.swift */,
 				749074EDF7E46DE3BF624F4C /* TmuxPathFinder.swift */,
 				01772986605A643F00BB1205 /* TmuxSessionMatcher.swift */,
@@ -632,6 +635,7 @@
 				92A9A55B6B8BF220B7939B0A /* TmuxSessionMatcher.swift in Sources */,
 				5B971E18759EB037BE8BA48A /* TmuxTarget.swift in Sources */,
 				B8ED12EAD16F4F42D9EA116E /* TmuxTargetFinder.swift in Sources */,
+				AA1234560000000000000001 /* TerminalInputSender.swift in Sources */,
 				E9F71723EFA91B34912BFEF8 /* ToolApprovalHandler.swift in Sources */,
 				664A0B4F76E0D1450843EAE6 /* ToolEventProcessor.swift in Sources */,
 				8D2E67200AE09DFC4DCBC650 /* ToolResultData.swift in Sources */,
@@ -772,7 +776,7 @@
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_ENTITLEMENTS = Pixie/Resources/Notchy.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Pixie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -780,7 +784,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.6;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pixie.app;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 6.0;
@@ -794,7 +798,7 @@
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_ENTITLEMENTS = Pixie/Resources/Notchy.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Pixie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -802,7 +806,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.6;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pixie.app;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 6.0;
