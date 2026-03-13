@@ -36,4 +36,4 @@ Pixie lives in your MacBook's notch and keeps you updated on what Claude Code is
 
 ---
 
-*Inspired by [Claude Island](https://claude.ai/island)*
+*Inspired by [Claude Island](https://claudeisland.com/)*
