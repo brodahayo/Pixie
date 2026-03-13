@@ -346,23 +346,18 @@ struct NotchView: View {
         Group {
             switch viewModel.contentType {
             case .instances:
-                // STUB: ClaudeInstancesView (Task 20)
-                Text("No active sessions")
-                    .font(.system(size: 12, design: .monospaced))
-                    .foregroundColor(TerminalColors.dim)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                ClaudeInstancesView(
+                    sessionMonitor: sessionMonitor,
+                    onOpenChat: { sessionId in
+                        if let session = sessionMonitor.instances.first(where: { $0.sessionId == sessionId }) {
+                            viewModel.showChat(for: session)
+                        }
+                    }
+                )
             case .menu:
-                // STUB: NotchMenuView (Task 22)
-                Text("Settings")
-                    .font(.system(size: 12, design: .monospaced))
-                    .foregroundColor(TerminalColors.dim)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            case .chat:
-                // STUB: ChatView (Task 19)
-                Text("Chat")
-                    .font(.system(size: 12, design: .monospaced))
-                    .foregroundColor(TerminalColors.dim)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                NotchMenuView()
+            case .chat(let session):
+                ChatView(session: session)
             }
         }
         .frame(width: notchSize.width - 24)
