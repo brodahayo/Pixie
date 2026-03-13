@@ -13,11 +13,13 @@ import Sparkle
 private let logger = Logger(subsystem: "com.notchy.app", category: "AppDelegate")
 
 class AppDelegate: NSObject, NSApplicationDelegate {
+    @MainActor static var shared: AppDelegate?
     private var windowManager: WindowManager?
     private var screenObserver: ScreenObserver?
-    private var updaterController: SPUStandardUpdaterController?
+    private(set) var updaterController: SPUStandardUpdaterController?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        AppDelegate.shared = self
         // Single instance enforcement
         let runningApps = NSWorkspace.shared.runningApplications
         let myBundleId = Bundle.main.bundleIdentifier ?? ""

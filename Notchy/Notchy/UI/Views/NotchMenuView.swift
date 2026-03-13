@@ -6,6 +6,7 @@
 //
 
 import ServiceManagement
+import Sparkle
 import SwiftUI
 
 struct NotchMenuView: View {
@@ -34,6 +35,7 @@ struct NotchMenuView: View {
                 }
 
                 settingsPanel(header: "ABOUT") {
+                    checkForUpdatesRow
                     githubRow
                     quitRow
                 }
@@ -210,11 +212,50 @@ struct NotchMenuView: View {
         .cornerRadius(6)
     }
 
+    // MARK: - Check for Updates
+
+    @State private var isCheckingForUpdates = false
+
+    private var checkForUpdatesRow: some View {
+        Button {
+            isCheckingForUpdates = true
+            AppDelegate.shared?.updaterController?.updater.checkForUpdates()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                isCheckingForUpdates = false
+            }
+        } label: {
+            HStack {
+                Image(systemName: "arrow.triangle.2.circlepath")
+                    .font(.system(size: 11, design: .monospaced))
+                    .foregroundColor(TerminalColors.prompt)
+                Text("Check for Updates")
+                    .font(.system(size: 11, design: .monospaced))
+                    .foregroundColor(.white)
+                Spacer()
+                if isCheckingForUpdates {
+                    Text("Checking...")
+                        .font(.system(size: 9, design: .monospaced))
+                        .foregroundColor(TerminalColors.dim)
+                } else {
+                    Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")")
+                        .font(.system(size: 9, design: .monospaced))
+                        .foregroundColor(TerminalColors.dimmer)
+                }
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 6)
+            .background(TerminalColors.background)
+            .cornerRadius(6)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+
     // MARK: - GitHub Link
 
     private var githubRow: some View {
         Button {
-            if let url = URL(string: "https://github.com/farouqaldori/claude-island") {
+            if let url = URL(string: "https://github.com/brodahayo/Notchy") {
                 NSWorkspace.shared.open(url)
             }
         } label: {

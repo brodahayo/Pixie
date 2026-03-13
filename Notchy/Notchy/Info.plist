@@ -19,7 +19,7 @@
     <key>LSMinimumSystemVersion</key>
     <string>15.6</string>
     <key>SUFeedURL</key>
-    <string>https://notchy.app/appcast.xml</string>
+    <string>https://github.com/brodahayo/Notchy/releases/latest/download/appcast.xml</string>
     <key>SUPublicEDKey</key>
     <string>PLACEHOLDER</string>
 </dict>
