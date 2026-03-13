@@ -42,7 +42,7 @@ enum MascotColorPreset: String, CaseIterable, Sendable {
 
     var color: Color {
         switch self {
-        case .claude: return Color(red: 0.0, green: 1.0, blue: 0.53)
+        case .claude: return Color(red: 0.85, green: 0.47, blue: 0.34)
         case .green: return Color(red: 0.39, green: 1.0, blue: 0.59)
         case .pink: return Color(red: 1.0, green: 0.59, blue: 0.78)
         case .blue: return Color(red: 0.39, green: 0.71, blue: 1.0)
@@ -53,7 +53,7 @@ enum MascotColorPreset: String, CaseIterable, Sendable {
 
     var displayName: String {
         switch self {
-        case .claude: return "Hacker"
+        case .claude: return "Claude"
         case .green: return "Neon"
         case .pink: return "Pink"
         case .blue: return "Ice"
