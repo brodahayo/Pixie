@@ -12,7 +12,7 @@ struct PermissionIndicatorIcon: View {
     let size: CGFloat
     let color: Color
 
-    init(size: CGFloat = 14, color: Color = TerminalColors.amber) {
+    init(size: CGFloat = 14, color: Color = .orange) {
         self.size = size
         self.color = color
     }
@@ -42,7 +42,7 @@ struct PermissionIndicatorIcon: View {
             }
         }
         .frame(width: size, height: size)
-        .shadow(color: TerminalColors.glow, radius: 4)
+        .shadow(color: Color.white.opacity(0.15), radius: 4)
     }
 }
 
@@ -51,7 +51,7 @@ struct ReadyForInputIndicatorIcon: View {
     let size: CGFloat
     let color: Color
 
-    init(size: CGFloat = 14, color: Color = TerminalColors.green) {
+    init(size: CGFloat = 14, color: Color = .green) {
         self.size = size
         self.color = color
     }
@@ -83,6 +83,6 @@ struct ReadyForInputIndicatorIcon: View {
             }
         }
         .frame(width: size, height: size)
-        .shadow(color: TerminalColors.glow, radius: 4)
+        .shadow(color: Color.white.opacity(0.15), radius: 4)
     }
 }
