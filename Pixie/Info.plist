@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>Pixie</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.pixie.app</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleExecutable</key>
+    <string>Pixie</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
+    <key>CFBundleIconName</key>
+    <string>AppIcon</string>
+    <key>LSUIElement</key>
+    <true/>
+    <key>LSMinimumSystemVersion</key>
+    <string>15.6</string>
+    <key>SUFeedURL</key>
+    <string>https://github.com/brodahayo/Pixie/releases/latest/download/appcast.xml</string>
+    <key>SUPublicEDKey</key>
+    <string>Oc/lUYHz/1eAnU0+xanVPtEuQNa5jPJ1Z93ZJvFx+Tg=</string>
+</dict>
+</plist>

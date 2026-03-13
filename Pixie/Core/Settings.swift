@@ -1,0 +1,45 @@
+//
+//  Settings.swift
+//  Notchy
+//
+//  UserDefaults wrapper and app settings
+//
+
+import Foundation
+
+enum Settings {
+    static var selectedScreenId: String? {
+        get { UserDefaults.standard.string(forKey: "selectedScreenId") }
+        set { UserDefaults.standard.set(newValue, forKey: "selectedScreenId") }
+    }
+
+    static var notificationSound: String {
+        get { UserDefaults.standard.string(forKey: "notificationSound") ?? "Pop" }
+        set { UserDefaults.standard.set(newValue, forKey: "notificationSound") }
+    }
+
+    static var muteNotifications: Bool {
+        get { UserDefaults.standard.bool(forKey: "muteNotifications") }
+        set { UserDefaults.standard.set(newValue, forKey: "muteNotifications") }
+    }
+
+    static var launchAtLogin: Bool {
+        get { UserDefaults.standard.bool(forKey: "launchAtLogin") }
+        set { UserDefaults.standard.set(newValue, forKey: "launchAtLogin") }
+    }
+
+    static var mascotType: String {
+        get { UserDefaults.standard.string(forKey: "mascotType") ?? "crab" }
+        set { UserDefaults.standard.set(newValue, forKey: "mascotType") }
+    }
+
+    static var mascotColor: String {
+        get { UserDefaults.standard.string(forKey: "mascotColor") ?? "claude" }
+        set { UserDefaults.standard.set(newValue, forKey: "mascotColor") }
+    }
+
+    static var spinnerStyle: String {
+        get { UserDefaults.standard.string(forKey: "spinnerStyle") ?? "tetris" }
+        set { UserDefaults.standard.set(newValue, forKey: "spinnerStyle") }
+    }
+}
