@@ -23,21 +23,21 @@ struct ScreenPickerRow: View {
             } label: {
                 HStack {
                     Image(systemName: "display")
-                        .font(.system(size: 11))
+                        .font(.system(size: 11, design: .monospaced))
                         .foregroundColor(TerminalColors.cyan)
 
                     Text("Display")
-                        .font(.system(size: 11, weight: .medium))
+                        .font(.system(size: 11, weight: .medium, design: .monospaced))
                         .foregroundColor(.white)
 
                     Spacer()
 
                     Text(currentDisplayName)
-                        .font(.system(size: 10))
+                        .font(.system(size: 10, design: .monospaced))
                         .foregroundColor(TerminalColors.dim)
 
                     Image(systemName: selector.isPickerExpanded ? "chevron.up" : "chevron.down")
-                        .font(.system(size: 9))
+                        .font(.system(size: 9, design: .monospaced))
                         .foregroundColor(TerminalColors.dimmer)
                 }
                 .padding(.horizontal, 8)
@@ -95,17 +95,17 @@ struct ScreenPickerRow: View {
         Button(action: action) {
             HStack {
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .font(.system(size: 10))
+                    .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(isSelected ? TerminalColors.green : TerminalColors.dimmer)
 
                 Text(label)
-                    .font(.system(size: 10))
+                    .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(.white)
 
                 Spacer()
 
                 Text(detail)
-                    .font(.system(size: 9))
+                    .font(.system(size: 9, design: .monospaced))
                     .foregroundColor(TerminalColors.dim)
             }
             .padding(.horizontal, 8)

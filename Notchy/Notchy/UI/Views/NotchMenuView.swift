@@ -19,46 +19,63 @@ struct NotchMenuView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
-                sectionHeader("Display & Sound")
-                ScreenPickerRow()
-                SoundPickerRow()
+                settingsPanel(header: "DISPLAY") {
+                    ScreenPickerRow()
+                    MascotPickerRow()
+                    SpinnerPickerRow()
+                    SoundPickerRow()
+                }
 
-                divider
+                settingsPanel(header: "SYSTEM") {
+                    launchAtLoginRow
+                    accessibilityRow
+                    tmuxStatusRow
+                    hookStatusRow
+                }
 
-                sectionHeader("General")
-                launchAtLoginRow
-                accessibilityRow
-                tmuxStatusRow
-                hookStatusRow
-
-                divider
-
-                sectionHeader("About")
-                githubRow
-                quitRow
+                settingsPanel(header: "ABOUT") {
+                    githubRow
+                    quitRow
+                }
             }
             .padding(.horizontal, 4)
             .padding(.vertical, 8)
         }
     }
 
-    // MARK: - Section Header
+    // MARK: - Panel Helper
 
-    private func sectionHeader(_ title: String) -> some View {
-        Text(title)
-            .font(.system(size: 9, weight: .semibold))
-            .foregroundColor(TerminalColors.dim)
-            .textCase(.uppercase)
-            .padding(.horizontal, 8)
-            .padding(.top, 4)
-    }
+    @ViewBuilder
+    private func settingsPanel<Content: View>(header: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(header)
+                .font(.system(size: 8, weight: .bold, design: .monospaced))
+                .foregroundColor(TerminalColors.prompt)
+                .tracking(1)
+                .padding(.horizontal, 10)
+                .padding(.top, 10)
+                .padding(.bottom, 6)
 
-    private var divider: some View {
-        Rectangle()
-            .fill(Color.white.opacity(0.08))
-            .frame(height: 1)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 2)
+            VStack(alignment: .leading, spacing: 2) {
+                content()
+            }
+            .padding(.horizontal, 2)
+            .padding(.bottom, 6)
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 6)
+                .fill(
+                    LinearGradient(
+                        colors: [TerminalColors.surface, Color.clear],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 6)
+                .strokeBorder(TerminalColors.border, lineWidth: 1)
+        )
     }
 
     // MARK: - Launch at Login
@@ -71,15 +88,31 @@ struct NotchMenuView: View {
         } label: {
             HStack {
                 Image(systemName: "power")
-                    .font(.system(size: 11))
+                    .font(.system(size: 11, design: .monospaced))
                     .foregroundColor(TerminalColors.cyan)
                 Text("Launch at Login")
-                    .font(.system(size: 11))
+                    .font(.system(size: 11, design: .monospaced))
                     .foregroundColor(.white)
                 Spacer()
-                Image(systemName: launchAtLogin ? "checkmark.square.fill" : "square")
-                    .font(.system(size: 12))
-                    .foregroundColor(launchAtLogin ? TerminalColors.green : TerminalColors.dimmer)
+                if launchAtLogin {
+                    Text("ON")
+                        .font(.system(size: 8, weight: .bold, design: .monospaced))
+                        .foregroundColor(.black)
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 2)
+                        .background(TerminalColors.prompt)
+                        .cornerRadius(3)
+                } else {
+                    Text("OFF")
+                        .font(.system(size: 8, weight: .bold, design: .monospaced))
+                        .foregroundColor(TerminalColors.dimmer)
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 2)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 3)
+                                .strokeBorder(TerminalColors.dimmer, lineWidth: 1)
+                        )
+                }
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 6)
@@ -95,21 +128,21 @@ struct NotchMenuView: View {
     private var accessibilityRow: some View {
         HStack {
             Image(systemName: "hand.raised")
-                .font(.system(size: 11))
+                .font(.system(size: 11, design: .monospaced))
                 .foregroundColor(isAccessibilityGranted ? TerminalColors.green : TerminalColors.amber)
             Text("Accessibility")
-                .font(.system(size: 11))
+                .font(.system(size: 11, design: .monospaced))
                 .foregroundColor(.white)
             Spacer()
             if isAccessibilityGranted {
                 Text("Granted")
-                    .font(.system(size: 10))
+                    .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(TerminalColors.green)
             } else {
                 Button("Grant") {
                     openAccessibilitySettings()
                 }
-                .font(.system(size: 10, weight: .medium))
+                .font(.system(size: 10, weight: .medium, design: .monospaced))
                 .foregroundColor(TerminalColors.amber)
                 .buttonStyle(.plain)
             }
@@ -128,15 +161,15 @@ struct NotchMenuView: View {
     private var tmuxStatusRow: some View {
         HStack {
             Image(systemName: "terminal")
-                .font(.system(size: 11))
-                .foregroundColor(tmuxInstalled ? TerminalColors.green : TerminalColors.red)
+                .font(.system(size: 11, design: .monospaced))
+                .foregroundColor(tmuxInstalled ? TerminalColors.green : TerminalColors.dim)
             Text("tmux")
-                .font(.system(size: 11))
+                .font(.system(size: 11, design: .monospaced))
                 .foregroundColor(.white)
             Spacer()
-            Text(tmuxInstalled ? "Installed" : "Required")
-                .font(.system(size: 10))
-                .foregroundColor(tmuxInstalled ? TerminalColors.green : TerminalColors.red)
+            Text(tmuxInstalled ? "Installed" : "Not Found")
+                .font(.system(size: 10, design: .monospaced))
+                .foregroundColor(tmuxInstalled ? TerminalColors.green : TerminalColors.dim)
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 6)
@@ -149,10 +182,10 @@ struct NotchMenuView: View {
     private var hookStatusRow: some View {
         HStack {
             Image(systemName: "link")
-                .font(.system(size: 11))
+                .font(.system(size: 11, design: .monospaced))
                 .foregroundColor(TerminalColors.cyan)
             Text("Claude Hooks")
-                .font(.system(size: 11))
+                .font(.system(size: 11, design: .monospaced))
                 .foregroundColor(.white)
             Spacer()
 
@@ -163,12 +196,12 @@ struct NotchMenuView: View {
                     hookStatus = "Installed"
                 }
             }
-            .font(.system(size: 10, weight: .medium))
+            .font(.system(size: 10, weight: .medium, design: .monospaced))
             .foregroundColor(TerminalColors.cyan)
             .buttonStyle(.plain)
 
             Text(hookStatus)
-                .font(.system(size: 10))
+                .font(.system(size: 10, design: .monospaced))
                 .foregroundColor(TerminalColors.green)
         }
         .padding(.horizontal, 8)
@@ -187,14 +220,14 @@ struct NotchMenuView: View {
         } label: {
             HStack {
                 Image(systemName: "link")
-                    .font(.system(size: 11))
+                    .font(.system(size: 11, design: .monospaced))
                     .foregroundColor(TerminalColors.blue)
                 Text("GitHub")
-                    .font(.system(size: 11))
+                    .font(.system(size: 11, design: .monospaced))
                     .foregroundColor(.white)
                 Spacer()
                 Image(systemName: "arrow.up.right")
-                    .font(.system(size: 9))
+                    .font(.system(size: 9, design: .monospaced))
                     .foregroundColor(TerminalColors.dimmer)
             }
             .padding(.horizontal, 8)
@@ -214,10 +247,10 @@ struct NotchMenuView: View {
         } label: {
             HStack {
                 Image(systemName: "xmark.circle")
-                    .font(.system(size: 11))
+                    .font(.system(size: 11, design: .monospaced))
                     .foregroundColor(TerminalColors.red)
                 Text("Quit Notchy")
-                    .font(.system(size: 11))
+                    .font(.system(size: 11, design: .monospaced))
                     .foregroundColor(.white)
                 Spacer()
             }

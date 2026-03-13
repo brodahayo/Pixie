@@ -21,7 +21,7 @@ struct ActionButton: View {
                 Image(systemName: icon)
                     .font(.system(size: 9, weight: .bold))
                 Text(title)
-                    .font(.system(size: 10, weight: .semibold, design: .rounded))
+                    .font(.system(size: 10, weight: .semibold, design: .monospaced))
             }
             .foregroundColor(isHovered ? .black : color)
             .padding(.horizontal, 10)

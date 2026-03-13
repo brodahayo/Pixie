@@ -25,6 +25,7 @@ struct NotchView: View {
     @State private var isVisible: Bool = false
     @State private var isHovering: Bool = false
     @State private var isBouncing: Bool = false
+    @State private var breatheOpacity: Double = 0.35
 
     @Namespace private var activityNamespace
 
@@ -63,24 +64,19 @@ struct NotchView: View {
 
     /// Extra width for expanding activities (like Dynamic Island)
     private var expansionWidth: CGFloat {
-        let permissionIndicatorWidth: CGFloat = hasPendingPermission ? 18 : 0
+        let baseWidth = 2 * max(0, closedNotchSize.height - 12) + 20
 
         if activityCoordinator.expandingActivity.show {
             switch activityCoordinator.expandingActivity.type {
             case .claude:
-                let baseWidth = 2 * max(0, closedNotchSize.height - 12) + 20
-                return baseWidth + permissionIndicatorWidth
+                return baseWidth
             case .none:
                 break
             }
         }
 
-        if hasPendingPermission {
-            return 2 * max(0, closedNotchSize.height - 12) + 20 + permissionIndicatorWidth
-        }
-
-        if hasWaitingForInput {
-            return 2 * max(0, closedNotchSize.height - 12) + 20
+        if hasPendingPermission || hasWaitingForInput {
+            return baseWidth
         }
 
         return 0
@@ -183,9 +179,7 @@ struct NotchView: View {
         .preferredColorScheme(.dark)
         .onAppear {
             sessionMonitor.startMonitoring()
-            if !viewModel.hasPhysicalNotch {
-                isVisible = true
-            }
+            isVisible = true
         }
         .onChange(of: viewModel.status) { oldStatus, newStatus in
             handleStatusChange(from: oldStatus, to: newStatus)
@@ -237,36 +231,37 @@ struct NotchView: View {
     private var headerRow: some View {
         HStack(spacing: 0) {
             if showClosedActivity {
-                HStack(spacing: 4) {
-                    ClaudeCrabIcon(size: 14, animateLegs: isProcessing)
-                        .matchedGeometryEffect(id: "crab", in: activityNamespace, isSource: showClosedActivity)
-
-                    if hasPendingPermission {
-                        PermissionIndicatorIcon(
-                            size: 14,
-                            color: Color(red: 0.85, green: 0.47, blue: 0.34)
-                        )
-                        .matchedGeometryEffect(
-                            id: "status-indicator",
-                            in: activityNamespace,
-                            isSource: showClosedActivity
-                        )
-                    }
-                }
-                .frame(
-                    width: viewModel.status == .opened
-                        ? nil
-                        : sideWidth + (hasPendingPermission ? 18 : 0)
-                )
-                .padding(.leading, viewModel.status == .opened ? 8 : 0)
+                // Left side: crab only
+                MascotIcon(size: 14, animate: isProcessing)
+                    .shadow(color: TerminalColors.glow, radius: 6)
+                    .matchedGeometryEffect(id: "crab", in: activityNamespace, isSource: showClosedActivity)
+                    .frame(
+                        width: viewModel.status == .opened ? nil : sideWidth
+                    )
+                    .padding(.leading, viewModel.status == .opened ? 8 : 0)
             }
 
             if viewModel.status == .opened {
                 openedHeaderContent
             } else if !showClosedActivity {
-                Rectangle()
-                    .fill(.clear)
-                    .frame(width: closedNotchSize.width - 20)
+                // Idle state: mascot on left side (camera in center of notch)
+                MascotIcon(size: 14)
+                    .opacity(breatheOpacity)
+                    .shadow(color: TerminalColors.glow.opacity(breatheOpacity * 0.6), radius: 6)
+                    .matchedGeometryEffect(id: "crab", in: activityNamespace, isSource: !showClosedActivity)
+                    .frame(width: sideWidth)
+                    .onAppear {
+                        withAnimation(.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
+                            breatheOpacity = 0.55
+                        }
+                    }
+                    .onDisappear {
+                        breatheOpacity = 0.35
+                    }
+
+                // Fill remaining notch width (no expansion)
+                Spacer()
+                    .frame(width: closedNotchSize.width - sideWidth - cornerRadiusInsets.closed.top)
             } else {
                 Rectangle()
                     .fill(.black)
@@ -277,8 +272,23 @@ struct NotchView: View {
             }
 
             if showClosedActivity {
-                if isProcessing || hasPendingPermission {
+                if hasPendingPermission {
+                    // Permission needed: question mark on the right
+                    PermissionIndicatorIcon(
+                        size: 14,
+                        color: TerminalColors.amber
+                    )
+                    .shadow(color: TerminalColors.amber.opacity(0.4), radius: 6)
+                    .matchedGeometryEffect(
+                        id: "spinner",
+                        in: activityNamespace,
+                        isSource: showClosedActivity
+                    )
+                    .frame(width: viewModel.status == .opened ? 20 : sideWidth)
+                } else if isProcessing {
+                    // Processing: spinner on the right
                     ProcessingSpinner()
+                        .shadow(color: TerminalColors.glow, radius: 4)
                         .matchedGeometryEffect(
                             id: "spinner",
                             in: activityNamespace,
@@ -286,7 +296,9 @@ struct NotchView: View {
                         )
                         .frame(width: viewModel.status == .opened ? 20 : sideWidth)
                 } else if hasWaitingForInput {
+                    // Done: checkmark on the right
                     ReadyForInputIndicatorIcon(size: 14, color: TerminalColors.green)
+                        .shadow(color: TerminalColors.glow, radius: 4)
                         .matchedGeometryEffect(
                             id: "spinner",
                             in: activityNamespace,
@@ -309,7 +321,7 @@ struct NotchView: View {
     private var openedHeaderContent: some View {
         HStack(spacing: 12) {
             if !showClosedActivity {
-                ClaudeCrabIcon(size: 14)
+                MascotIcon(size: 14)
                     .matchedGeometryEffect(
                         id: "crab",
                         in: activityNamespace,
@@ -320,23 +332,55 @@ struct NotchView: View {
 
             Spacer()
 
-            // Menu toggle
-            Button {
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                    viewModel.toggleMenu()
+            if case .chat = viewModel.contentType {
+                // Back button when in chat
+                Button {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                        viewModel.exitChat()
+                    }
+                } label: {
+                    Text("←")
+                        .font(.system(size: 12, weight: .bold, design: .monospaced))
+                        .foregroundColor(TerminalColors.prompt)
+                        .frame(width: 22, height: 22)
+                        .contentShape(Rectangle())
                 }
-            } label: {
-                Image(
-                    systemName: viewModel.contentType == .menu
-                        ? "xmark" : "line.3.horizontal"
+                .buttonStyle(.plain)
+            } else {
+                // Segmented control: Sessions | Config
+                HStack(spacing: 0) {
+                    segmentButton("Sessions", isActive: viewModel.contentType == .instances) {
+                        viewModel.showInstances()
+                    }
+                    segmentButton("Config", isActive: viewModel.contentType == .menu) {
+                        viewModel.showMenu()
+                    }
+                }
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .strokeBorder(TerminalColors.border, lineWidth: 1)
                 )
-                .font(.system(size: 11, weight: .medium))
-                .foregroundColor(.white.opacity(0.4))
-                .frame(width: 22, height: 22)
-                .contentShape(Rectangle())
             }
-            .buttonStyle(.plain)
         }
+    }
+
+    private func segmentButton(_ title: String, isActive: Bool, action: @escaping () -> Void) -> some View {
+        Button {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                action()
+            }
+        } label: {
+            Text(title)
+                .font(.system(size: 8, weight: .medium, design: .monospaced))
+                .foregroundColor(isActive ? TerminalColors.prompt : TerminalColors.dimmer)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 3)
+                .background(
+                    RoundedRectangle(cornerRadius: 7)
+                        .fill(isActive ? TerminalColors.backgroundHover : Color.clear)
+                )
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Content View (Opened State)
@@ -374,16 +418,6 @@ struct NotchView: View {
             isVisible = true
         } else {
             activityCoordinator.hideActivity()
-
-            if viewModel.status == .closed && viewModel.hasPhysicalNotch {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if !isAnyProcessing && !hasPendingPermission && !hasWaitingForInput
-                        && viewModel.status == .closed
-                    {
-                        isVisible = false
-                    }
-                }
-            }
         }
     }
 
@@ -395,14 +429,7 @@ struct NotchView: View {
                 waitingForInputTimestamps.removeAll()
             }
         case .closed:
-            guard viewModel.hasPhysicalNotch else { return }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                if viewModel.status == .closed && !isAnyProcessing && !hasPendingPermission
-                    && !hasWaitingForInput && !activityCoordinator.expandingActivity.show
-                {
-                    isVisible = false
-                }
-            }
+            break
         }
     }
 
@@ -414,6 +441,7 @@ struct NotchView: View {
             && viewModel.status == .closed
             && !TerminalVisibilityDetector.isTerminalVisibleOnCurrentSpace()
         {
+            NSSound(named: Settings.notificationSound)?.play()
             viewModel.notchOpen(reason: .notification)
         }
 

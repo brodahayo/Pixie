@@ -52,7 +52,7 @@ private struct FilePathHeader: View {
         HStack(spacing: 4) {
             Image(systemName: icon)
                 .foregroundColor(TerminalColors.cyan)
-                .font(.system(size: 10))
+                .font(.system(size: 10, design: .monospaced))
             Text(URL(fileURLWithPath: path).lastPathComponent)
                 .font(.system(size: 11, weight: .medium, design: .monospaced))
                 .foregroundColor(.white)
@@ -82,11 +82,11 @@ private struct FileListView: View {
                 ForEach(Array(files.prefix(maxVisible).enumerated()), id: \.offset) { _, file in
                     Text(URL(fileURLWithPath: file).lastPathComponent)
                         .font(.system(size: 10, design: .monospaced))
-                        .foregroundColor(Color.white.opacity(0.7))
+                        .foregroundColor(Color(white: 0.53))
                 }
                 if files.count > maxVisible {
                     Text("... and \(files.count - maxVisible) more")
-                        .font(.system(size: 10))
+                        .font(.system(size: 10, design: .monospaced))
                         .foregroundColor(TerminalColors.dim)
                 }
             }
@@ -196,7 +196,7 @@ struct WriteResultView: View {
             if !result.content.isEmpty {
                 Text(String(result.content.prefix(500)))
                     .font(.system(size: 10, design: .monospaced))
-                    .foregroundColor(Color.white.opacity(0.7))
+                    .foregroundColor(Color(white: 0.53))
                     .lineLimit(8)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(6)
@@ -218,9 +218,9 @@ struct BashResultView: View {
                 HStack(spacing: 4) {
                     Image(systemName: "exclamationmark.triangle")
                         .foregroundColor(TerminalColors.amber)
-                        .font(.system(size: 10))
+                        .font(.system(size: 10, design: .monospaced))
                     Text("Interrupted")
-                        .font(.system(size: 11, weight: .medium))
+                        .font(.system(size: 11, weight: .medium, design: .monospaced))
                         .foregroundColor(TerminalColors.amber)
                 }
             }
@@ -251,9 +251,9 @@ struct GrepResultView: View {
             HStack(spacing: 4) {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(TerminalColors.cyan)
-                    .font(.system(size: 10))
+                    .font(.system(size: 10, design: .monospaced))
                 Text("\(result.numFiles) file\(result.numFiles == 1 ? "" : "s")")
-                    .font(.system(size: 11, weight: .medium))
+                    .font(.system(size: 11, weight: .medium, design: .monospaced))
                     .foregroundColor(.white)
                 Spacer()
             }
@@ -286,13 +286,13 @@ struct GlobResultView: View {
             HStack(spacing: 4) {
                 Image(systemName: "folder")
                     .foregroundColor(TerminalColors.cyan)
-                    .font(.system(size: 10))
+                    .font(.system(size: 10, design: .monospaced))
                 Text("\(result.numFiles) file\(result.numFiles == 1 ? "" : "s")")
-                    .font(.system(size: 11, weight: .medium))
+                    .font(.system(size: 11, weight: .medium, design: .monospaced))
                     .foregroundColor(.white)
                 if result.truncated {
                     Text("(truncated)")
-                        .font(.system(size: 10))
+                        .font(.system(size: 10, design: .monospaced))
                         .foregroundColor(TerminalColors.amber)
                 }
                 Spacer()
@@ -315,7 +315,7 @@ struct WebFetchResultView: View {
             HStack(spacing: 4) {
                 Image(systemName: "globe")
                     .foregroundColor(TerminalColors.blue)
-                    .font(.system(size: 10))
+                    .font(.system(size: 10, design: .monospaced))
                 Text(result.url)
                     .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(TerminalColors.blue)
@@ -329,7 +329,7 @@ struct WebFetchResultView: View {
             if !result.result.isEmpty {
                 Text(String(result.result.prefix(300)))
                     .font(.system(size: 10, design: .monospaced))
-                    .foregroundColor(Color.white.opacity(0.7))
+                    .foregroundColor(Color(white: 0.53))
                     .lineLimit(6)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(6)
@@ -350,26 +350,26 @@ struct WebSearchResultView: View {
             HStack(spacing: 4) {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(TerminalColors.blue)
-                    .font(.system(size: 10))
+                    .font(.system(size: 10, design: .monospaced))
                 Text(result.query)
-                    .font(.system(size: 11, weight: .medium))
+                    .font(.system(size: 11, weight: .medium, design: .monospaced))
                     .foregroundColor(.white)
                     .lineLimit(1)
                 Spacer()
                 Text("\(result.results.count) results")
-                    .font(.system(size: 10))
+                    .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(TerminalColors.dim)
             }
 
             ForEach(Array(result.results.prefix(5).enumerated()), id: \.offset) { _, item in
                 VStack(alignment: .leading, spacing: 1) {
                     Text(item.title)
-                        .font(.system(size: 10, weight: .medium))
+                        .font(.system(size: 10, weight: .medium, design: .monospaced))
                         .foregroundColor(TerminalColors.blue)
                         .lineLimit(1)
                     Text(item.snippet)
-                        .font(.system(size: 10))
-                        .foregroundColor(Color.white.opacity(0.6))
+                        .font(.system(size: 10, design: .monospaced))
+                        .foregroundColor(Color(white: 0.53))
                         .lineLimit(2)
                 }
                 .padding(.leading, 4)
@@ -395,8 +395,8 @@ struct TaskResultView: View {
 
             if let prompt = result.prompt {
                 Text(prompt)
-                    .font(.system(size: 10))
-                    .foregroundColor(Color.white.opacity(0.7))
+                    .font(.system(size: 10, design: .monospaced))
+                    .foregroundColor(Color(white: 0.53))
                     .lineLimit(2)
             }
 
@@ -431,9 +431,9 @@ struct TodoWriteResultView: View {
                 HStack(spacing: 4) {
                     Image(systemName: todoIcon(item.status))
                         .foregroundColor(todoColor(item.status))
-                        .font(.system(size: 10))
+                        .font(.system(size: 10, design: .monospaced))
                     Text(item.content)
-                        .font(.system(size: 10))
+                        .font(.system(size: 10, design: .monospaced))
                         .foregroundColor(Color.white.opacity(0.85))
                         .lineLimit(1)
                 }
@@ -467,12 +467,12 @@ struct AskUserQuestionResultView: View {
         VStack(alignment: .leading, spacing: 4) {
             ForEach(Array(result.questions.enumerated()), id: \.offset) { _, q in
                 Text(q.question)
-                    .font(.system(size: 11))
+                    .font(.system(size: 11, design: .monospaced))
                     .foregroundColor(.white)
             }
 
             Text("Answer in terminal")
-                .font(.system(size: 10, weight: .medium))
+                .font(.system(size: 10, weight: .medium, design: .monospaced))
                 .foregroundColor(TerminalColors.amber)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 2)
@@ -527,10 +527,10 @@ struct KillShellResultView: View {
         HStack(spacing: 4) {
             Image(systemName: "xmark.circle")
                 .foregroundColor(TerminalColors.red)
-                .font(.system(size: 10))
+                .font(.system(size: 10, design: .monospaced))
             Text(result.message)
-                .font(.system(size: 10))
-                .foregroundColor(Color.white.opacity(0.7))
+                .font(.system(size: 10, design: .monospaced))
+                .foregroundColor(Color(white: 0.53))
         }
     }
 }
@@ -544,13 +544,13 @@ struct ExitPlanModeResultView: View {
         HStack(spacing: 4) {
             Image(systemName: "list.bullet.clipboard")
                 .foregroundColor(TerminalColors.green)
-                .font(.system(size: 10))
+                .font(.system(size: 10, design: .monospaced))
             Text("Plan ready")
-                .font(.system(size: 10, weight: .medium))
+                .font(.system(size: 10, weight: .medium, design: .monospaced))
                 .foregroundColor(TerminalColors.green)
             if result.isAgent {
                 Text("(agent)")
-                    .font(.system(size: 9))
+                    .font(.system(size: 9, design: .monospaced))
                     .foregroundColor(TerminalColors.dim)
             }
         }
@@ -567,7 +567,7 @@ struct MCPToolResultView: View {
             HStack(spacing: 4) {
                 Image(systemName: "server.rack")
                     .foregroundColor(TerminalColors.magenta)
-                    .font(.system(size: 10))
+                    .font(.system(size: 10, design: .monospaced))
                 Text("\(result.serverName):\(result.toolName)")
                     .font(.system(size: 10, weight: .medium, design: .monospaced))
                     .foregroundColor(TerminalColors.magenta)
@@ -581,7 +581,7 @@ struct MCPToolResultView: View {
                     .joined(separator: "\n")
                 Text(String(display.prefix(300)))
                     .font(.system(size: 10, design: .monospaced))
-                    .foregroundColor(Color.white.opacity(0.7))
+                    .foregroundColor(Color(white: 0.53))
                     .lineLimit(6)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(6)
@@ -601,7 +601,7 @@ struct GenericToolResultView: View {
         if let content = result.rawContent, !content.isEmpty {
             Text(String(content.prefix(500)))
                 .font(.system(size: 10, design: .monospaced))
-                .foregroundColor(Color.white.opacity(0.7))
+                .foregroundColor(Color(white: 0.53))
                 .lineLimit(8)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(6)

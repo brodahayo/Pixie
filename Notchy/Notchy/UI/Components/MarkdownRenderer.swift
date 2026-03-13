@@ -94,8 +94,8 @@ fileprivate struct MarkdownWalker: MarkupWalker {
         let code = codeBlock.code.trimmingCharacters(in: .newlines)
         var text = AttributedString(code)
         text.font = .system(size: fontSize, design: .monospaced)
-        text.foregroundColor = TerminalColors.cyan
-        text.backgroundColor = Color.white.opacity(0.05)
+        text.foregroundColor = TerminalColors.prompt
+        text.backgroundColor = Color(red: 0.0, green: 1.0, blue: 0.53).opacity(0.03)
         result.append(AttributedString("\n"))
         result.append(text)
         result.append(AttributedString("\n\n"))
@@ -182,8 +182,8 @@ fileprivate struct MarkdownWalker: MarkupWalker {
         case let code as InlineCode:
             var attr = AttributedString(code.code)
             attr.font = .system(size: fontSize, design: .monospaced)
-            attr.foregroundColor = TerminalColors.cyan
-            attr.backgroundColor = Color.white.opacity(0.05)
+            attr.foregroundColor = TerminalColors.prompt
+            attr.backgroundColor = Color(red: 0.0, green: 1.0, blue: 0.53).opacity(0.03)
             return attr
 
         case let strong as Strong:

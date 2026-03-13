@@ -20,21 +20,21 @@ struct SoundPickerRow: View {
             } label: {
                 HStack {
                     Image(systemName: "speaker.wave.2")
-                        .font(.system(size: 11))
+                        .font(.system(size: 11, design: .monospaced))
                         .foregroundColor(TerminalColors.cyan)
 
                     Text("Sound")
-                        .font(.system(size: 11, weight: .medium))
+                        .font(.system(size: 11, weight: .medium, design: .monospaced))
                         .foregroundColor(.white)
 
                     Spacer()
 
                     Text(selector.selectedSound)
-                        .font(.system(size: 10))
+                        .font(.system(size: 10, design: .monospaced))
                         .foregroundColor(TerminalColors.dim)
 
                     Image(systemName: selector.isPickerExpanded ? "chevron.up" : "chevron.down")
-                        .font(.system(size: 9))
+                        .font(.system(size: 9, design: .monospaced))
                         .foregroundColor(TerminalColors.dimmer)
                 }
                 .padding(.horizontal, 8)
@@ -67,11 +67,11 @@ struct SoundPickerRow: View {
         } label: {
             HStack {
                 Image(systemName: selector.selectedSound == sound ? "checkmark.circle.fill" : "circle")
-                    .font(.system(size: 10))
+                    .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(selector.selectedSound == sound ? TerminalColors.green : TerminalColors.dimmer)
 
                 Text(sound)
-                    .font(.system(size: 10))
+                    .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(.white)
 
                 Spacer()
@@ -81,7 +81,7 @@ struct SoundPickerRow: View {
                     selector.playPreview(sound)
                 } label: {
                     Image(systemName: "play.circle")
-                        .font(.system(size: 10))
+                        .font(.system(size: 10, design: .monospaced))
                         .foregroundColor(TerminalColors.dim)
                 }
                 .buttonStyle(.plain)

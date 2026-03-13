@@ -46,27 +46,25 @@ actor TmuxController {
     func listAllPanes() async -> [TmuxPaneInfo] {
         guard let tmux = getTmuxPath() else { return [] }
 
-        // Format: session_name:window_index.pane_index:pane_pid:pane_active:window_active
-        let format = "#{session_name}:#{window_index}.#{pane_index}:#{pane_pid}:#{pane_active}:#{window_active}"
+        // Use tab delimiter to avoid issues with colons in session names
+        let separator = "\t"
+        let format = "#{session_name}\t#{window_index}\t#{pane_index}\t#{pane_pid}\t#{pane_active}\t#{window_active}"
         guard let output = await ProcessExecutor.shared.runOrNil(tmux, arguments: ["list-panes", "-a", "-F", format]) else {
             return []
         }
 
         var panes: [TmuxPaneInfo] = []
         for line in output.components(separatedBy: "\n") where !line.isEmpty {
-            let parts = line.components(separatedBy: ":")
-            guard parts.count >= 5 else { continue }
+            let parts = line.components(separatedBy: separator)
+            guard parts.count >= 6 else { continue }
 
-            // Parse session:window.pane
             let sessionName = parts[0]
-            let windowPane = parts[1].components(separatedBy: ".")
-            guard windowPane.count == 2 else { continue }
-            let windowIndex = windowPane[0]
-            let paneIndex = windowPane[1]
+            let windowIndex = parts[1]
+            let paneIndex = parts[2]
 
-            guard let panePid = Int(parts[2]) else { continue }
-            let paneActive = parts[3] == "1"
-            let windowActive = parts[4] == "1"
+            guard let panePid = Int(parts[3]) else { continue }
+            let paneActive = parts[4] == "1"
+            let windowActive = parts[5] == "1"
 
             panes.append(TmuxPaneInfo(
                 sessionName: sessionName,

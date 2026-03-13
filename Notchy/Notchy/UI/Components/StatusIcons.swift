@@ -169,6 +169,7 @@ struct RunningIcon: View {
             }
         }
         .frame(width: size, height: size)
+        .shadow(color: TerminalColors.glow, radius: 4)
         .rotationEffect(.degrees(rotation))
         .onAppear {
             withAnimation(

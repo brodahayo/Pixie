@@ -2,21 +2,33 @@
 //  TerminalColors.swift
 //  Notchy
 //
-//  Color palette for terminal-style UI
+//  Hacker terminal color palette — neon green on black
 //
 
 import SwiftUI
 
 struct TerminalColors {
-    static let green = Color(red: 0.4, green: 0.75, blue: 0.45)
-    static let amber = Color(red: 1.0, green: 0.7, blue: 0.0)
-    static let red = Color(red: 1.0, green: 0.3, blue: 0.3)
-    static let cyan = Color(red: 0.0, green: 0.8, blue: 0.8)
-    static let blue = Color(red: 0.4, green: 0.6, blue: 1.0)
-    static let magenta = Color(red: 0.8, green: 0.4, blue: 0.8)
-    static let dim = Color.white.opacity(0.4)
-    static let dimmer = Color.white.opacity(0.2)
-    static let prompt = Color(red: 0.85, green: 0.47, blue: 0.34)  // #d97857
-    static let background = Color.white.opacity(0.05)
-    static let backgroundHover = Color.white.opacity(0.1)
+    // Primary accent — neon green
+    static let green = Color(red: 0.0, green: 1.0, blue: 0.53)       // #00FF88
+    static let amber = Color(red: 1.0, green: 0.67, blue: 0.0)       // #FFAA00
+    static let red = Color(red: 1.0, green: 0.27, blue: 0.27)        // #FF4444
+    static let cyan = Color(red: 0.0, green: 0.67, blue: 1.0)        // #00AAFF
+    static let blue = Color(red: 0.0, green: 0.67, blue: 1.0)        // #00AAFF (same as cyan)
+    static let magenta = Color(red: 0.8, green: 0.4, blue: 0.8)      // keep for MCP tools
+
+    // Text hierarchy
+    static let dim = Color(white: 0.53)                                // #888888
+    static let dimmer = Color(white: 0.33)                             // #555555
+
+    // Accent (was Claude orange, now neon green)
+    static let prompt = Color(red: 0.0, green: 1.0, blue: 0.53)      // #00FF88
+
+    // Surfaces
+    static let background = Color(red: 0.0, green: 1.0, blue: 0.53).opacity(0.025)  // subtle green tint
+    static let backgroundHover = Color(red: 0.0, green: 1.0, blue: 0.53).opacity(0.06)
+
+    // Borders and glow
+    static let border = Color(red: 0.0, green: 1.0, blue: 0.53).opacity(0.13)       // #00FF8820
+    static let glow = Color(red: 0.0, green: 1.0, blue: 0.53).opacity(0.4)          // for .shadow()
+    static let surface = Color(red: 0.0, green: 1.0, blue: 0.53).opacity(0.03)      // panel gradient top
 }

@@ -83,12 +83,16 @@ struct ChatView: View {
         HStack {
             Spacer(minLength: 40)
             Text(text)
-                .font(.system(size: 11))
+                .font(.system(size: 11, design: .monospaced))
                 .foregroundColor(.white)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 6)
-                .background(Color.white.opacity(0.15))
+                .background(TerminalColors.prompt.opacity(0.06))
                 .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .strokeBorder(TerminalColors.border, lineWidth: 1)
+                )
         }
     }
 
@@ -136,13 +140,13 @@ struct ChatView: View {
 
                     // Status text
                     Text(tool.statusDisplay.text)
-                        .font(.system(size: 9))
+                        .font(.system(size: 9, design: .monospaced))
                         .foregroundColor(TerminalColors.dim)
 
                     // Expand indicator
                     if tool.structuredResult != nil || tool.result != nil {
                         Image(systemName: expandedTools.contains(itemId) ? "chevron.down" : "chevron.right")
-                            .font(.system(size: 8))
+                            .font(.system(size: 8, design: .monospaced))
                             .foregroundColor(TerminalColors.dimmer)
                     }
                 }
@@ -232,10 +236,10 @@ struct ChatView: View {
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: showThinking.contains(itemId) ? "chevron.down" : "chevron.right")
-                        .font(.system(size: 8))
+                        .font(.system(size: 8, design: .monospaced))
                         .foregroundColor(TerminalColors.dimmer)
                     Text("Thinking...")
-                        .font(.system(size: 10).italic())
+                        .font(.system(size: 10, design: .monospaced).italic())
                         .foregroundColor(TerminalColors.dim)
                 }
             }
@@ -243,7 +247,7 @@ struct ChatView: View {
 
             if showThinking.contains(itemId) {
                 Text(text)
-                    .font(.system(size: 10).italic())
+                    .font(.system(size: 10, design: .monospaced).italic())
                     .foregroundColor(TerminalColors.dim.opacity(0.7))
                     .padding(.leading, 12)
                     .transition(.opacity)
@@ -259,7 +263,7 @@ struct ChatView: View {
                 .font(.system(size: 9))
                 .foregroundColor(TerminalColors.amber)
             Text("Interrupted")
-                .font(.system(size: 10, weight: .medium))
+                .font(.system(size: 10, weight: .medium, design: .monospaced))
                 .foregroundColor(TerminalColors.amber)
         }
         .padding(.vertical, 2)
@@ -297,12 +301,16 @@ struct ChatView: View {
                         }
                     } label: {
                         Text("Allow")
-                            .font(.system(size: 11, weight: .medium))
-                            .foregroundColor(.white)
+                            .font(.system(size: 11, weight: .medium, design: .monospaced))
+                            .foregroundColor(TerminalColors.prompt)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 4)
-                            .background(TerminalColors.green.opacity(0.8))
+                            .background(TerminalColors.prompt.opacity(0.12))
                             .cornerRadius(8)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .strokeBorder(TerminalColors.prompt, lineWidth: 1)
+                            )
                     }
                     .buttonStyle(.plain)
 
@@ -317,12 +325,16 @@ struct ChatView: View {
                         }
                     } label: {
                         Text("Deny")
-                            .font(.system(size: 11, weight: .medium))
-                            .foregroundColor(.white)
+                            .font(.system(size: 11, weight: .medium, design: .monospaced))
+                            .foregroundColor(TerminalColors.red)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 4)
-                            .background(TerminalColors.red.opacity(0.8))
+                            .background(TerminalColors.red.opacity(0.12))
                             .cornerRadius(8)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .strokeBorder(TerminalColors.red, lineWidth: 1)
+                            )
                     }
                     .buttonStyle(.plain)
 
@@ -359,7 +371,7 @@ struct ChatView: View {
                 } label: {
                     Image(systemName: "arrow.up.circle.fill")
                         .font(.system(size: 16))
-                        .foregroundColor(messageText.isEmpty ? TerminalColors.dimmer : TerminalColors.cyan)
+                        .foregroundColor(messageText.isEmpty ? TerminalColors.dimmer : TerminalColors.prompt)
                 }
                 .buttonStyle(.plain)
                 .disabled(messageText.isEmpty)

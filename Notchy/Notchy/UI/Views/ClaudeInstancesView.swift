@@ -11,6 +11,13 @@ struct ClaudeInstancesView: View {
     @ObservedObject var sessionMonitor: ClaudeSessionMonitor
     let onOpenChat: (String) -> Void
 
+    @State private var progressPhase: Int = 0
+    @State private var pulseOpacity: Double = 0.8
+    @State private var timeRefresh: Date = Date()
+
+    private let progressTimer = Timer.publish(every: 0.4, on: .main, in: .common).autoconnect()
+    private let elapsedTimer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
+
     private var sortedInstances: [SessionState] {
         sessionMonitor.instances.sorted { a, b in
             phasePriority(a.phase) > phasePriority(b.phase)
@@ -22,9 +29,9 @@ struct ClaudeInstancesView: View {
             emptyState
         } else {
             ScrollView {
-                LazyVStack(spacing: 4) {
+                LazyVStack(spacing: 6) {
                     ForEach(sortedInstances) { session in
-                        SessionRow(session: session, onOpenChat: onOpenChat)
+                        sessionPanel(session)
                             .transition(.asymmetric(
                                 insertion: .scale(scale: 0.9).combined(with: .opacity),
                                 removal: .opacity
@@ -34,148 +41,123 @@ struct ClaudeInstancesView: View {
                 .padding(.horizontal, 6)
                 .padding(.vertical, 4)
             }
-        }
-    }
-
-    private var emptyState: some View {
-        VStack(spacing: 8) {
-            Text("No active sessions")
-                .font(.system(size: 12, design: .monospaced))
-                .foregroundColor(TerminalColors.dim)
-            Text("Start Claude Code in a terminal")
-                .font(.system(size: 10))
-                .foregroundColor(TerminalColors.dimmer)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-
-    private func phasePriority(_ phase: SessionPhase) -> Int {
-        switch phase {
-        case .waitingForApproval: return 5
-        case .waitingForInput: return 4
-        case .processing, .compacting: return 3
-        case .idle: return 2
-        case .ended: return 1
-        }
-    }
-}
-
-// MARK: - Session Row
-
-private struct SessionRow: View {
-    let session: SessionState
-    let onOpenChat: (String) -> Void
-    @State private var showActions = false
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            // Main row
-            HStack(spacing: 6) {
-                statusDot
-
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(session.projectName)
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(.white)
-                        .lineLimit(1)
-
-                    Text(phaseLabel)
-                        .font(.system(size: 9))
-                        .foregroundColor(phaseColor.opacity(0.8))
+            .onReceive(progressTimer) { _ in
+                progressPhase += 1
+            }
+            .onReceive(elapsedTimer) { date in
+                timeRefresh = date
+            }
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+                    pulseOpacity = 0.4
                 }
+            }
+        }
+    }
+
+    // MARK: - Session Panel
+
+    @ViewBuilder
+    private func sessionPanel(_ session: SessionState) -> some View {
+        let (badgeLabel, badgeColor) = statusBadgeInfo(session.phase)
+
+        VStack(alignment: .leading, spacing: 6) {
+            // Top row: project name + badge
+            HStack(alignment: .center, spacing: 0) {
+                Text(session.projectName)
+                    .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
 
                 Spacer()
 
-                // Action buttons
-                HStack(spacing: 4) {
-                    // Chat button
-                    Button {
-                        onOpenChat(session.sessionId)
-                    } label: {
-                        Image(systemName: "bubble.left")
-                            .font(.system(size: 10))
-                            .foregroundColor(TerminalColors.dim)
-                            .frame(width: 22, height: 22)
-                    }
-                    .buttonStyle(.plain)
+                Text(badgeLabel)
+                    .font(.system(size: 8, weight: .bold, design: .monospaced))
+                    .foregroundColor(badgeColor)
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 2)
+                    .background(badgeColor.opacity(0.15))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 3)
+                            .strokeBorder(badgeColor.opacity(0.4), lineWidth: 1)
+                    )
+                    .cornerRadius(3)
+            }
 
-                    // Focus button (only when pid available)
-                    if session.pid != nil {
-                        Button {
-                            focusTerminal()
-                        } label: {
-                            Image(systemName: "macwindow")
-                                .font(.system(size: 10))
-                                .foregroundColor(TerminalColors.dim)
-                                .frame(width: 22, height: 22)
-                        }
-                        .buttonStyle(.plain)
-                    }
+            // Status row: dot + phase label + elapsed time
+            HStack(spacing: 5) {
+                Circle()
+                    .fill(phaseColor(session.phase))
+                    .frame(width: 6, height: 6)
+                    .opacity(pulseOpacity)
+
+                Text(phaseLabel(session.phase))
+                    .font(.system(size: 10, design: .monospaced))
+                    .foregroundColor(phaseColor(session.phase))
+
+                Text("· \(elapsedString(since: session.createdAt))")
+                    .font(.system(size: 10, design: .monospaced))
+                    .foregroundColor(TerminalColors.dim)
+
+                Spacer()
+            }
+
+            // Last tool row
+            if let lastTool = session.lastToolName {
+                Text("last: \(lastTool)")
+                    .font(.system(size: 9, design: .monospaced))
+                    .foregroundColor(TerminalColors.dimmer)
+                    .lineLimit(1)
+            }
+
+            // Progress segments
+            HStack(spacing: 3) {
+                ForEach(0..<8, id: \.self) { segment in
+                    RoundedRectangle(cornerRadius: 1)
+                        .fill(phaseColor(session.phase).opacity(progressOpacity(segment: segment)))
+                        .frame(height: 3)
                 }
             }
-            .padding(.horizontal, 8)
-            .padding(.vertical, 6)
-            .background(TerminalColors.background)
-            .cornerRadius(6)
-            .contentShape(Rectangle())
 
             // Approval buttons (when waiting for approval)
-            if let permission = session.activePermission {
-                approvalButtons(permission: permission)
+            if case .waitingForApproval = session.phase,
+               let permission = session.activePermission {
+                approvalButtons(session: session, permission: permission)
                     .transition(.asymmetric(
                         insertion: .scale(scale: 0.8, anchor: .top).combined(with: .opacity),
                         removal: .opacity
                     ))
             }
         }
+        .padding(10)
+        .background(
+            LinearGradient(
+                colors: [panelGradientTop(session.phase), Color.clear],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 6)
+                .strokeBorder(panelBorderColor(session.phase), lineWidth: 1)
+        )
+        .cornerRadius(6)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onOpenChat(session.sessionId)
+        }
         .animation(.spring(response: 0.35, dampingFraction: 0.8), value: session.phase.isWaitingForApproval)
-    }
-
-    // MARK: - Status Dot
-
-    @ViewBuilder
-    private var statusDot: some View {
-        Circle()
-            .fill(phaseColor)
-            .frame(width: 8, height: 8)
-    }
-
-    private var phaseColor: Color {
-        switch session.phase {
-        case .waitingForApproval: return TerminalColors.amber
-        case .waitingForInput: return TerminalColors.green
-        case .processing, .compacting: return TerminalColors.cyan
-        case .idle: return TerminalColors.dim
-        case .ended: return TerminalColors.dimmer
-        }
-    }
-
-    private var phaseLabel: String {
-        switch session.phase {
-        case .waitingForApproval(let ctx):
-            return "Approval: \(ctx.toolName)"
-        case .waitingForInput:
-            return "Ready"
-        case .processing:
-            return "Processing"
-        case .compacting:
-            return "Compacting"
-        case .idle:
-            return "Idle"
-        case .ended:
-            return "Ended"
-        }
     }
 
     // MARK: - Approval Buttons
 
-    private func approvalButtons(permission: PermissionContext) -> some View {
+    private func approvalButtons(session: SessionState, permission: PermissionContext) -> some View {
         HStack(spacing: 8) {
-            // Tool info
             if let toolName = session.pendingToolName {
                 Text(toolName)
                     .font(.system(size: 9, weight: .medium, design: .monospaced))
                     .foregroundColor(TerminalColors.amber)
+                    .lineLimit(1)
             }
 
             Spacer()
@@ -189,13 +171,17 @@ private struct SessionRow: View {
                     )
                 }
             } label: {
-                Text("Allow")
-                    .font(.system(size: 10, weight: .medium))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 3)
-                    .background(TerminalColors.green.opacity(0.8))
-                    .cornerRadius(10)
+                Text("ALLOW")
+                    .font(.system(size: 8, weight: .bold, design: .monospaced))
+                    .foregroundColor(TerminalColors.prompt)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(TerminalColors.prompt.opacity(0.12))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 4)
+                            .strokeBorder(TerminalColors.prompt, lineWidth: 1)
+                    )
+                    .cornerRadius(4)
             }
             .buttonStyle(.plain)
 
@@ -209,28 +195,96 @@ private struct SessionRow: View {
                     )
                 }
             } label: {
-                Text("Deny")
-                    .font(.system(size: 10, weight: .medium))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 3)
-                    .background(TerminalColors.red.opacity(0.8))
-                    .cornerRadius(10)
+                Text("DENY")
+                    .font(.system(size: 8, weight: .bold, design: .monospaced))
+                    .foregroundColor(TerminalColors.red)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(TerminalColors.red.opacity(0.12))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 4)
+                            .strokeBorder(TerminalColors.red, lineWidth: 1)
+                    )
+                    .cornerRadius(4)
             }
             .buttonStyle(.plain)
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
-        .background(TerminalColors.amber.opacity(0.08))
-        .cornerRadius(6)
     }
 
-    // MARK: - Actions
+    // MARK: - Empty State
 
-    private func focusTerminal() {
-        guard let pid = session.pid else { return }
-        Task {
-            _ = await WindowFocuser.shared.focusTerminalWindow(forSessionPid: pid)
+    private var emptyState: some View {
+        Text("No active sessions")
+            .font(.system(size: 12, design: .monospaced))
+            .foregroundColor(TerminalColors.dimmer)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    // MARK: - Helper Methods
+
+    private func phaseLabel(_ phase: SessionPhase) -> String {
+        switch phase {
+        case .processing: return "processing"
+        case .compacting: return "compacting"
+        case .waitingForApproval: return "approval"
+        case .waitingForInput: return "done"
+        default: return "idle"
+        }
+    }
+
+    private func phaseColor(_ phase: SessionPhase) -> Color {
+        switch phase {
+        case .processing, .compacting: return TerminalColors.prompt
+        case .waitingForApproval: return TerminalColors.amber
+        case .waitingForInput: return TerminalColors.prompt
+        default: return TerminalColors.dimmer
+        }
+    }
+
+    private func statusBadgeInfo(_ phase: SessionPhase) -> (String, Color) {
+        switch phase {
+        case .processing, .compacting: return ("LIVE", TerminalColors.prompt)
+        case .waitingForApproval: return ("WAIT", TerminalColors.amber)
+        case .waitingForInput: return ("DONE", TerminalColors.prompt)
+        default: return ("IDLE", TerminalColors.dimmer)
+        }
+    }
+
+    private func elapsedString(since date: Date) -> String {
+        let seconds = Int(Date().timeIntervalSince(date))
+        let minutes = seconds / 60
+        let secs = seconds % 60
+        return minutes > 0 ? "\(minutes)m \(secs)s" : "\(secs)s"
+    }
+
+    private func progressOpacity(segment: Int) -> Double {
+        let active = progressPhase % 3
+        return segment == active ? 1.0 : 0.15
+    }
+
+    private func panelGradientTop(_ phase: SessionPhase) -> Color {
+        switch phase {
+        case .waitingForApproval: return Color(red: 1.0, green: 0.67, blue: 0.0).opacity(0.03)
+        default: return TerminalColors.surface
+        }
+    }
+
+    private func panelBorderColor(_ phase: SessionPhase) -> Color {
+        switch phase {
+        case .waitingForApproval: return TerminalColors.amber.opacity(0.13)
+        default: return TerminalColors.border
+        }
+    }
+
+    // MARK: - Phase Priority
+
+    private func phasePriority(_ phase: SessionPhase) -> Int {
+        switch phase {
+        case .waitingForApproval: return 5
+        case .waitingForInput: return 4
+        case .processing, .compacting: return 3
+        case .idle: return 2
+        case .ended: return 1
         }
     }
 }

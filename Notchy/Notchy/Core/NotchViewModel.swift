@@ -274,6 +274,14 @@ class NotchViewModel: ObservableObject {
         contentType = contentType == .menu ? .instances : .menu
     }
 
+    func showInstances() {
+        contentType = .instances
+    }
+
+    func showMenu() {
+        contentType = .menu
+    }
+
     func showChat(for session: SessionState) {
         // Avoid unnecessary updates if already showing this chat
         if case .chat(let current) = contentType, current.id == session.id {
