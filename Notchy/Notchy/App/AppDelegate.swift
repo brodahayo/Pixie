@@ -62,12 +62,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self?.windowManager?.setupNotchWindow()
         }
 
-        // 6. Initialize Sparkle updater
+        // 6. Initialize Sparkle updater (startingUpdater: false to avoid
+        //    a modal NSAlert that blocks the main thread in LSUIElement apps)
         updaterController = SPUStandardUpdaterController(
-            startingUpdater: true,
+            startingUpdater: false,
             updaterDelegate: nil,
             userDriverDelegate: nil
         )
+        // Start checking for updates silently after a delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+            try? self?.updaterController?.updater.start()
+        }
         logger.info("Sparkle updater initialized")
 
         logger.info("Notchy startup complete")
