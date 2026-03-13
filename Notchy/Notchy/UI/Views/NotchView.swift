@@ -26,6 +26,9 @@ struct NotchView: View {
     @State private var isHovering: Bool = false
     @State private var isBouncing: Bool = false
     @State private var breatheOpacity: Double = 0.35
+    @State private var idleStartTime: Date? = nil
+    @State private var showSleepZzz: Bool = false
+    @State private var zzzPhase: Int = 0
 
     @Namespace private var activityNamespace
 
@@ -230,7 +233,7 @@ struct NotchView: View {
             if viewModel.status == .opened {
                 openedHeaderContent
             } else if !showClosedActivity {
-                // Idle state: same width as active — mascot left, black fill center, empty right
+                // Idle state: same width as active — mascot left, black fill center, zzZ right
                 MascotIcon(size: 14)
                     .opacity(breatheOpacity)
                     .shadow(color: TerminalColors.glow.opacity(breatheOpacity * 0.6), radius: 6)
@@ -240,9 +243,22 @@ struct NotchView: View {
                         withAnimation(.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
                             breatheOpacity = 0.55
                         }
+                        // Start tracking idle time
+                        idleStartTime = Date()
+                        showSleepZzz = false
+                        // Show zzZ after 45 seconds of idle
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 45) {
+                            if !showClosedActivity && viewModel.status != .opened {
+                                withAnimation(.easeInOut(duration: 0.5)) {
+                                    showSleepZzz = true
+                                }
+                            }
+                        }
                     }
                     .onDisappear {
                         breatheOpacity = 0.35
+                        idleStartTime = nil
+                        showSleepZzz = false
                     }
 
                 // Black fill over the physical camera area
@@ -250,9 +266,14 @@ struct NotchView: View {
                     .fill(.black)
                     .frame(width: closedNotchSize.width - cornerRadiusInsets.closed.top)
 
-                // Empty right side to match active state width
-                Color.clear
-                    .frame(width: sideWidth)
+                // Right side: zzZ sleep indicator (appears after 45s idle)
+                ZStack {
+                    if showSleepZzz {
+                        sleepZzzView
+                            .transition(.opacity)
+                    }
+                }
+                .frame(width: sideWidth)
             } else {
                 Rectangle()
                     .fill(.black)
@@ -304,6 +325,29 @@ struct NotchView: View {
 
     private var sideWidth: CGFloat {
         max(0, closedNotchSize.height - 12) + 10
+    }
+
+    // MARK: - Sleep zzZ Indicator
+
+    private var sleepZzzView: some View {
+        TimelineView(.periodic(from: .now, by: 0.6)) { timeline in
+            let phase = Int(timeline.date.timeIntervalSince1970 / 0.6) % 4
+            HStack(spacing: 1) {
+                Text("z")
+                    .font(.system(size: 7, weight: .bold, design: .monospaced))
+                    .foregroundColor(TerminalColors.prompt)
+                    .opacity(phase >= 1 ? 0.4 : 0.15)
+                Text("z")
+                    .font(.system(size: 9, weight: .bold, design: .monospaced))
+                    .foregroundColor(TerminalColors.prompt)
+                    .opacity(phase >= 2 ? 0.6 : 0.15)
+                Text("Z")
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
+                    .foregroundColor(TerminalColors.prompt)
+                    .opacity(phase >= 3 ? 0.9 : 0.15)
+                    .shadow(color: phase >= 3 ? TerminalColors.glow : .clear, radius: 4)
+            }
+        }
     }
 
     // MARK: - Opened Header Content
