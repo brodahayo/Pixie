@@ -23,22 +23,22 @@ struct SpinnerPickerRow: View {
                         .frame(width: 16, height: 16)
 
                     Text("Spinner")
-                        .font(.system(size: 11, weight: .medium, design: .monospaced))
+                        .font(.system(size: 11, weight: .medium))
                         .foregroundColor(.white)
 
                     Spacer()
 
                     Text(currentStyleName)
-                        .font(.system(size: 10, design: .monospaced))
-                        .foregroundColor(TerminalColors.dim)
+                        .font(.system(size: 10))
+                        .foregroundColor(Color.secondary)
 
                     Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .font(.system(size: 9, design: .monospaced))
-                        .foregroundColor(TerminalColors.dimmer)
+                        .font(.system(size: 9))
+                        .foregroundColor(Color(white: 0.4))
                 }
                 .padding(.horizontal, 8)
                 .padding(.vertical, 6)
-                .background(TerminalColors.background)
+                .background(Color.white.opacity(0.05))
                 .cornerRadius(6)
                 .contentShape(Rectangle())
             }
@@ -78,7 +78,7 @@ struct SpinnerPickerRow: View {
                     .frame(width: 20, height: 20)
 
                 Text(style.displayName)
-                    .font(.system(size: 7, design: .monospaced))
+                    .font(.system(size: 7))
                     .foregroundColor(.white.opacity(0.6))
                     .lineLimit(1)
             }
@@ -87,13 +87,13 @@ struct SpinnerPickerRow: View {
             .background(
                 RoundedRectangle(cornerRadius: 6)
                     .fill(selectedStyle == style.rawValue
-                        ? TerminalColors.backgroundHover
+                        ? Color.white.opacity(0.08)
                         : Color.clear)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 6)
                     .stroke(selectedStyle == style.rawValue
-                        ? TerminalColors.prompt.opacity(0.6)
+                        ? Color.accentColor.opacity(0.6)
                         : Color.clear, lineWidth: 1)
             )
             .contentShape(Rectangle())

@@ -20,26 +20,26 @@ struct SoundPickerRow: View {
             } label: {
                 HStack {
                     Image(systemName: "speaker.wave.2")
-                        .font(.system(size: 11, design: .monospaced))
-                        .foregroundColor(TerminalColors.cyan)
+                        .font(.system(size: 11))
+                        .foregroundColor(Color.accentColor)
 
                     Text("Sound")
-                        .font(.system(size: 11, weight: .medium, design: .monospaced))
+                        .font(.system(size: 11, weight: .medium))
                         .foregroundColor(.white)
 
                     Spacer()
 
                     Text(selector.selectedSound)
-                        .font(.system(size: 10, design: .monospaced))
-                        .foregroundColor(TerminalColors.dim)
+                        .font(.system(size: 10))
+                        .foregroundColor(Color.secondary)
 
                     Image(systemName: selector.isPickerExpanded ? "chevron.up" : "chevron.down")
-                        .font(.system(size: 9, design: .monospaced))
-                        .foregroundColor(TerminalColors.dimmer)
+                        .font(.system(size: 9))
+                        .foregroundColor(Color(white: 0.4))
                 }
                 .padding(.horizontal, 8)
                 .padding(.vertical, 6)
-                .background(TerminalColors.background)
+                .background(Color.white.opacity(0.05))
                 .cornerRadius(6)
                 .contentShape(Rectangle())
             }
@@ -67,11 +67,11 @@ struct SoundPickerRow: View {
         } label: {
             HStack {
                 Image(systemName: selector.selectedSound == sound ? "checkmark.circle.fill" : "circle")
-                    .font(.system(size: 10, design: .monospaced))
-                    .foregroundColor(selector.selectedSound == sound ? TerminalColors.green : TerminalColors.dimmer)
+                    .font(.system(size: 10))
+                    .foregroundColor(selector.selectedSound == sound ? Color.green : Color(white: 0.4))
 
                 Text(sound)
-                    .font(.system(size: 10, design: .monospaced))
+                    .font(.system(size: 10))
                     .foregroundColor(.white)
 
                 Spacer()
@@ -81,14 +81,14 @@ struct SoundPickerRow: View {
                     selector.playPreview(sound)
                 } label: {
                     Image(systemName: "play.circle")
-                        .font(.system(size: 10, design: .monospaced))
-                        .foregroundColor(TerminalColors.dim)
+                        .font(.system(size: 10))
+                        .foregroundColor(Color.secondary)
                 }
                 .buttonStyle(.plain)
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
-            .background(selector.selectedSound == sound ? TerminalColors.background : Color.clear)
+            .background(selector.selectedSound == sound ? Color.white.opacity(0.05) : Color.clear)
             .cornerRadius(4)
             .contentShape(Rectangle())
         }

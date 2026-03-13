@@ -23,26 +23,26 @@ struct ScreenPickerRow: View {
             } label: {
                 HStack {
                     Image(systemName: "display")
-                        .font(.system(size: 11, design: .monospaced))
-                        .foregroundColor(TerminalColors.cyan)
+                        .font(.system(size: 11))
+                        .foregroundColor(Color.accentColor)
 
                     Text("Display")
-                        .font(.system(size: 11, weight: .medium, design: .monospaced))
+                        .font(.system(size: 11, weight: .medium))
                         .foregroundColor(.white)
 
                     Spacer()
 
                     Text(currentDisplayName)
-                        .font(.system(size: 10, design: .monospaced))
-                        .foregroundColor(TerminalColors.dim)
+                        .font(.system(size: 10))
+                        .foregroundColor(Color.secondary)
 
                     Image(systemName: selector.isPickerExpanded ? "chevron.up" : "chevron.down")
-                        .font(.system(size: 9, design: .monospaced))
-                        .foregroundColor(TerminalColors.dimmer)
+                        .font(.system(size: 9))
+                        .foregroundColor(Color(white: 0.4))
                 }
                 .padding(.horizontal, 8)
                 .padding(.vertical, 6)
-                .background(TerminalColors.background)
+                .background(Color.white.opacity(0.05))
                 .cornerRadius(6)
                 .contentShape(Rectangle())
             }
@@ -95,22 +95,22 @@ struct ScreenPickerRow: View {
         Button(action: action) {
             HStack {
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .font(.system(size: 10, design: .monospaced))
-                    .foregroundColor(isSelected ? TerminalColors.green : TerminalColors.dimmer)
+                    .font(.system(size: 10))
+                    .foregroundColor(isSelected ? Color.green : Color(white: 0.4))
 
                 Text(label)
-                    .font(.system(size: 10, design: .monospaced))
+                    .font(.system(size: 10))
                     .foregroundColor(.white)
 
                 Spacer()
 
                 Text(detail)
-                    .font(.system(size: 9, design: .monospaced))
-                    .foregroundColor(TerminalColors.dim)
+                    .font(.system(size: 9))
+                    .foregroundColor(Color.secondary)
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
-            .background(isSelected ? TerminalColors.background : Color.clear)
+            .background(isSelected ? Color.white.opacity(0.05) : Color.clear)
             .cornerRadius(4)
             .contentShape(Rectangle())
         }

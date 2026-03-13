@@ -25,22 +25,22 @@ struct MascotPickerRow: View {
                         .frame(width: 16, height: 16)
 
                     Text("Mascot")
-                        .font(.system(size: 11, weight: .medium, design: .monospaced))
+                        .font(.system(size: 11, weight: .medium))
                         .foregroundColor(.white)
 
                     Spacer()
 
                     Text(currentMascotName)
-                        .font(.system(size: 10, design: .monospaced))
-                        .foregroundColor(TerminalColors.dim)
+                        .font(.system(size: 10))
+                        .foregroundColor(Color.secondary)
 
                     Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .font(.system(size: 9, design: .monospaced))
-                        .foregroundColor(TerminalColors.dimmer)
+                        .font(.system(size: 9))
+                        .foregroundColor(Color(white: 0.4))
                 }
                 .padding(.horizontal, 8)
                 .padding(.vertical, 6)
-                .background(TerminalColors.background)
+                .background(Color.white.opacity(0.05))
                 .cornerRadius(6)
                 .contentShape(Rectangle())
             }
@@ -88,7 +88,7 @@ struct MascotPickerRow: View {
                 .frame(width: 24, height: 24)
 
                 Text(mascot.displayName)
-                    .font(.system(size: 8, design: .monospaced))
+                    .font(.system(size: 8))
                     .foregroundColor(.white.opacity(0.6))
             }
             .frame(maxWidth: .infinity)
@@ -96,13 +96,13 @@ struct MascotPickerRow: View {
             .background(
                 RoundedRectangle(cornerRadius: 6)
                     .fill(selectedType == mascot.rawValue
-                        ? TerminalColors.backgroundHover
+                        ? Color.white.opacity(0.08)
                         : Color.clear)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 6)
                     .stroke(selectedType == mascot.rawValue
-                        ? TerminalColors.prompt.opacity(0.6)
+                        ? Color.accentColor.opacity(0.6)
                         : Color.clear, lineWidth: 1)
             )
             .contentShape(Rectangle())
@@ -129,7 +129,7 @@ struct MascotPickerRow: View {
                         .overlay(
                             selectedColor == preset.rawValue
                                 ? Image(systemName: "checkmark")
-                                    .font(.system(size: 8, weight: .bold, design: .monospaced))
+                                    .font(.system(size: 8, weight: .bold))
                                     .foregroundColor(.black.opacity(0.6))
                                 : nil
                         )
