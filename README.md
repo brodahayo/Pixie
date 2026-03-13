@@ -2,6 +2,7 @@
 
 A macOS notch companion that monitors your Claude Code sessions with animated pixel art mascots.
 
+[![Download Pixie](https://img.shields.io/badge/Download-Pixie%20v1.0.0-blue?style=for-the-badge&logo=apple)](https://github.com/brodahayo/Pixie/releases/latest/download/Pixie-1.0.0.dmg)
 ![macOS](https://img.shields.io/badge/macOS-15.6+-black?style=flat-square&logo=apple)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 
@@ -17,7 +18,7 @@ Pixie lives in your MacBook's notch and keeps you updated on what Claude Code is
 
 ## Install
 
-1. Download **Pixie-1.0.0.dmg** from [Releases](https://github.com/brodahayo/Pixie/releases/latest)
+1. **[Download Pixie-1.0.0.dmg](https://github.com/brodahayo/Pixie/releases/latest/download/Pixie-1.0.0.dmg)**
 2. Open the DMG and drag **Pixie** to Applications
 3. Launch Pixie — it appears in your notch
 4. Grant Accessibility permissions when prompted
